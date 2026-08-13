@@ -84,3 +84,5 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 ## Project completion definition
 
 A checkbox is marked complete only when the implementation, automated tests, runnable exercise, design explanation, failure-mode notes, and interview questions all exist. Merely naming a library does not count as coverage.
+
+Portfolio-level items remain unchecked until the complete project—not an early vertical slice—meets that definition. Every verification run writes evidence under `artifacts/verification/`.

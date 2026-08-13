@@ -21,7 +21,9 @@ python3 -m ailab.cli reset
 python3 -m ailab.cli ingest examples/knowledge
 python3 -m ailab.cli ask "How does checkpointed recovery work?"
 python3 -m pytest
+python3 scripts/verify.py
 ```
 
-The commands above will become active as Milestone 1 is implemented.
+The verification command runs happy-path, positive, negative, persistence, and failure-recovery scenarios. It writes reviewable evidence to `artifacts/verification/latest.json` and `latest.txt`.
 
+The commands above will become active as Milestone 1 is implemented.

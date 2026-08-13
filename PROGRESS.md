@@ -33,3 +33,19 @@ Next increment:
 - Add model budgets, fallback rules, and a usage ledger
 - Expose ingestion/query/evaluation through FastAPI
 
+## 2026-08-13 - Repeatable acceptance verification
+
+Added `scripts/verify.py` so runnable behavior is evidenced rather than assumed. It creates isolated temporary databases and executes:
+
+- Happy path: clean ingestion followed by a cited, grounded query
+- Positive: retrieval evaluation gate
+- Positive: persistent index close/reopen
+- Negative: query against an empty index
+- Negative: invalid chunk configuration
+- Negative: unavailable Ollama provider
+- Failure recovery: injected transient failure, bounded retry, checkpoint, and idempotent resume
+- Full automated test suite
+
+Latest result: **8/8 acceptance scenarios passed and 6/6 automated tests passed**. Machine-readable and human-readable evidence is stored under `artifacts/verification/`.
+
+Truthfulness boundary: this evidence applies only to the implemented Milestone 1 vertical slice. The 12 portfolio-level projects remain unchecked until each complete project is built and independently verified.
