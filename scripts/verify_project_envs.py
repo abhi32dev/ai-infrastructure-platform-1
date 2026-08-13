@@ -18,6 +18,7 @@ PROJECTS = {
     "project-06-streaming-features": ("ailab.streaming_features", "ailab.streaming_cli"),
     "project-07-recommendations": ("ailab.recommendations", "ailab.recommendation_cli"),
     "project-08-batch-platform": ("ailab.batch_platform", "ailab.batch_cli"),
+    "project-09-golden-path": ("ailab.golden_path", "ailab.golden_path_cli"),
 }
 
 

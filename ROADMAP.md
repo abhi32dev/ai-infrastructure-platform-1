@@ -12,7 +12,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [x] 6. Streaming feature and online-inference pipeline
 - [x] 7. Recommendation system with experimentation
 - [x] 8. Self-healing distributed batch platform
-- [ ] 9. Multi-tenant AI platform golden path
+- [x] 9. Multi-tenant AI platform golden path
 - [ ] 10. AI observability, SLO, and incident lab
 - [ ] 11. AI security, privacy, and governance gateway
 - [ ] 12. Classical ML and computer-vision lifecycle
@@ -74,8 +74,8 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Recommendation algorithms | 7 | [x] | popularity/content/collaborative ranking, metrics, experiment service |
 | Adaptive master-worker dispatch | 8 | [x] | size-aware batches, bounded parallel workers, resumable manifest |
 | Three-pass reconciliation and TTL dedup | 8 | [x] | actual-output diff/retry plus cross-run TTL markers |
-| Docker, Kubernetes, and autoscaling | 5, 9 | [ ] | kind/k3d deployment |
-| IaC, CI/CD, GitOps, golden paths | 9 | [ ] | Terraform and workflow templates |
+| Docker, Kubernetes, and autoscaling | 5, 9 | [~] | serving semantics and generated K8s resources; live kind optional |
+| IaC, CI/CD, GitOps, golden paths | 9 | [x] | generated Terraform/K8s/CI/ownership/security/SLO controls |
 | Logs, metrics, traces, SLI/SLO/SLA | 10 | [ ] | observability lab |
 | OAuth, IAM, privacy, and PII controls | 11 | [ ] | security gateway |
 | PyTorch/TensorFlow ML lifecycle | 7, 12 | [ ] | training and serving projects |

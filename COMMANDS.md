@@ -125,6 +125,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 9 - Platform golden path
+```bash
+python3 -m ailab.golden_path_cli demo-service --output /tmp/ailab-services
+python3 -m pytest -q tests/test_golden_path.py
+python3 scripts/verify_golden_path.py
+python3 scripts/bootstrap_project_env.py projects/project-09-golden-path --rebuild
+source projects/project-09-golden-path/.venv/bin/activate
+python -m ailab.golden_path_cli another-service --output /tmp/ailab-services-2
+deactivate
+```
+
 ## Project 8 - Self-healing batch platform
 ```bash
 python3 -m ailab.batch_cli --items 30
