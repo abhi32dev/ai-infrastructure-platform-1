@@ -49,3 +49,28 @@ Added `scripts/verify.py` so runnable behavior is evidenced rather than assumed.
 Latest result: **8/8 acceptance scenarios passed and 6/6 automated tests passed**. Machine-readable and human-readable evidence is stored under `artifacts/verification/`.
 
 Truthfulness boundary: this evidence applies only to the implemented Milestone 1 vertical slice. The 12 portfolio-level projects remain unchecked until each complete project is built and independently verified.
+
+## 2026-08-13 - Project 2 durable agent runtime
+
+Implemented:
+
+- Typed agent plans, steps, dependencies, arguments, and state references
+- Validated tool/function registry
+- Least-privilege per-runtime tool allowlist
+- SQLite-backed run, step, approval, side-effect, event, and dead-letter journals
+- High-risk human approval and denial transitions
+- Per-tool timeouts and bounded retry
+- Dead-letter isolation after retry exhaustion
+- Idempotency-keyed effect reuse
+- Resume without repeating completed tool calls
+- Inspection CLI and complete command runbook
+
+Verification:
+
+```text
+13/13 repository tests passed
+5/5 Project 2 acceptance scenarios passed
+Manual CLI start -> inspect -> approve -> resume -> repeated resume passed
+```
+
+Project 2 is marked complete. Verification evidence is stored in `artifacts/project-2-agent-runtime/`. The documentation explicitly describes the remaining atomicity gap when a real remote service does not honor the runtime's idempotency key.

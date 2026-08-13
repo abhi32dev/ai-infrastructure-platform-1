@@ -5,7 +5,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 ## Portfolio roadmap
 
 - [ ] 1. Production RAG platform
-- [ ] 2. Durable agent runtime and orchestrator
+- [x] 2. Durable agent runtime and orchestrator
 - [ ] 3. LLM gateway, model router, and cost controller
 - [ ] 4. LLM evaluation and release-gating platform
 - [ ] 5. High-availability inference serving platform
@@ -58,9 +58,9 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Embeddings and vector retrieval | 1 | [x] | deterministic embedder and persistent SQLite vectors |
 | Semantic/hybrid search and reranking | 1 | [~] | BM25+dense fusion done; semantic model and reranker planned |
 | Grounding and citations | 1, 4 | [x] | cited offline/Ollama prompts and citation-validity gate |
-| Agent orchestration and tool calling | 2 | [ ] | durable state-machine runtime |
-| Checkpoints, retry, replay, idempotency | 2, 8 | [~] | checkpoint/retry/resume journal done; tool side effects planned |
-| Human-in-the-loop and least privilege | 2, 11 | [ ] | approval and tool-policy gates |
+| Agent orchestration and tool calling | 2 | [x] | typed plans, dependency validation, and tool registry |
+| Checkpoints, retry, replay, idempotency | 2, 8 | [x] | durable steps/effects, bounded retry, resume, and dead letters |
+| Human-in-the-loop and least privilege | 2, 11 | [x] | durable approval/denial and per-runtime tool allowlist |
 | Model routing and token-cost controls | 3 | [~] | complexity router and usage counts done; budgets/ledger planned |
 | Local model serving with Ollama | 3, 5 | [~] | Ollama HTTP adapter done; serving platform planned |
 | LLM-as-judge/multi-model verification | 4 | [ ] | evaluation-gate milestone |
