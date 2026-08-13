@@ -1,0 +1,62 @@
+{
+  "generated_at": "2026-08-13T17:06:28.322892+00:00",
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "quality_release_promoted",
+      "status": "passed",
+      "evidence": {
+        "run_id": "c9461fedcb0041398bcb3258c88ca33c",
+        "decision": "promote",
+        "reasons": [],
+        "summary": {
+          "cases": 3,
+          "quality": 1.0,
+          "safety": 1.0,
+          "p95_latency_ms": 0.0012500095181167126,
+          "average_cost_usd": 0.001
+        }
+      }
+    },
+    {
+      "name": "regression_blocked",
+      "status": "passed",
+      "evidence": {
+        "run_id": "39473362c2974f249284cbb8e3ae62d8",
+        "decision": "block",
+        "reasons": [
+          "quality_below_threshold"
+        ],
+        "summary": {
+          "cases": 3,
+          "quality": 0.0,
+          "safety": 1.0,
+          "p95_latency_ms": 0.00020800507627427578,
+          "average_cost_usd": 0.0
+        }
+      }
+    },
+    {
+      "name": "ab_significance",
+      "status": "passed",
+      "evidence": {
+        "control_rate": 0.1,
+        "treatment_rate": 0.14,
+        "absolute_effect": 0.04000000000000001,
+        "relative_effect": 0.4000000000000001,
+        "z_score": 2.752409412815902,
+        "p_value": 0.005915851074238009,
+        "statistically_significant": true
+      }
+    },
+    {
+      "name": "project_4_tests",
+      "status": "passed",
+      "stdout": ".......                                                                  [100%]"
+    }
+  ]
+}

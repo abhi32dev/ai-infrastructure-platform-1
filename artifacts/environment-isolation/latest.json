@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T17:04:12.355440+00:00",
+  "generated_at": "2026-08-13T17:06:27.619990+00:00",
   "summary": {
-    "total": 3,
-    "passed": 3,
+    "total": 4,
+    "passed": 4,
     "failed": 0
   },
   "projects": [
@@ -28,6 +28,15 @@
       "project": "project-03-model-gateway",
       "status": "passed",
       "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-03-model-gateway/.venv/lib/python3.11/site-packages/ailab/model_gateway.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-04-evaluation",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-04-evaluation/.venv/lib/python3.11/site-packages/ailab/eval_platform.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
