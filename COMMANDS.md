@@ -125,6 +125,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 10 - Observability, SLOs, and cost
+```bash
+python3 -m ailab.observability_cli
+python3 -m pytest -q tests/test_observability.py
+python3 scripts/verify_observability.py
+python3 scripts/bootstrap_project_env.py projects/project-10-observability --rebuild
+source projects/project-10-observability/.venv/bin/activate
+python -m ailab.observability_cli
+deactivate
+```
+
 ## Project 9 - Platform golden path
 ```bash
 python3 -m ailab.golden_path_cli demo-service --output /tmp/ailab-services

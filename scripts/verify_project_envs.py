@@ -19,6 +19,7 @@ PROJECTS = {
     "project-07-recommendations": ("ailab.recommendations", "ailab.recommendation_cli"),
     "project-08-batch-platform": ("ailab.batch_platform", "ailab.batch_cli"),
     "project-09-golden-path": ("ailab.golden_path", "ailab.golden_path_cli"),
+    "project-10-observability": ("ailab.observability", "ailab.observability_cli"),
 }
 
 

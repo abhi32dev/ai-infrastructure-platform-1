@@ -112,3 +112,7 @@ Implemented manifest-backed runs, size-aware adaptive batches, bounded parallel 
 ## 2026-08-13 - Project 9 platform golden path
 
 Implemented a governed service scaffold generator and validator covering runnable health service, tests, container, Kubernetes, network policy, resources/probes, Terraform, four environments, CI gates, ownership, SLOs, least-privilege IAM, unsafe-control detection, CLI, docs, commands, tests, and isolated environment definition.
+
+## 2026-08-13 - Project 10 observability and cost
+
+Implemented correlated logs/spans, RED and AI request signals, p95, token/cache/model/tenant cost dimensions, SLO budgets, burn-rate alerts, cooldowns, incident timelines, cost breakdowns, right-sizing recommendations, CLI, docs, commands, tests, and isolated environment definition.
