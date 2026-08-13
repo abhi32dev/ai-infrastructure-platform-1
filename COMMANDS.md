@@ -125,6 +125,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 11 - Security and guardrails
+```bash
+python3 -m ailab.security_cli
+python3 -m pytest -q tests/test_security_guardrails.py
+python3 scripts/verify_security_guardrails.py
+python3 scripts/bootstrap_project_env.py projects/project-11-security --rebuild
+source projects/project-11-security/.venv/bin/activate
+python -m ailab.security_cli
+deactivate
+```
+
 ## Project 10 - Observability, SLOs, and cost
 ```bash
 python3 -m ailab.observability_cli

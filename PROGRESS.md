@@ -116,3 +116,7 @@ Implemented a governed service scaffold generator and validator covering runnabl
 ## 2026-08-13 - Project 10 observability and cost
 
 Implemented correlated logs/spans, RED and AI request signals, p95, token/cache/model/tenant cost dimensions, SLO budgets, burn-rate alerts, cooldowns, incident timelines, cost breakdowns, right-sizing recommendations, CLI, docs, commands, tests, and isolated environment definition.
+
+## 2026-08-13 - Project 11 security and guardrails
+
+Implemented signed/expiring identities, tenant/RBAC/high-risk authorization, prompt injection and PII input controls, tenant-filtered retrieval, output secret/PII controls, quotas, retention/deletion, hash-chained audit with tamper detection, adversarial evals, CLI, docs, commands, tests, and isolated environment definition.
