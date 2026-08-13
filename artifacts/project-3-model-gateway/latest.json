@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-13T19:54:56.935518+00:00",
-  "git_commit": "455f3efb77b35f61b0a85a908ef3d4d9361cb09d",
+  "generated_at": "2026-08-13T20:02:20.619332+00:00",
+  "git_commit": "43423284c5de0106e67fb901899592f1afd22eb5",
   "summary": {
     "total": 6,
     "passed": 6,
@@ -24,7 +24,7 @@
       "status": "passed",
       "duration_ms": 0.0,
       "evidence": {
-        "request_id": "20dda98846e042dca2d98bae3eabf2f0",
+        "request_id": "60d49b550bc6427c8af8f73f1a88e2d9",
         "model": "medium-hosted",
         "provider": "hosted",
         "text": "medium-hosted answered: Analyze architecture",
@@ -64,17 +64,17 @@
           {
             "model": "large-hosted",
             "failures": 2,
-            "opened_at": 1786650896.521718
+            "opened_at": 1786651340.205483
           },
           {
             "model": "medium-hosted",
             "failures": 2,
-            "opened_at": 1786650896.521987
+            "opened_at": 1786651340.205756
           },
           {
             "model": "small-local",
             "failures": 2,
-            "opened_at": 1786650896.522246
+            "opened_at": 1786651340.2060218
           }
         ]
       }

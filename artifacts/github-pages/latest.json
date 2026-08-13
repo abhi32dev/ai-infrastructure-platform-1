@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T19:55:23.367927+00:00",
+  "generated_at": "2026-08-13T20:02:29.397114+00:00",
   "summary": {
-    "total": 8,
-    "passed": 8,
+    "total": 10,
+    "passed": 10,
     "failed": 0
   },
   "checks": {
@@ -11,6 +11,8 @@
     "nojekyll_exists": true,
     "title_present": true,
     "all_13_projects": true,
+    "all_cards_are_links": true,
+    "all_detail_targets_exist": true,
     "navigation_targets": true,
     "github_links": true,
     "workflow_exists": true
