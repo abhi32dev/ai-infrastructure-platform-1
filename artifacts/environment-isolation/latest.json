@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T17:22:06.423267+00:00",
+  "generated_at": "2026-08-13T17:24:40.827403+00:00",
   "summary": {
-    "total": 11,
-    "passed": 11,
+    "total": 12,
+    "passed": 12,
     "failed": 0
   },
   "projects": [
@@ -100,6 +100,15 @@
       "project": "project-11-security",
       "status": "passed",
       "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-11-security/.venv/lib/python3.11/site-packages/ailab/security_guardrails.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-12-ml-cv",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-12-ml-cv/.venv/lib/python3.11/site-packages/ailab/ml_lifecycle.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,

@@ -1,4 +1,4 @@
-Environment isolation: 11/11 passed
+Environment isolation: 12/12 passed
 [PASSED] project-01-rag: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-01-rag/.venv/lib/python3.11/site-packages/ailab/rag.py
 [PASSED] project-02-agent-runtime: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-02-agent-runtime/.venv/lib/python3.11/site-packages/ailab/agent_runtime.py
 [PASSED] project-03-model-gateway: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-03-model-gateway/.venv/lib/python3.11/site-packages/ailab/model_gateway.py
@@ -10,3 +10,4 @@ Environment isolation: 11/11 passed
 [PASSED] project-09-golden-path: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-09-golden-path/.venv/lib/python3.11/site-packages/ailab/golden_path.py
 [PASSED] project-10-observability: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-10-observability/.venv/lib/python3.11/site-packages/ailab/observability.py
 [PASSED] project-11-security: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-11-security/.venv/lib/python3.11/site-packages/ailab/security_guardrails.py
+[PASSED] project-12-ml-cv: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-12-ml-cv/.venv/lib/python3.11/site-packages/ailab/ml_lifecycle.py

@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T17:24:39.617890+00:00",
+  "project": "project-12-ml-cv",
+  "python": "Python 3.11.3",
+  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-12-ml-cv/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "78a879c8e871d43da8257c016144c377a8d5af75b6d70de8b31fea96fb1bf275",
+  "git_commit": "ad15a5618047e36714c685692061ec81fea35f23"
+}

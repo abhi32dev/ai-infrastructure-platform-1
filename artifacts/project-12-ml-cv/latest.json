@@ -1,0 +1,57 @@
+{
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "trained_quality_model",
+      "status": "passed",
+      "evidence": {
+        "accuracy": 0.93,
+        "precision": 0.9047619047619048,
+        "recall": 0.926829268292683,
+        "f1": 0.9156626506024096
+      }
+    },
+    {
+      "name": "drift_retraining",
+      "status": "passed",
+      "evidence": {
+        "max_mean_shift": 2.137800302138397,
+        "per_feature": [
+          2.0506908778910695,
+          1.9025924770201377,
+          2.137800302138397,
+          2.07479084178318
+        ],
+        "drifted": true,
+        "retrain_recommended": true
+      }
+    },
+    {
+      "name": "detection_tracking",
+      "status": "passed",
+      "evidence": {
+        "boxes": [
+          {
+            "x1": 3,
+            "y1": 2,
+            "x2": 8,
+            "y2": 6
+          }
+        ],
+        "track_ids": [
+          1
+        ]
+      }
+    },
+    {
+      "name": "project_12_tests",
+      "status": "passed",
+      "stdout": "........                                                                 [100%]",
+      "stderr": ""
+    }
+  ]
+}
