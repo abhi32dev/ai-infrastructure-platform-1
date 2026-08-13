@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "correlated_trace",
+      "status": "passed",
+      "evidence": [
+        {
+          "timestamp": 1786641602.718195,
+          "type": "span_start",
+          "name": "a2a.send_message",
+          "status": "ok"
+        },
+        {
+          "timestamp": 1786641602.718196,
+          "type": "log",
+          "name": "guardrail allowed",
+          "status": "INFO"
+        }
+      ]
+    },
+    {
+      "name": "slo_burn_alert",
+      "status": "passed",
+      "evidence": {
+        "budget": {
+          "status": "ok",
+          "target": 0.99,
+          "availability": 0.8,
+          "allowed_error_rate": 0.010000000000000009,
+          "observed_error_rate": 0.19999999999999996,
+          "budget_consumed_ratio": 19.99999999999998,
+          "budget_remaining_ratio": -18.99999999999998
+        },
+        "alert": {
+          "short_burn": 19.99999999999998,
+          "long_burn": 19.99999999999998,
+          "sent": true,
+          "count": 1
+        }
+      }
+    },
+    {
+      "name": "cost_attribution",
+      "status": "passed",
+      "evidence": {
+        "total": 0.10000000000000007,
+        "dimensions": [
+          {
+            "tenant": "",
+            "model": "",
+            "cost": 0.10000000000000007,
+            "tokens": 6000,
+            "requests": 100
+          }
+        ]
+      }
+    },
+    {
+      "name": "project_10_tests",
+      "status": "passed",
+      "stdout": ".......                                                                  [100%]",
+      "stderr": ""
+    }
+  ]
+}
