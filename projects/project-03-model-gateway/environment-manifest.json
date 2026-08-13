@@ -2,7 +2,7 @@
   "generated_at": "2026-08-13T17:39:03.913075+00:00",
   "project": "project-03-model-gateway",
   "python": "Python 3.11.3",
-  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-03-model-gateway/.venv",
+  "environment": "<repo>/projects/project-03-model-gateway/.venv",
   "install_mode": "non-editable wheel snapshot",
   "wheel_sha256": "2129e3ba1bc3990c8dfadb2cd446dff545a629c45be728fbf7308d71cd867c8d",
   "git_commit": "3c1cecb7a013aa50eae338981d43385f820248dc"

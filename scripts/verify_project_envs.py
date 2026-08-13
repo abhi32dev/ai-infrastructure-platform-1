@@ -38,7 +38,8 @@ def main() -> int:
         cli_process = subprocess.run([str(python), "-m", cli, "--help"], cwd="/tmp", text=True, capture_output=True)
         module_path = json.loads(process.stdout)["module_path"] if process.returncode == 0 else ""
         passed = process.returncode == 0 and cli_process.returncode == 0 and "/.venv/" in module_path and manifest.exists() and freeze.exists()
-        results.append({"project": name, "status": "passed" if passed else "failed", "module_path": module_path, "cli_exit_code": cli_process.returncode, "manifest_exists": manifest.exists(), "freeze_exists": freeze.exists(), "stderr": process.stderr or cli_process.stderr})
+        public_module_path = module_path.replace(str(ROOT), "<repo>")
+        results.append({"project": name, "status": "passed" if passed else "failed", "module_path": public_module_path, "cli_exit_code": cli_process.returncode, "manifest_exists": manifest.exists(), "freeze_exists": freeze.exists(), "stderr": process.stderr or cli_process.stderr})
     passed = sum(row["status"] == "passed" for row in results)
     report = {"generated_at": datetime.now(timezone.utc).isoformat(), "summary": {"total": len(results), "passed": passed, "failed": len(results)-passed}, "projects": results}
     target = ROOT / "artifacts" / "environment-isolation"

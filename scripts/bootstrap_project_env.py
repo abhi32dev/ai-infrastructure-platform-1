@@ -53,7 +53,7 @@ def main() -> int:
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "project": project.name,
         "python": subprocess.run([str(python), "--version"], text=True, capture_output=True, check=True).stdout.strip(),
-        "environment": str(environment),
+        "environment": str(environment.relative_to(ROOT)),
         "install_mode": "non-editable wheel snapshot",
         "wheel_sha256": wheel_hash,
         "git_commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True, capture_output=True, check=True).stdout.strip(),
@@ -65,4 +65,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

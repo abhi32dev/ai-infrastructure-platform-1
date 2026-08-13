@@ -2,7 +2,7 @@
   "generated_at": "2026-08-13T17:39:10.326149+00:00",
   "project": "project-09-golden-path",
   "python": "Python 3.11.3",
-  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-09-golden-path/.venv",
+  "environment": "<repo>/projects/project-09-golden-path/.venv",
   "install_mode": "non-editable wheel snapshot",
   "wheel_sha256": "186fd26f2126e15c1b2e7dcec6a2b3671a76071d95db0561e6d8f502a69bca35",
   "git_commit": "3c1cecb7a013aa50eae338981d43385f820248dc"

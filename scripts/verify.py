@@ -62,7 +62,7 @@ def main() -> int:
             answer = RAGService(store).answer("Why are checkpoints and idempotency both needed?", limit=3)
             assert answer.retrieved[0].chunk.source.endswith("reliability.md")
             assert "[1]" in answer.text
-            return {"documents": len(documents), "chunks": inserted, "top_source": answer.retrieved[0].chunk.source, "answer": answer.text, "usage": answer.usage}
+            return {"documents": len(documents), "chunks": inserted, "top_source": str(Path(answer.retrieved[0].chunk.source).relative_to(ROOT)), "answer": answer.text, "usage": answer.usage}
 
         results.append(scenario("clean_ingest_and_grounded_query", "happy_path", ingest_and_query))
 
@@ -83,7 +83,7 @@ def main() -> int:
                 assert observed == expected
                 top = reopened.search("bounded retries and checkpoint replay", 1)[0].chunk.source
                 assert top.endswith("reliability.md")
-                return {"expected_chunks": expected, "observed_chunks": observed, "top_source": top}
+                return {"expected_chunks": expected, "observed_chunks": observed, "top_source": str(Path(top).relative_to(ROOT))}
             finally:
                 reopened.close()
 
@@ -155,4 +155,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

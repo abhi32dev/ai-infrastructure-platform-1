@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T18:54:41.238875+00:00",
+  "generated_at": "2026-08-13T19:42:25.129547+00:00",
   "summary": {
     "total": 7,
     "passed": 7,
@@ -16,21 +16,21 @@
     {
       "name": "fastapi_openai_contract",
       "status": "passed",
-      "command": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-03-model-gateway/.venv/bin/python -m pytest -q tests/test_gateway_api.py",
+      "command": "<repo>/projects/project-03-model-gateway/.venv/bin/python -m pytest -q tests/test_gateway_api.py",
       "stdout": ".                                                                        [100%]",
       "stderr": ""
     },
     {
       "name": "multi_judge_and_mlflow",
       "status": "passed",
-      "command": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-04-evaluation/.venv/bin/python -m pytest -q tests/test_production_adapters.py tests/test_mlflow_tracking.py",
+      "command": "<repo>/projects/project-04-evaluation/.venv/bin/python -m pytest -q tests/test_production_adapters.py tests/test_mlflow_tracking.py",
       "stdout": "...                                                                      [100%]",
       "stderr": ""
     },
     {
       "name": "otel_prometheus",
       "status": "passed",
-      "command": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-10-observability/.venv/bin/python -m pytest -q tests/test_native_telemetry.py",
+      "command": "<repo>/projects/project-10-observability/.venv/bin/python -m pytest -q tests/test_native_telemetry.py",
       "stdout": ".                                                                        [100%]",
       "stderr": ""
     },
@@ -54,8 +54,8 @@
     {
       "name": "docker_compose_config",
       "status": "passed",
-      "command": "docker compose -f /var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/tmpz764ot_p/staff-ai-service/compose.yaml config",
-      "stdout": "name: staff-ai-service\nservices:\n  app:\n    build:\n      context: /var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/tmpz764ot_p/staff-ai-service\n      dockerfile: Dockerfile\n    environment:\n      PORT: \"18080\"\n    healthcheck:\n      test:\n      - CMD\n      - python\n      - -c\n      - import urllib.request; urllib.request.urlopen('http://localhost:18080/health/ready')\n      timeout: 2s\n      interval: 10s\n      retries: 3\n    networks:\n      default: null\n    ports:\n    - mode: ingress\n      target: 18080\n      published: \"18080\"\n      protocol: tcp\n    read_only: true\n    user: app\nnetworks:\n  default:\n    name: staff-ai-service_default",
+      "command": "docker compose -f <temp>/staff-ai-service/compose.yaml config",
+      "stdout": "name: staff-ai-service\nservices:\n  app:\n    build:\n      context: <temp>/staff-ai-service\n      dockerfile: Dockerfile\n    environment:\n      PORT: \"18080\"\n    healthcheck:\n      test:\n      - CMD\n      - python\n      - -c\n      - import urllib.request; urllib.request.urlopen('http://localhost:18080/health/ready')\n      timeout: 2s\n      interval: 10s\n      retries: 3\n    networks:\n      default: null\n    ports:\n    - mode: ingress\n      target: 18080\n      published: \"18080\"\n      protocol: tcp\n    read_only: true\n    user: app\nnetworks:\n  default:\n    name: staff-ai-service_default",
       "stderr": ""
     }
   ]

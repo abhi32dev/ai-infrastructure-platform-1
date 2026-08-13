@@ -2,7 +2,7 @@
   "generated_at": "2026-08-13T17:22:05.508647+00:00",
   "project": "project-11-security",
   "python": "Python 3.11.3",
-  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-11-security/.venv",
+  "environment": "<repo>/projects/project-11-security/.venv",
   "install_mode": "non-editable wheel snapshot",
   "wheel_sha256": "f7774ab8ac0cbcdb8fef11e8921e6ed465b32d9c9579357652e45640bd9812b5",
   "git_commit": "a0ddfff4fbb03e39c30dbf9e4787a2b6998687cc"

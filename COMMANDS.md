@@ -3,7 +3,7 @@
 Run commands from the repository root:
 
 ```bash
-cd /Users/abhi/Documents/Codex/ai-infrastructure-lab
+cd /path/to/ai-infrastructure-platform-1
 ```
 
 Commands use Python 3.11+ and do not require paid APIs unless explicitly stated.

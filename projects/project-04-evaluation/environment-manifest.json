@@ -2,7 +2,7 @@
   "generated_at": "2026-08-13T17:39:08.256761+00:00",
   "project": "project-04-evaluation",
   "python": "Python 3.11.3",
-  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-04-evaluation/.venv",
+  "environment": "<repo>/projects/project-04-evaluation/.venv",
   "install_mode": "non-editable wheel snapshot",
   "wheel_sha256": "09f576b351c75cef8658a942a6bcae93edc326aec1aac5947d61648dc3875be3",
   "git_commit": "3c1cecb7a013aa50eae338981d43385f820248dc"

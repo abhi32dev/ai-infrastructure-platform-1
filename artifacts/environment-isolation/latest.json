@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T18:54:42.588601+00:00",
+  "generated_at": "2026-08-13T19:42:26.454522+00:00",
   "summary": {
     "total": 13,
     "passed": 13,
@@ -9,7 +9,7 @@
     {
       "project": "project-01-rag",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-01-rag/.venv/lib/python3.11/site-packages/ailab/rag.py",
+      "module_path": "<repo>/projects/project-01-rag/.venv/lib/python3.11/site-packages/ailab/rag.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -18,7 +18,7 @@
     {
       "project": "project-02-agent-runtime",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-02-agent-runtime/.venv/lib/python3.11/site-packages/ailab/agent_runtime.py",
+      "module_path": "<repo>/projects/project-02-agent-runtime/.venv/lib/python3.11/site-packages/ailab/agent_runtime.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -27,7 +27,7 @@
     {
       "project": "project-03-model-gateway",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-03-model-gateway/.venv/lib/python3.11/site-packages/ailab/model_gateway.py",
+      "module_path": "<repo>/projects/project-03-model-gateway/.venv/lib/python3.11/site-packages/ailab/model_gateway.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -36,7 +36,7 @@
     {
       "project": "project-04-evaluation",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-04-evaluation/.venv/lib/python3.11/site-packages/ailab/eval_platform.py",
+      "module_path": "<repo>/projects/project-04-evaluation/.venv/lib/python3.11/site-packages/ailab/eval_platform.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -45,7 +45,7 @@
     {
       "project": "project-05-inference-serving",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-05-inference-serving/.venv/lib/python3.11/site-packages/ailab/inference_server.py",
+      "module_path": "<repo>/projects/project-05-inference-serving/.venv/lib/python3.11/site-packages/ailab/inference_server.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -54,7 +54,7 @@
     {
       "project": "project-06-streaming-features",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-06-streaming-features/.venv/lib/python3.11/site-packages/ailab/streaming_features.py",
+      "module_path": "<repo>/projects/project-06-streaming-features/.venv/lib/python3.11/site-packages/ailab/streaming_features.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -63,7 +63,7 @@
     {
       "project": "project-07-recommendations",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-07-recommendations/.venv/lib/python3.11/site-packages/ailab/recommendations.py",
+      "module_path": "<repo>/projects/project-07-recommendations/.venv/lib/python3.11/site-packages/ailab/recommendations.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -72,7 +72,7 @@
     {
       "project": "project-08-batch-platform",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-08-batch-platform/.venv/lib/python3.11/site-packages/ailab/batch_platform.py",
+      "module_path": "<repo>/projects/project-08-batch-platform/.venv/lib/python3.11/site-packages/ailab/batch_platform.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -81,7 +81,7 @@
     {
       "project": "project-09-golden-path",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-09-golden-path/.venv/lib/python3.11/site-packages/ailab/golden_path.py",
+      "module_path": "<repo>/projects/project-09-golden-path/.venv/lib/python3.11/site-packages/ailab/golden_path.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -90,7 +90,7 @@
     {
       "project": "project-10-observability",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-10-observability/.venv/lib/python3.11/site-packages/ailab/observability.py",
+      "module_path": "<repo>/projects/project-10-observability/.venv/lib/python3.11/site-packages/ailab/observability.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -99,7 +99,7 @@
     {
       "project": "project-11-security",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-11-security/.venv/lib/python3.11/site-packages/ailab/security_guardrails.py",
+      "module_path": "<repo>/projects/project-11-security/.venv/lib/python3.11/site-packages/ailab/security_guardrails.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -108,7 +108,7 @@
     {
       "project": "project-12-ml-cv",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-12-ml-cv/.venv/lib/python3.11/site-packages/ailab/ml_lifecycle.py",
+      "module_path": "<repo>/projects/project-12-ml-cv/.venv/lib/python3.11/site-packages/ailab/ml_lifecycle.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
@@ -117,7 +117,7 @@
     {
       "project": "project-13-protocols",
       "status": "passed",
-      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-13-protocols/.venv/lib/python3.11/site-packages/ailab/protocols.py",
+      "module_path": "<repo>/projects/project-13-protocols/.venv/lib/python3.11/site-packages/ailab/protocols.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,

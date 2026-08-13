@@ -2,7 +2,7 @@
   "generated_at": "2026-08-13T17:30:32.716224+00:00",
   "project": "project-13-protocols",
   "python": "Python 3.11.3",
-  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-13-protocols/.venv",
+  "environment": "<repo>/projects/project-13-protocols/.venv",
   "install_mode": "non-editable wheel snapshot",
   "wheel_sha256": "32bd246994c858c86d263ce3d0974f23f707c65f58de5fe47b0e0461f3bc8482",
   "git_commit": "cdbb66bf9705958bdd71305bda77a7e8759e1d35"
