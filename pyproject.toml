@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-infrastructure-lab"
+version = "0.1.0"
+description = "Local-first, production-minded AI infrastructure learning lab"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.optional-dependencies]
+api = ["fastapi>=0.110", "uvicorn>=0.29"]
+dev = ["pytest>=7.3"]
+
+[project.scripts]
+ailab = "ailab.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["ailab*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
