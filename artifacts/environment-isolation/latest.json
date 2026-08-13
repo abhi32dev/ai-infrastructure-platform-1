@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-08-13T17:04:12.355440+00:00",
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "projects": [
+    {
+      "project": "project-01-rag",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-01-rag/.venv/lib/python3.11/site-packages/ailab/rag.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-02-agent-runtime",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-02-agent-runtime/.venv/lib/python3.11/site-packages/ailab/agent_runtime.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-03-model-gateway",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-03-model-gateway/.venv/lib/python3.11/site-packages/ailab/model_gateway.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    }
+  ]
+}

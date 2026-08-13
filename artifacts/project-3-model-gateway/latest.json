@@ -1,0 +1,90 @@
+{
+  "generated_at": "2026-08-13T17:04:13.420096+00:00",
+  "git_commit": "fc4cad5e4b81d8566506f06f119473a548a4904c",
+  "summary": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "policy_routing",
+      "category": "happy_path",
+      "status": "passed",
+      "duration_ms": 0.0,
+      "evidence": {
+        "balanced": "small-local",
+        "quality": "large-hosted",
+        "private": "small-local"
+      }
+    },
+    {
+      "name": "provider_failure_fallback",
+      "category": "failure_recovery",
+      "status": "passed",
+      "duration_ms": 0.0,
+      "evidence": {
+        "request_id": "2a776ea8a4624995a01e4658397b4a9a",
+        "model": "medium-hosted",
+        "provider": "hosted",
+        "text": "medium-hosted answered: Analyze architecture",
+        "cost_usd": 5.2e-06,
+        "cached": false,
+        "route_reason": "quality/complexity policy selected highest quality healthy model",
+        "fallback_count": 1
+      }
+    },
+    {
+      "name": "tenant_isolated_cache",
+      "category": "security",
+      "status": "passed",
+      "duration_ms": 0.0,
+      "evidence": {
+        "same_tenant_cached": true,
+        "other_tenant_cached": false
+      }
+    },
+    {
+      "name": "request_cost_cap",
+      "category": "negative",
+      "status": "passed",
+      "duration_ms": 0.0,
+      "evidence": {
+        "expected_error": "actual request cost 0.00006800 exceeds cap 0.00000100"
+      }
+    },
+    {
+      "name": "circuit_breaker",
+      "category": "failure_recovery",
+      "status": "passed",
+      "duration_ms": 0.0,
+      "evidence": {
+        "expected_error": "no model satisfies context, privacy, and health constraints",
+        "health": [
+          {
+            "model": "large-hosted",
+            "failures": 2,
+            "opened_at": 1786640652.9359639
+          },
+          {
+            "model": "medium-hosted",
+            "failures": 2,
+            "opened_at": 1786640652.9362292
+          },
+          {
+            "model": "small-local",
+            "failures": 2,
+            "opened_at": 1786640652.936463
+          }
+        ]
+      }
+    },
+    {
+      "name": "project_3_test_suite",
+      "category": "tests",
+      "status": "passed",
+      "stdout": ".........                                                                [100%]",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-ai-infrastructure-lab @ file:///var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/ailab-wheel-whraguha/ai_infrastructure_lab-0.1.0-py3-none-any.whl
+ai-infrastructure-lab @ file:///var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/ailab-wheel-59_15jht/ai_infrastructure_lab-0.1.0-py3-none-any.whl
 iniconfig==2.3.0
 packaging==26.3
 pip==22.3.1
