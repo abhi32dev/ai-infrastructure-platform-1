@@ -15,7 +15,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [x] 9. Multi-tenant AI platform golden path
 - [x] 10. AI observability, SLO, and incident lab
 - [x] 11. AI security, privacy, and governance gateway
-- [ ] 12. Classical ML and computer-vision lifecycle
+- [x] 12. Classical ML and computer-vision lifecycle
 
 ## Build sequence
 
@@ -78,8 +78,8 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | IaC, CI/CD, GitOps, golden paths | 9 | [x] | generated Terraform/K8s/CI/ownership/security/SLO controls |
 | Logs, metrics, traces, SLI/SLO/SLA | 10 | [x] | correlated telemetry, budgets, burn alerts, timelines, cost |
 | OAuth, IAM, privacy, and PII controls | 11 | [x] | signed identity, RBAC/tenant filters, PII/DLP, audit, retention |
-| PyTorch/TensorFlow ML lifecycle | 7, 12 | [ ] | training and serving projects |
-| Object detection and tracking | 12 | [ ] | computer-vision track |
+| PyTorch/TensorFlow ML lifecycle | 7, 12 | [~] | full framework-neutral lifecycle; live PyTorch/TensorFlow adapter optional |
+| Object detection and tracking | 12 | [x] | runnable synthetic detector, IoU, and stateful centroid tracker |
 
 ## Project completion definition
 

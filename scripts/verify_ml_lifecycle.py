@@ -1,0 +1,9 @@
+#!/usr/bin/env python3
+import json,subprocess,sys,tempfile
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1];sys.path.insert(0,str(ROOT));from ailab.ml_lifecycle import *
+def main():
+ with tempfile.TemporaryDirectory() as d:
+  x,y=make_dataset();xt,xv,yt,yv=split(x,y);m=LogisticModel(x.shape[1]).train(xt,yt);metrics=evaluate(yv,m.predict(xv));r=ModelRegistry(Path(d)/"models");r.register(m,metrics,xt.mean(0),"v1");r.promote("v1");shifted,_=make_dataset(100,shift=2);drift=r.drift(shifted);frame=np.zeros((20,20));frame[2:6,3:8]=1;boxes=detect(frame);tracker=CentroidTracker();first=tracker.update(boxes);second=tracker.update([Box(4,2,9,6)]);sc=[{"name":"trained_quality_model","status":"passed" if metrics.f1>.85 else "failed","evidence":asdict(metrics)},{"name":"drift_retraining","status":"passed" if drift["retrain_recommended"] else "failed","evidence":drift},{"name":"detection_tracking","status":"passed" if boxes and list(first)==list(second) else "failed","evidence":{"boxes":[asdict(x) for x in boxes],"track_ids":list(second)}}]
+ tests=subprocess.run([sys.executable,"-m","pytest","-q","tests/test_ml_lifecycle.py"],cwd=ROOT,text=True,capture_output=True);sc.append({"name":"project_12_tests","status":"passed" if tests.returncode==0 else "failed","stdout":tests.stdout.strip(),"stderr":tests.stderr.strip()});passed=sum(x["status"]=="passed" for x in sc);dest=ROOT/"artifacts/project-12-ml-cv";dest.mkdir(parents=True,exist_ok=True);(dest/"latest.json").write_text(json.dumps({"summary":{"total":len(sc),"passed":passed,"failed":len(sc)-passed},"scenarios":sc},indent=2)+"\n");(dest/"latest.txt").write_text(f"Project 12 verification: {passed}/{len(sc)} passed\n");print(f"Project 12 verification: {passed}/{len(sc)} passed");return 0 if passed==len(sc) else 1
+if __name__=="__main__":raise SystemExit(main())

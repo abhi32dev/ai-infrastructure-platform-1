@@ -120,3 +120,7 @@ Implemented correlated logs/spans, RED and AI request signals, p95, token/cache/
 ## 2026-08-13 - Project 11 security and guardrails
 
 Implemented signed/expiring identities, tenant/RBAC/high-risk authorization, prompt injection and PII input controls, tenant-filtered retrieval, output secret/PII controls, quotas, retention/deletion, hash-chained audit with tamper detection, adversarial evals, CLI, docs, commands, tests, and isolated environment definition.
+
+## 2026-08-13 - Project 12 ML and computer vision
+
+Implemented seeded data, validation/splits, gradient-trained logistic model, metrics, registry/promotion/rollback, prediction, drift/retraining, synthetic connected-component detection, IoU, centroid tracking, CLI, docs, commands, tests, and NumPy-isolated environment definition. Framework boundaries are explicit; no neural-framework claim is fabricated.

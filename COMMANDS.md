@@ -125,6 +125,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 12 - ML and computer vision lifecycle
+```bash
+python3 -m ailab.ml_cli
+python3 -m pytest -q tests/test_ml_lifecycle.py
+python3 scripts/verify_ml_lifecycle.py
+python3 scripts/bootstrap_project_env.py projects/project-12-ml-cv --rebuild
+source projects/project-12-ml-cv/.venv/bin/activate
+python -m ailab.ml_cli
+deactivate
+```
+
 ## Project 11 - Security and guardrails
 ```bash
 python3 -m ailab.security_cli

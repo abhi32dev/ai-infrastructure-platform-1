@@ -21,6 +21,7 @@ PROJECTS = {
     "project-09-golden-path": ("ailab.golden_path", "ailab.golden_path_cli"),
     "project-10-observability": ("ailab.observability", "ailab.observability_cli"),
     "project-11-security": ("ailab.security_guardrails", "ailab.security_cli"),
+    "project-12-ml-cv": ("ailab.ml_lifecycle", "ailab.ml_cli"),
 }
 
 
