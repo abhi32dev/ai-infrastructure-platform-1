@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T17:08:32.298496+00:00",
+  "generated_at": "2026-08-13T17:10:34.038650+00:00",
   "summary": {
-    "total": 5,
-    "passed": 5,
+    "total": 6,
+    "passed": 6,
     "failed": 0
   },
   "projects": [
@@ -46,6 +46,15 @@
       "project": "project-05-inference-serving",
       "status": "passed",
       "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-05-inference-serving/.venv/lib/python3.11/site-packages/ailab/inference_server.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-06-streaming-features",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-06-streaming-features/.venv/lib/python3.11/site-packages/ailab/streaming_features.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,

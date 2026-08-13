@@ -1,0 +1,49 @@
+{
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "stream_to_online_features",
+      "status": "passed",
+      "evidence": {
+        "processed": 3,
+        "duplicates": 0,
+        "late": 0,
+        "lag": 0
+      }
+    },
+    {
+      "name": "online_offline_consistency",
+      "status": "passed",
+      "evidence": {
+        "skew": false,
+        "difference": {
+          "event_count": 0,
+          "total_value": 0.0
+        }
+      }
+    },
+    {
+      "name": "duplicate_and_dlq",
+      "status": "passed",
+      "evidence": {
+        "duplicate": {
+          "status": "duplicate",
+          "event_id": "1"
+        },
+        "bad": {
+          "status": "dlq",
+          "error": "unsupported schema version"
+        }
+      }
+    },
+    {
+      "name": "project_6_tests",
+      "status": "passed",
+      "stdout": ".......                                                                  [100%]"
+    }
+  ]
+}

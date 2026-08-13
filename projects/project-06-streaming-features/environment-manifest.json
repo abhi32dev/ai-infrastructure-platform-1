@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T17:10:33.450379+00:00",
+  "project": "project-06-streaming-features",
+  "python": "Python 3.11.3",
+  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-06-streaming-features/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "2899c71fe720267d6be43466e78843354c7710278736ca484ef16208bf500d0b",
+  "git_commit": "ec6f9825731b336f48b8c2db4d3c4e6c43f6a1b3"
+}
