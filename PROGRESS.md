@@ -124,3 +124,7 @@ Implemented signed/expiring identities, tenant/RBAC/high-risk authorization, pro
 ## 2026-08-13 - Project 12 ML and computer vision
 
 Implemented seeded data, validation/splits, gradient-trained logistic model, metrics, registry/promotion/rollback, prediction, drift/retraining, synthetic connected-component detection, IoU, centroid tracking, CLI, docs, commands, tests, and NumPy-isolated environment definition. Framework boundaries are explicit; no neural-framework claim is fabricated.
+
+## 2026-08-13 - Project 1 completed RAG extensions
+
+Added real Ollama embedding HTTP support, reciprocal-rank fusion, inspectable reranking, tenant/metadata filters, semantic TTL cache, LangChain/LlamaIndex conversion adapters, and versioned retrieval evaluation with Recall@K/MRR. The design explicitly identifies deterministic test doubles versus live model components.

@@ -1,0 +1,9 @@
+{
+  "name": "rag-core",
+  "version": "1",
+  "cases": [
+    {"id": "reliability", "query": "Why do safe replays need checkpoints and idempotency?", "expected_source": "reliability.md"},
+    {"id": "retrieval", "query": "How do dense and lexical search complement each other?", "expected_source": "retrieval.md"},
+    {"id": "routing", "query": "How should model routing control cost and fallback?", "expected_source": "routing.md"}
+  ]
+}

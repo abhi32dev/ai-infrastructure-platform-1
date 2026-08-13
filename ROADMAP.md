@@ -4,7 +4,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 
 ## Portfolio roadmap
 
-- [ ] 1. Production RAG platform
+- [x] 1. Production RAG platform
 - [x] 2. Durable agent runtime and orchestrator
 - [x] 3. LLM gateway, model router, and cost controller
 - [x] 4. LLM evaluation and release-gating platform
@@ -38,8 +38,8 @@ The first capstone combines projects 1-4 because together they cover the largest
 
 ### Later capstone increments
 
-- [ ] Cross-encoder reranking and pgvector/Qdrant adapters
-- [ ] Semantic cache and tenant-aware filters
+- [x] Inspectable second-stage reranking and replaceable vector-store boundary
+- [x] Semantic cache and tenant-aware filters
 - [ ] LLM-as-judge and multi-judge consensus
 - [ ] MLflow experiment tracking
 - [ ] FastAPI/OpenAI-compatible gateway
@@ -54,9 +54,9 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Resume capability | Project(s) | Status | Evidence |
 |---|---:|:---:|---|
 | Seven-stage RAG pipeline | 1 | [x] | `ailab/text.py`, `embeddings.py`, `store.py`, `rag.py` |
-| LangChain/LlamaIndex integration patterns | 1 | [ ] | framework adapters after core concepts |
+| LangChain/LlamaIndex integration patterns | 1 | [x] | tested Document/Node adapters into core document contract |
 | Embeddings and vector retrieval | 1 | [x] | deterministic embedder and persistent SQLite vectors |
-| Semantic/hybrid search and reranking | 1 | [~] | BM25+dense fusion done; semantic model and reranker planned |
+| Semantic/hybrid search and reranking | 1 | [x] | Ollama embeddings, BM25+dense RRF, second-stage reranker |
 | Grounding and citations | 1, 4 | [x] | cited offline/Ollama prompts and citation-validity gate |
 | Agent orchestration and tool calling | 2 | [x] | typed plans, dependency validation, and tool registry |
 | Checkpoints, retry, replay, idempotency | 2, 8 | [x] | durable steps/effects, bounded retry, resume, and dead letters |

@@ -82,3 +82,14 @@ Markdown/text documents
 | Direct provider call | model gateway | quotas, deadlines, health and fallbacks |
 | Local journal | Temporal/PostgreSQL workflow state | leases, split-brain and retention |
 
+## Completed production-RAG extensions
+
+- Real Ollama `/api/embed` provider contract with explicit availability failures
+- Reciprocal-rank fusion of dense and lexical rankings
+- Second-stage deterministic reranking by query coverage and ordered terms
+- Metadata/tenant filtering before results are returned
+- TTL semantic response cache
+- LangChain Document and LlamaIndex Node conversion adapters
+- Versioned retrieval evaluation dataset with Recall@K and mean reciprocal rank
+
+The deterministic reranker is intentionally inspectable; it is not described as a neural cross-encoder. A neural reranker, pgvector, or Qdrant can replace the same boundaries without changing the learning exercises.

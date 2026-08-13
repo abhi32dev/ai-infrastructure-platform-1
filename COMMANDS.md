@@ -40,6 +40,7 @@ deactivate
 ```bash
 python3 scripts/verify.py
 python3 -m pytest -q
+python3 scripts/verify_rag_complete.py
 ```
 
 Evidence is written to:
