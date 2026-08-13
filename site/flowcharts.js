@@ -178,7 +178,7 @@ function branchMode(text) {
   return "stop";
 }
 function renderDiagram(project) {
-  const row=205, mainX=70, mainW=430, branchX=650, branchW=390, top=95;
+  const row=205, mainX=30, mainW=350, branchX=500, branchW=350, top=95, canvasW=900;
   const height=top+project.steps.length*row+90;
   const marker=`arrow-${project.id}`;
   const arrow=(path,klass,label,x,y) => `<path class="edge ${klass}" d="${path}" marker-end="url(#${marker})"></path>${label?`<text class="edge-label ${klass}" x="${x}" y="${y}">${label}</text>`:""}`;
@@ -200,7 +200,7 @@ function renderDiagram(project) {
   });
   const endY=top+(project.steps.length-1)*row+176;
   nodes.push(`<div class="diagram-terminal end" style="left:${mainX+mainW/2-70}px;top:${endY}px">END · SUCCESS</div>`);
-  return `<div class="diagram-shell"><div class="diagram-toolbar"><strong>Directed execution flow</strong><span>Follow arrows · YES continues · NO branches · curved arrow retries</span></div><div class="diagram-scroll"><div class="diagram-canvas" style="height:${height}px"><svg class="diagram-edges" viewBox="0 0 1110 ${height}" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="${marker}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker></defs>${edges}</svg>${nodes.join("")}</div></div></div>`;
+  return `<div class="diagram-shell"><div class="diagram-toolbar"><strong>Directed execution flow</strong><span>Follow arrows · YES continues · NO branches · curved arrow retries</span></div><div class="diagram-scroll"><div class="diagram-canvas" style="height:${height}px;width:${canvasW}px;min-width:${canvasW}px"><svg class="diagram-edges" viewBox="0 0 ${canvasW} ${height}" preserveAspectRatio="none" aria-hidden="true" style="width:${canvasW}px"><defs><marker id="${marker}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker></defs>${edges}</svg>${nodes.join("")}</div></div></div>`;
 }
 function renderProject(project) {
   const id = `flow-${String(project.id).padStart(2,"0")}`;
