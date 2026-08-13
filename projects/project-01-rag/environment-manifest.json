@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T17:02:30.179157+00:00",
+  "project": "project-01-rag",
+  "python": "Python 3.11.3",
+  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-01-rag/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "930312fd083ce762dc5ef3157f1bf0d09af9511a4c68462b53896e61fef5d716",
+  "git_commit": "44c3e525838094d2cda3d43357a7757c4a424698"
+}

@@ -74,3 +74,17 @@ Manual CLI start -> inspect -> approve -> resume -> repeated resume passed
 ```
 
 Project 2 is marked complete. Verification evidence is stored in `artifacts/project-2-agent-runtime/`. The documentation explicitly describes the remaining atomicity gap when a real remote service does not honor the runtime's idempotency key.
+
+## 2026-08-13 - Project 3 model gateway and environment isolation
+
+Project 3 implemented a model registry, policy routing, privacy constraints, fallback, circuit breakers, request idempotency, tenant-isolated caching, cost caps, usage accounting, route explanations, and shadow execution.
+
+Verification:
+
+```text
+9/9 Project 3 tests passed
+6/6 Project 3 acceptance scenarios passed
+22/22 repository regression tests passed
+```
+
+Added a repository-wide environment standard. Projects 1-3 now have independent `.venv` directories, exact direct dependency pins, full installed freezes, environment manifests, activation documentation, and non-editable wheel snapshots. Isolation verification runs from `/tmp` and confirms every module resolves from its own environment rather than repository source.

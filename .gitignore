@@ -2,6 +2,7 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .venv/
+projects/*/.venv/
 .env
 data/*.db
 data/*.jsonl
@@ -9,3 +10,4 @@ dist/
 build/
 *.egg-info/
 artifacts/verification/archive/
+dist-env/

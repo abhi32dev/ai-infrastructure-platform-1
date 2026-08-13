@@ -8,6 +8,33 @@ cd /Users/abhi/Documents/Codex/ai-infrastructure-lab
 
 Commands use Python 3.11+ and do not require paid APIs unless explicitly stated.
 
+## Per-project environments
+
+Each project has its own environment. Build once, then activate only the project being exercised:
+
+```bash
+python3 scripts/bootstrap_project_env.py projects/project-01-rag --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-02-agent-runtime --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-03-model-gateway --rebuild
+python3 scripts/verify_project_envs.py
+```
+
+Activate/deactivate examples:
+
+```bash
+source projects/project-01-rag/.venv/bin/activate
+python -m ailab.cli --help
+deactivate
+
+source projects/project-02-agent-runtime/.venv/bin/activate
+python -m ailab.agent_cli --help
+deactivate
+
+source projects/project-03-model-gateway/.venv/bin/activate
+python -m ailab.gateway_cli --help
+deactivate
+```
+
 ## Verify everything currently implemented
 
 ```bash
@@ -79,10 +106,26 @@ The automated suite additionally demonstrates allowlist denial, argument validat
 python3 -m pytest -q tests/test_agent_runtime.py
 ```
 
+## Project 3 - Model gateway, router, and cost controller
+
+```bash
+python3 -m ailab.gateway_cli complete "Summarize this request" --tenant demo
+python3 -m ailab.gateway_cli complete "Analyze architecture failure tradeoffs" --tenant demo --quality high --shadow-model medium-hosted
+python3 -m ailab.gateway_cli complete "Analyze confidential architecture" --tenant private --quality high --privacy local
+python3 -m ailab.gateway_cli inspect
+python3 -m pytest -q tests/test_model_gateway.py
+python3 scripts/verify_model_gateway.py
+```
+
+Expected negative cost-cap case:
+
+```bash
+python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --max-cost 0.000001
+```
+
 ## Git status and history
 
 ```bash
 git status --short --branch
 git log --oneline --decorate -10
 ```
-

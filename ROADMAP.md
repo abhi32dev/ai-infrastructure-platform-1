@@ -6,7 +6,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 
 - [ ] 1. Production RAG platform
 - [x] 2. Durable agent runtime and orchestrator
-- [ ] 3. LLM gateway, model router, and cost controller
+- [x] 3. LLM gateway, model router, and cost controller
 - [ ] 4. LLM evaluation and release-gating platform
 - [ ] 5. High-availability inference serving platform
 - [ ] 6. Streaming feature and online-inference pipeline
@@ -61,7 +61,7 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Agent orchestration and tool calling | 2 | [x] | typed plans, dependency validation, and tool registry |
 | Checkpoints, retry, replay, idempotency | 2, 8 | [x] | durable steps/effects, bounded retry, resume, and dead letters |
 | Human-in-the-loop and least privilege | 2, 11 | [x] | durable approval/denial and per-runtime tool allowlist |
-| Model routing and token-cost controls | 3 | [~] | complexity router and usage counts done; budgets/ledger planned |
+| Model routing and token-cost controls | 3 | [x] | constraint router, cost caps, tenant budgets, usage/decision ledgers |
 | Local model serving with Ollama | 3, 5 | [~] | Ollama HTTP adapter done; serving platform planned |
 | LLM-as-judge/multi-model verification | 4 | [ ] | evaluation-gate milestone |
 | Evaluation datasets and rubric scoring | 4 | [~] | deterministic regression gate done; versioned suite planned |
