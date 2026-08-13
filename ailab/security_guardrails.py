@@ -14,15 +14,20 @@ class GuardrailGateway:
  EMAIL=re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b");SSN=re.compile(r"\b\d{3}-\d{2}-\d{4}\b");SECRET=re.compile(r"(?i)(api[_-]?key|password|secret)\s*[:=]\s*\S+")
  INJECTION=("ignore previous instructions","reveal system prompt","exfiltrate","disable guardrails","act as system")
  def __init__(self,path:Path,signing_key:bytes=b"local-learning-key",quota:int=20):
+  if not signing_key or quota<1:raise ValueError("signing key and positive quota are required")
   path.parent.mkdir(parents=True,exist_ok=True);self.db=sqlite3.connect(path);self.db.row_factory=sqlite3.Row;self.key=signing_key;self.quota=quota;self.db.executescript("""CREATE TABLE IF NOT EXISTS documents(id TEXT PRIMARY KEY,tenant TEXT,classification TEXT,content TEXT,created_at REAL);CREATE TABLE IF NOT EXISTS audit(sequence INTEGER PRIMARY KEY AUTOINCREMENT,timestamp REAL,subject TEXT,tenant TEXT,action TEXT,resource TEXT,decision TEXT,policy TEXT,reason TEXT,previous_hash TEXT,event_hash TEXT);CREATE TABLE IF NOT EXISTS quotas(subject TEXT,window INTEGER,count INTEGER,PRIMARY KEY(subject,window));""");self.db.commit()
  def authenticate(self,token:str)->Principal:
+  if not isinstance(token,str) or not token:raise GuardrailBlocked("authn","malformed token")
   try:payload,signature=token.rsplit(".",1);expected=hmac.new(self.key,payload.encode(),hashlib.sha256).hexdigest();
   except ValueError:raise GuardrailBlocked("authn","malformed token")
   if not hmac.compare_digest(signature,expected):raise GuardrailBlocked("authn","invalid signature")
-  data=json.loads(payload)
+  try:data=json.loads(payload)
+  except (json.JSONDecodeError,TypeError):raise GuardrailBlocked("authn","malformed payload")
+  if not all(key in data for key in ("sub","tenant","roles","exp")):raise GuardrailBlocked("authn","incomplete claims")
   if data["exp"]<time.time():raise GuardrailBlocked("authn","expired token")
   return Principal(data["sub"],data["tenant"],tuple(data["roles"]))
  def issue(self,principal:Principal,ttl=3600)->str:
+  if not principal.subject or not principal.tenant or not principal.roles:raise ValueError("principal claims are required")
   payload=json.dumps({"sub":principal.subject,"tenant":principal.tenant,"roles":principal.roles,"exp":time.time()+ttl},sort_keys=True,separators=(",",":"));return payload+"."+hmac.new(self.key,payload.encode(),hashlib.sha256).hexdigest()
  def input_guard(self,text:str,allow_pii=False)->Decision:
   lowered=text.lower();injection=next((x for x in self.INJECTION if x in lowered),None)

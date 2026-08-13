@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-08-13T20:42:19.945543+00:00",
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "edge_case_suite",
+      "status": "passed",
+      "stdout": "....................                                                     [100%]",
+      "stderr": ""
+    },
+    {
+      "name": "runnable_demo",
+      "status": "passed",
+      "stdout": "{\n  \"apply\": \"applied\",\n  \"plan\": {\n    \"spec\": {\n      \"name\": \"demo-model\",\n      \"provider\": \"aws\",\n      \"region\": \"us-west\",\n      \"instance_type\": \"cpu-small\",\n      \"replicas\": 1,\n      \"monthly_budget\": 100,\n      \"private_network\": true,\n      \"encrypted\": true\n    },\n    \"estimated_monthly_cost\": 50.0,\n    \"plan_id\": \"490595939d0c540f344c6ee0579d3164913cb61d022ccb6425dfef81388b39f4\"\n  },\n  \"drift\": {\n    \"drifted\": false,\n    \"changes\": {}\n  }\n}",
+      "stderr": ""
+    }
+  ]
+}

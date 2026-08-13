@@ -13,13 +13,16 @@ class Recommendation:item_id:str;score:float;reasons:tuple[str,...]
 class RecommendationPlatform:
  def __init__(self,path:Path,items:list[Item]):
   if not items:raise ValueError("catalog cannot be empty")
+  if any(not x.id for x in items) or len({x.id for x in items})!=len(items):raise ValueError("catalog identifiers must be non-empty and unique")
   path.parent.mkdir(parents=True,exist_ok=True);self.db=sqlite3.connect(path);self.db.row_factory=sqlite3.Row;self.items={x.id:x for x in items};self.db.executescript("""CREATE TABLE IF NOT EXISTS interactions(user_id TEXT,item_id TEXT,event TEXT,weight REAL,created_at REAL);CREATE TABLE IF NOT EXISTS assignments(user_id TEXT,experiment TEXT,variant TEXT,PRIMARY KEY(user_id,experiment));CREATE TABLE IF NOT EXISTS outcomes(user_id TEXT,experiment TEXT,variant TEXT,converted INTEGER,PRIMARY KEY(user_id,experiment));""");self.db.commit()
  def interact(self,user:str,item:str,event:str="view",timestamp:float|None=None):
+  if not user:raise ValueError("user is required")
   if item not in self.items:raise ValueError(f"unknown item: {item}")
   weights={"view":1,"click":3,"purchase":8,"dislike":-5}
   if event not in weights:raise ValueError(f"unknown event: {event}")
   self.db.execute("INSERT INTO interactions VALUES(?,?,?,?,?)",(user,item,event,weights[event],timestamp or time.time()));self.db.commit()
  def recommend(self,user:str,k:int=5)->list[Recommendation]:
+  if not user:raise ValueError("user is required")
   if k<=0:raise ValueError("k must be positive")
   rows=self.db.execute("SELECT * FROM interactions").fetchall();consumed={r["item_id"] for r in rows if r["user_id"]==user and r["weight"]>0};pop=Counter();user_items=defaultdict(dict)
   for r in rows:pop[r["item_id"]]+=max(0,r["weight"]);user_items[r["user_id"]][r["item_id"]]=r["weight"]
@@ -46,6 +49,7 @@ class RecommendationPlatform:
    results.append(Recommendation(item_id,score,tuple(reasons)))
   return sorted(results,key=lambda x:(-x.score,x.item_id))[:k]
  def assign(self,user:str,experiment:str="ranking-v1",treatment_percent:int=50)->str:
+  if not user or not experiment:raise ValueError("user and experiment are required")
   if not 0<=treatment_percent<=100:raise ValueError("percentage must be 0..100")
   row=self.db.execute("SELECT variant FROM assignments WHERE user_id=? AND experiment=?",(user,experiment)).fetchone()
   if row:return row[0]

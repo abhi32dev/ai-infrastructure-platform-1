@@ -1,4 +1,4 @@
-Environment isolation: 13/13 passed
+Environment isolation: 20/20 passed
 [PASSED] project-01-rag: <repo>/projects/project-01-rag/.venv/lib/python3.11/site-packages/ailab/rag.py
 [PASSED] project-02-agent-runtime: <repo>/projects/project-02-agent-runtime/.venv/lib/python3.11/site-packages/ailab/agent_runtime.py
 [PASSED] project-03-model-gateway: <repo>/projects/project-03-model-gateway/.venv/lib/python3.11/site-packages/ailab/model_gateway.py
@@ -12,3 +12,10 @@ Environment isolation: 13/13 passed
 [PASSED] project-11-security: <repo>/projects/project-11-security/.venv/lib/python3.11/site-packages/ailab/security_guardrails.py
 [PASSED] project-12-ml-cv: <repo>/projects/project-12-ml-cv/.venv/lib/python3.11/site-packages/ailab/ml_lifecycle.py
 [PASSED] project-13-protocols: <repo>/projects/project-13-protocols/.venv/lib/python3.11/site-packages/ailab/protocols.py
+[PASSED] project-14-distributed-training: <repo>/projects/project-14-distributed-training/.venv/lib/python3.11/site-packages/ailab/distributed_training.py
+[PASSED] project-15-optimized-inference: <repo>/projects/project-15-optimized-inference/.venv/lib/python3.11/site-packages/ailab/llm_inference_optimized.py
+[PASSED] project-16-gpu-platform: <repo>/projects/project-16-gpu-platform/.venv/lib/python3.11/site-packages/ailab/gpu_platform.py
+[PASSED] project-17-lakehouse-features: <repo>/projects/project-17-lakehouse-features/.venv/lib/python3.11/site-packages/ailab/lakehouse_features.py
+[PASSED] project-18-distributed-orchestration: <repo>/projects/project-18-distributed-orchestration/.venv/lib/python3.11/site-packages/ailab/distributed_orchestration.py
+[PASSED] project-19-multi-framework: <repo>/projects/project-19-multi-framework/.venv/lib/python3.11/site-packages/ailab/multi_framework.py
+[PASSED] project-20-cloud-control-plane: <repo>/projects/project-20-cloud-control-plane/.venv/lib/python3.11/site-packages/ailab/cloud_control_plane.py

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-13T17:10:33.450379+00:00",
+  "generated_at": "2026-08-13T20:41:22.998642+00:00",
   "project": "project-06-streaming-features",
   "python": "Python 3.11.3",
-  "environment": "<repo>/projects/project-06-streaming-features/.venv",
+  "environment": "projects/project-06-streaming-features/.venv",
   "install_mode": "non-editable wheel snapshot",
-  "wheel_sha256": "2899c71fe720267d6be43466e78843354c7710278736ca484ef16208bf500d0b",
-  "git_commit": "ec6f9825731b336f48b8c2db4d3c4e6c43f6a1b3"
+  "wheel_sha256": "8dc6e68f78dbda95c147ea25a000d7cc1edfbc7e7e283eafe88e333406321600",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
 }

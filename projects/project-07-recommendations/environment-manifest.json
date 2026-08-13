@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-13T17:12:16.724256+00:00",
+  "generated_at": "2026-08-13T20:41:27.225760+00:00",
   "project": "project-07-recommendations",
   "python": "Python 3.11.3",
-  "environment": "<repo>/projects/project-07-recommendations/.venv",
+  "environment": "projects/project-07-recommendations/.venv",
   "install_mode": "non-editable wheel snapshot",
-  "wheel_sha256": "06c3643b83e16e811034ce0a3432b8da0b09f1a5ca69a32c68a2fa8b3f112c97",
-  "git_commit": "cb8689249c7a6fb0516a29b442b0a6b3dc5f06bd"
+  "wheel_sha256": "1693c271e890b924c56cd33198c99a6e080ac17f1014ff25f29b7032c5ce33f6",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
 }

@@ -1,4 +1,4 @@
-ai-infrastructure-lab @ file:///var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/ailab-wheel-9cxgz7fa/ai_infrastructure_lab-0.1.0-py3-none-any.whl
+ai-infrastructure-lab @ file:///var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/ailab-wheel-ybrkwc4c/ai_infrastructure_lab-0.1.0-py3-none-any.whl
 annotated-types==0.8.0
 anyio==4.14.2
 certifi==2026.7.22

@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-08-13T20:42:18.601486+00:00",
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "edge_case_suite",
+      "status": "passed",
+      "stdout": "............                                                             [100%]",
+      "stderr": ""
+    },
+    {
+      "name": "runnable_demo",
+      "status": "passed",
+      "stdout": "{\n  \"online\": {\n    \"u0\": 6.0,\n    \"u1\": 7.0\n  },\n  \"quality\": {\n    \"rows\": 8,\n    \"unique\": true,\n    \"dlq\": 0,\n    \"commits\": 1\n  }\n}",
+      "stderr": ""
+    }
+  ]
+}

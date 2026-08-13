@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T20:02:28.097177+00:00",
+  "generated_at": "2026-08-13T20:42:23.780150+00:00",
   "summary": {
     "total": 7,
     "passed": 7,
@@ -10,7 +10,7 @@
       "name": "all_projects_have_cross_cutting_controls",
       "status": "passed",
       "evidence": {
-        "projects": 13
+        "projects": 20
       }
     },
     {

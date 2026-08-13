@@ -15,6 +15,8 @@ STOP_WORDS = {
 
 
 def tokenize(text: str) -> list[str]:
+    if not isinstance(text, str):
+        raise ValueError("text must be a string")
     return [match.group(0).lower() for match in TOKEN_RE.finditer(text)]
 
 
@@ -24,6 +26,10 @@ def content_tokens(text: str) -> list[str]:
 
 
 def stable_id(*parts: str, length: int = 16) -> str:
+    if not parts or any(not isinstance(part, str) for part in parts):
+        raise ValueError("stable_id requires string parts")
+    if length < 1 or length > 64:
+        raise ValueError("length must be between 1 and 64")
     payload = "\x1f".join(parts).encode("utf-8")
     return hashlib.sha256(payload).hexdigest()[:length]
 
@@ -42,6 +48,8 @@ def load_documents(path: Path) -> list[Document]:
 
 
 def chunk_document(document: Document, size: int = 120, overlap: int = 24) -> list[Chunk]:
+    if not isinstance(document, Document):
+        raise ValueError("document must be a Document")
     if size <= 0 or overlap < 0 or overlap >= size:
         raise ValueError("Require size > 0 and 0 <= overlap < size")
     words = document.text.split()

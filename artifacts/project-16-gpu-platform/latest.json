@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-08-13T20:42:18.175360+00:00",
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "edge_case_suite",
+      "status": "passed",
+      "stdout": "................                                                         [100%]",
+      "stderr": ""
+    },
+    {
+      "name": "runnable_demo",
+      "status": "passed",
+      "stdout": "{\n  \"scheduled\": {\n    \"job-0\": \"stable-a\",\n    \"job-1\": \"stable-a\",\n    \"job-2\": \"stable-a\"\n  },\n  \"autoscale\": {\n    \"pending_gpus\": 0,\n    \"available_gpus\": 1,\n    \"nodes_to_add\": 0\n  }\n}",
+      "stderr": ""
+    }
+  ]
+}

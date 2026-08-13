@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-08-13T20:42:19.500599+00:00",
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "edge_case_suite",
+      "status": "passed",
+      "stdout": "...................                                                      [100%]",
+      "stderr": ""
+    },
+    {
+      "name": "runnable_demo",
+      "status": "passed",
+      "stdout": "{\n  \"inventory\": {\n    \"torch\": false,\n    \"tensorflow\": false,\n    \"keras\": false,\n    \"jax\": false,\n    \"onnxruntime\": false\n  },\n  \"parity\": {\n    \"passed\": true,\n    \"maximum_difference\": 0.0\n  },\n  \"prediction\": 9.0\n}",
+      "stderr": ""
+    }
+  ]
+}

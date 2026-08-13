@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T20:39:52.200907+00:00",
+  "project": "project-20-cloud-control-plane",
+  "python": "Python 3.11.3",
+  "environment": "projects/project-20-cloud-control-plane/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "b9fa682ccd618da401109fe74ab29c66d1b029e44510be8f4b6b3b06327a2d1b",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
+}

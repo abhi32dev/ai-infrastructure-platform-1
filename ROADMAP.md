@@ -16,10 +16,14 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [x] 10. AI observability, SLO, and incident lab
 - [x] 11. AI security, privacy, and governance gateway
 - [x] 12. Classical ML and computer-vision lifecycle
-
-Additional cross-cutting lab:
-
 - [x] 13. MCP and Agent-to-Agent protocol integration
+- [x] 14. PyTorch distributed training and fault-tolerant checkpoints
+- [x] 15. Optimized LLM inference and memory-aware scheduling
+- [x] 16. Kubernetes GPU platform and multi-tenant scheduling
+- [x] 17. Lakehouse and point-in-time feature platform
+- [x] 18. Ray-style distributed orchestration and actors
+- [x] 19. TensorFlow, Keras, JAX, PyTorch, and ONNX lifecycle
+- [x] 20. Multi-cloud ML control plane for AWS, GCP, and Azure
 
 ## Build sequence
 
@@ -82,11 +86,17 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | IaC, CI/CD, GitOps, golden paths | 9 | [x] | generated Terraform/K8s/CI/ownership/security/SLO controls |
 | Logs, metrics, traces, SLI/SLO/SLA | 10 | [x] | correlated telemetry, budgets, burn alerts, timelines, cost |
 | OAuth, IAM, privacy, and PII controls | 11 | [x] | signed identity, RBAC/tenant filters, PII/DLP, audit, retention |
-| PyTorch/TensorFlow ML lifecycle | 7, 12 | [~] | full framework-neutral lifecycle; live PyTorch/TensorFlow adapter optional |
+| PyTorch distributed training | 14 | [x] | partitioning, all-reduce semantics, rank failure, atomic checkpoint and resume |
+| Optimized LLM inference | 15 | [x] | continuous batching, KV/prefix cache, quantization accounting, speculative acceptance |
+| GPU scheduling and quotas | 16 | [x] | heterogeneous placement, quota, reclaim, drain, eviction and autoscale plan |
+| Lakehouse and feature store | 17 | [x] | contracts, DLQ, dedup, watermark, checksummed commit, materialization and PIT joins |
+| Ray-style distributed compute | 18 | [x] | DAG/resources/retries/object-store pressure/stateful actor recovery |
+| PyTorch/TensorFlow/Keras/JAX/ONNX | 14, 19 | [x] | isolated real dependencies plus portable artifact and prediction parity contracts |
+| AWS/GCP/Azure ML control plane | 20 | [x] | provider-neutral policy plan, apply, drift, reconcile, and failover |
 | Object detection and tracking | 12 | [x] | runnable synthetic detector, IoU, and stateful centroid tracker |
 
 ## Project completion definition
 
-A checkbox is marked complete only when the implementation, automated tests, runnable exercise, design explanation, failure-mode notes, and interview questions all exist. Merely naming a library does not count as coverage.
+A checkbox is marked complete only when the implementation, automated tests, runnable exercise, `PROD.md` design explanation, failure-mode notes, and interview questions all exist. Merely naming a library does not count as coverage. The current suite collects 325 automated cases across positive, negative, null/type, boundary, corruption, retry, concurrency/state, security/policy, recovery, and determinism classes.
 
 Portfolio-level items remain unchecked until the complete project—not an early vertical slice—meets that definition. Every verification run writes evidence under `artifacts/verification/`.

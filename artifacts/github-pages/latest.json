@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T20:02:29.397114+00:00",
+  "generated_at": "2026-08-13T20:42:25.765580+00:00",
   "summary": {
     "total": 10,
     "passed": 10,
@@ -10,7 +10,7 @@
     "css_exists": true,
     "nojekyll_exists": true,
     "title_present": true,
-    "all_13_projects": true,
+    "all_20_projects": true,
     "all_cards_are_links": true,
     "all_detail_targets_exist": true,
     "navigation_targets": true,

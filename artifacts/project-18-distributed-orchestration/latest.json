@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-08-13T20:42:19.035475+00:00",
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "edge_case_suite",
+      "status": "passed",
+      "stdout": "................                                                         [100%]",
+      "stderr": ""
+    },
+    {
+      "name": "runnable_demo",
+      "status": "passed",
+      "stdout": "{\n  \"results\": {\n    \"extract\": [\n      1,\n      2,\n      3\n    ],\n    \"train\": 6\n  },\n  \"events\": [\n    {\n      \"task\": \"extract\",\n      \"attempt\": 1,\n      \"status\": \"completed\"\n    },\n    {\n      \"task\": \"train\",\n      \"attempt\": 1,\n      \"status\": \"completed\"\n    }\n  ]\n}",
+      "stderr": ""
+    }
+  ]
+}

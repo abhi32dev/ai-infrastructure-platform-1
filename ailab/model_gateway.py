@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import sqlite3
 import time
 import threading
@@ -37,6 +38,12 @@ class GatewayRequest:
     quality: str = "balanced"
     privacy: str = "any"
     max_cost_usd: float | None = None
+
+    def validate(self) -> None:
+        if not self.tenant.strip() or not self.prompt.strip(): raise ValueError("tenant and prompt are required")
+        if self.quality not in {"balanced", "fast", "high"}: raise ValueError("unsupported quality policy")
+        if self.privacy not in {"any", "local"}: raise ValueError("unsupported privacy policy")
+        if self.max_cost_usd is not None and (not math.isfinite(self.max_cost_usd) or self.max_cost_usd < 0): raise ValueError("max_cost_usd must be finite and non-negative")
 
 
 @dataclass(frozen=True)
@@ -98,6 +105,7 @@ class ModelGateway:
             return self._complete(request, shadow_model)
 
     def _complete(self, request: GatewayRequest, shadow_model: str | None = None) -> GatewayResponse:
+        request.validate()
         request_id = request.request_id or uuid.uuid4().hex
         prior = self.connection.execute("SELECT u.*, d.reason FROM usage u JOIN decisions d USING(request_id) WHERE request_id=?", (request_id,)).fetchone()
         if prior:

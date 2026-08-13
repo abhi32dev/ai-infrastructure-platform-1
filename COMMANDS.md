@@ -32,6 +32,13 @@ Each project has its own environment. Build once, then activate only the project
 python3 scripts/bootstrap_project_env.py projects/project-01-rag --rebuild
 python3 scripts/bootstrap_project_env.py projects/project-02-agent-runtime --rebuild
 python3 scripts/bootstrap_project_env.py projects/project-03-model-gateway --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-14-distributed-training --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-15-optimized-inference --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-16-gpu-platform --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-17-lakehouse-features --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-18-distributed-orchestration --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-19-multi-framework --rebuild
+python3 scripts/bootstrap_project_env.py projects/project-20-cloud-control-plane --rebuild
 python3 scripts/verify_project_envs.py
 ```
 
@@ -141,6 +148,42 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 ```
 
 ## Git status and history
+
+## Projects 14-20 - advanced AI infrastructure expansion
+
+Each project has its own `PROD.md` explaining production invariants, test layers, scenario rationale, design decisions, operational trade-offs, and staff/principal interview prompts.
+
+```bash
+python3 -m pytest -q tests/test_distributed_training.py
+python3 -m ailab.distributed_training_cli
+python3 -m pytest -q tests/test_llm_inference_optimized.py
+python3 -m ailab.llm_inference_cli
+python3 -m pytest -q tests/test_gpu_platform.py
+python3 -m ailab.gpu_platform_cli
+python3 -m pytest -q tests/test_lakehouse_features.py
+python3 -m ailab.lakehouse_cli
+python3 -m pytest -q tests/test_distributed_orchestration.py
+python3 -m ailab.orchestration_cli
+python3 -m pytest -q tests/test_multi_framework.py
+python3 -m ailab.multi_framework_cli
+python3 -m pytest -q tests/test_cloud_control_plane.py
+python3 -m ailab.cloud_control_cli
+python3 scripts/verify_expansion_projects.py
+```
+
+Activate any isolated environment with the same pattern:
+
+```bash
+source projects/project-14-distributed-training/.venv/bin/activate
+python -m ailab.distributed_training_cli
+deactivate
+```
+
+Production edge-regression suite for Projects 1-13:
+
+```bash
+python3 -m pytest -q tests/test_existing_production_edges.py
+```
 
 ## Protocol Lab - MCP and A2A
 ```bash

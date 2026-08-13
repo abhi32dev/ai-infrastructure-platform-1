@@ -1,0 +1,27 @@
+ai-infrastructure-lab @ file:///var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/ailab-wheel-pbdj_mmy/ai_infrastructure_lab-0.1.0-py3-none-any.whl
+certifi==2026.7.22
+cffi==2.1.1
+charset-normalizer==3.5.0
+cryptography==50.0.0
+durationpy==0.10
+google-auth==2.56.3
+idna==3.18
+iniconfig==2.3.0
+kubernetes==32.0.1
+oauthlib==3.3.1
+packaging==26.3
+pip==22.3.1
+pluggy==1.6.0
+pyasn1==0.6.4
+pyasn1_modules==0.4.2
+pycparser==3.0
+pytest==7.3.1
+python-dateutil==2.9.0.post0
+PyYAML==6.0.2
+requests==2.34.2
+requests-oauthlib==2.0.0
+setuptools==65.5.0
+six==1.17.0
+urllib3==2.7.0
+websocket-client==1.9.0
+wheel==0.45.1

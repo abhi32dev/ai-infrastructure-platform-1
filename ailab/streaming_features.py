@@ -1,5 +1,5 @@
 from __future__ import annotations
-import hashlib,json,sqlite3,time
+import hashlib,json,sqlite3,time,math
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -13,17 +13,22 @@ class Event:
 class StreamingFeaturePlatform:
  def __init__(self,path:Path,partitions:int=4,allowed_lateness:float=300):
   if partitions<=0:raise ValueError("partitions must be positive")
+  if not math.isfinite(allowed_lateness) or allowed_lateness<0:raise ValueError("allowed_lateness must be finite and non-negative")
   path.parent.mkdir(parents=True,exist_ok=True);self.db=sqlite3.connect(path);self.db.row_factory=sqlite3.Row;self.partitions=partitions;self.allowed_lateness=allowed_lateness
   self.db.executescript("""CREATE TABLE IF NOT EXISTS events(partition_id INTEGER,offset_id INTEGER,event_id TEXT UNIQUE,payload TEXT,event_time REAL,ingested_at REAL,PRIMARY KEY(partition_id,offset_id));CREATE TABLE IF NOT EXISTS offsets(group_id TEXT,partition_id INTEGER,offset_id INTEGER,PRIMARY KEY(group_id,partition_id));CREATE TABLE IF NOT EXISTS online_features(user_id TEXT PRIMARY KEY,event_count INTEGER,total_value REAL,last_event_time REAL,updated_at REAL);CREATE TABLE IF NOT EXISTS offline_features(user_id TEXT,as_of REAL,event_count INTEGER,total_value REAL,PRIMARY KEY(user_id,as_of));CREATE TABLE IF NOT EXISTS dlq(event_id TEXT PRIMARY KEY,payload TEXT,error TEXT,created_at REAL);""");self.db.commit()
  def close(self):self.db.close()
  def publish(self,event:Event)->dict:
+  if not isinstance(event,Event):raise ValueError("event must be an Event")
   if event.schema_version not in (1,2):return self._dlq(event,"unsupported schema version")
   if not event.id or not event.user_id:return self._dlq(event,"missing event or user id")
+  if not event.event_type or not math.isfinite(event.value) or not math.isfinite(event.event_time):return self._dlq(event,"invalid event fields")
   partition=int(hashlib.sha256(event.user_id.encode()).hexdigest()[:8],16)%self.partitions
   offset=self.db.execute("SELECT COALESCE(MAX(offset_id),-1)+1 FROM events WHERE partition_id=?",(partition,)).fetchone()[0]
   try:self.db.execute("INSERT INTO events VALUES(?,?,?,?,?,?)",(partition,offset,event.id,json.dumps(event.__dict__),event.event_time,time.time()));self.db.commit();return {"status":"published","partition":partition,"offset":offset}
   except sqlite3.IntegrityError:return {"status":"duplicate","event_id":event.id}
  def consume(self,group:str,limit:int=100,now:float|None=None)->dict:
+  if not group:raise ValueError("consumer group is required")
+  if limit<1:raise ValueError("limit must be positive")
   now=now or time.time();processed=duplicates=late=0
   for partition in range(self.partitions):
    row=self.db.execute("SELECT offset_id FROM offsets WHERE group_id=? AND partition_id=?",(group,partition)).fetchone();last=row[0] if row else -1

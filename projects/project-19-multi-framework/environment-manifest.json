@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T20:39:19.192172+00:00",
+  "project": "project-19-multi-framework",
+  "python": "Python 3.11.3",
+  "environment": "projects/project-19-multi-framework/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "2924ba1877a9939c18d9b162c5e99184d25fa9317caed93567b6ff20eed1747c",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
+}

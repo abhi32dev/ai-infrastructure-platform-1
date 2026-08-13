@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T20:02:29.365611+00:00",
+  "generated_at": "2026-08-13T20:42:25.732738+00:00",
   "summary": {
-    "total": 13,
-    "passed": 13,
+    "total": 20,
+    "passed": 20,
     "failed": 0
   },
   "projects": [
@@ -118,6 +118,69 @@
       "project": "project-13-protocols",
       "status": "passed",
       "module_path": "<repo>/projects/project-13-protocols/.venv/lib/python3.11/site-packages/ailab/protocols.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-14-distributed-training",
+      "status": "passed",
+      "module_path": "<repo>/projects/project-14-distributed-training/.venv/lib/python3.11/site-packages/ailab/distributed_training.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-15-optimized-inference",
+      "status": "passed",
+      "module_path": "<repo>/projects/project-15-optimized-inference/.venv/lib/python3.11/site-packages/ailab/llm_inference_optimized.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-16-gpu-platform",
+      "status": "passed",
+      "module_path": "<repo>/projects/project-16-gpu-platform/.venv/lib/python3.11/site-packages/ailab/gpu_platform.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-17-lakehouse-features",
+      "status": "passed",
+      "module_path": "<repo>/projects/project-17-lakehouse-features/.venv/lib/python3.11/site-packages/ailab/lakehouse_features.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-18-distributed-orchestration",
+      "status": "passed",
+      "module_path": "<repo>/projects/project-18-distributed-orchestration/.venv/lib/python3.11/site-packages/ailab/distributed_orchestration.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-19-multi-framework",
+      "status": "passed",
+      "module_path": "<repo>/projects/project-19-multi-framework/.venv/lib/python3.11/site-packages/ailab/multi_framework.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-20-cloud-control-plane",
+      "status": "passed",
+      "module_path": "<repo>/projects/project-20-cloud-control-plane/.venv/lib/python3.11/site-packages/ailab/cloud_control_plane.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,

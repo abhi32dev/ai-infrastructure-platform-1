@@ -11,7 +11,7 @@ def run(name, command):
     return {"name":name,"status":"passed" if result.returncode==0 else "failed","command":clean(" ".join(map(str,command))),"stdout":clean(result.stdout.strip()),"stderr":clean(result.stderr.strip())}
 def main():
     scenarios=[]; controls=json.loads((ROOT/"config/project-controls.json").read_text()); categories={"guardrails","evals","observability","cost","protocols"}
-    complete=len(controls)==13 and all(categories == set(value) and all(value[key] for key in categories) for value in controls.values())
+    complete=len(controls)==20 and all(categories == set(value) and all(value[key] for key in categories) for value in controls.values())
     scenarios.append({"name":"all_projects_have_cross_cutting_controls","status":"passed" if complete else "failed","evidence":{"projects":len(controls)}})
     scenarios += [run("fastapi_openai_contract",[str(ROOT/"projects/project-03-model-gateway/.venv/bin/python"),"-m","pytest","-q","tests/test_gateway_api.py"]),run("multi_judge_and_mlflow",[str(ROOT/"projects/project-04-evaluation/.venv/bin/python"),"-m","pytest","-q","tests/test_production_adapters.py","tests/test_mlflow_tracking.py"]),run("otel_prometheus",[str(ROOT/"projects/project-10-observability/.venv/bin/python"),"-m","pytest","-q","tests/test_native_telemetry.py"]),run("chaos_security_rollback",[sys.executable,"-m","pytest","-q","tests/test_model_gateway.py","tests/test_security_guardrails.py","tests/test_inference_server.py"])]
     with tempfile.TemporaryDirectory() as temporary:

@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T20:37:46.482278+00:00",
+  "project": "project-16-gpu-platform",
+  "python": "Python 3.11.3",
+  "environment": "projects/project-16-gpu-platform/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "eb6b25dfc503a46f2cb6631d826c7296b9ae9174c0fb745b5180085a6d2789e4",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
+}

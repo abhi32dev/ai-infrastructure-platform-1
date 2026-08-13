@@ -23,6 +23,13 @@ PROJECTS = {
     "project-11-security": ("ailab.security_guardrails", "ailab.security_cli"),
     "project-12-ml-cv": ("ailab.ml_lifecycle", "ailab.ml_cli"),
     "project-13-protocols": ("ailab.protocols", "ailab.protocol_cli"),
+    "project-14-distributed-training": ("ailab.distributed_training", "ailab.distributed_training_cli"),
+    "project-15-optimized-inference": ("ailab.llm_inference_optimized", "ailab.llm_inference_cli"),
+    "project-16-gpu-platform": ("ailab.gpu_platform", "ailab.gpu_platform_cli"),
+    "project-17-lakehouse-features": ("ailab.lakehouse_features", "ailab.lakehouse_cli"),
+    "project-18-distributed-orchestration": ("ailab.distributed_orchestration", "ailab.orchestration_cli"),
+    "project-19-multi-framework": ("ailab.multi_framework", "ailab.multi_framework_cli"),
+    "project-20-cloud-control-plane": ("ailab.cloud_control_plane", "ailab.cloud_control_cli"),
 }
 
 

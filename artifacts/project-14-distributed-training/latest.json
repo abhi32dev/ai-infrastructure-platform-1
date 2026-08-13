@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-08-13T20:42:17.289589+00:00",
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "edge_case_suite",
+      "status": "passed",
+      "stdout": "...................                                                      [100%]",
+      "stderr": ""
+    },
+    {
+      "name": "runnable_demo",
+      "status": "passed",
+      "stdout": "{\n  \"epoch\": 10,\n  \"weight\": 1.8946601433190742,\n  \"steps\": 10,\n  \"checksum\": \"4cd23fa33776d8c64b5306bc75238390938bc119766b2bd78aabe0740aecb111\",\n  \"partitions\": [\n    4,\n    4\n  ]\n}",
+      "stderr": ""
+    }
+  ]
+}

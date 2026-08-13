@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-13T17:15:06.655270+00:00",
+  "generated_at": "2026-08-13T20:41:31.522121+00:00",
   "project": "project-08-batch-platform",
   "python": "Python 3.11.3",
-  "environment": "<repo>/projects/project-08-batch-platform/.venv",
+  "environment": "projects/project-08-batch-platform/.venv",
   "install_mode": "non-editable wheel snapshot",
-  "wheel_sha256": "cf4e7af0183604440fcdb6e52a70dd57d4c5eb750a680659ea3207fef4704707",
-  "git_commit": "53f630126e964ddc4c8b4ada5a60e14d9306acc5"
+  "wheel_sha256": "80a2c2ce1b3f4130f8c26a6eda6727cff9dc19f404b80d077cedc54b615353af",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
 }

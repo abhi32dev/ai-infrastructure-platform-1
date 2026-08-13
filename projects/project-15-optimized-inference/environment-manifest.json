@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T20:37:38.248714+00:00",
+  "project": "project-15-optimized-inference",
+  "python": "Python 3.11.3",
+  "environment": "projects/project-15-optimized-inference/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "2f0ec450ae65846d68ffdca04a333adb8d085caa5daf0c5a047dd4914070a28c",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
+}

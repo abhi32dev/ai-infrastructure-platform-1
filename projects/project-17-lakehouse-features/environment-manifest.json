@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T20:37:53.882413+00:00",
+  "project": "project-17-lakehouse-features",
+  "python": "Python 3.11.3",
+  "environment": "projects/project-17-lakehouse-features/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "da971cba63740f3307be1dfa535698741be965d0990029d157dc9c993e91377d",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
+}

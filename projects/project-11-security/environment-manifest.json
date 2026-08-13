@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-13T17:22:05.508647+00:00",
+  "generated_at": "2026-08-13T20:41:45.003201+00:00",
   "project": "project-11-security",
   "python": "Python 3.11.3",
-  "environment": "<repo>/projects/project-11-security/.venv",
+  "environment": "projects/project-11-security/.venv",
   "install_mode": "non-editable wheel snapshot",
-  "wheel_sha256": "f7774ab8ac0cbcdb8fef11e8921e6ed465b32d9c9579357652e45640bd9812b5",
-  "git_commit": "a0ddfff4fbb03e39c30dbf9e4787a2b6998687cc"
+  "wheel_sha256": "ffa1a47e4be072dd36e2cffdc1c2ad99b915f3fb93797725b9a5d453c08622e4",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
 }

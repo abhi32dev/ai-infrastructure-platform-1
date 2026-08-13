@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-13T17:30:32.716224+00:00",
+  "generated_at": "2026-08-13T20:41:58.592444+00:00",
   "project": "project-13-protocols",
   "python": "Python 3.11.3",
-  "environment": "<repo>/projects/project-13-protocols/.venv",
+  "environment": "projects/project-13-protocols/.venv",
   "install_mode": "non-editable wheel snapshot",
-  "wheel_sha256": "32bd246994c858c86d263ce3d0974f23f707c65f58de5fe47b0e0461f3bc8482",
-  "git_commit": "cdbb66bf9705958bdd71305bda77a7e8759e1d35"
+  "wheel_sha256": "7dc95f0fa2c6cf810353c963fd7d10c96ffbc27d50bf6ea84b9537d09a481ec3",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
 }

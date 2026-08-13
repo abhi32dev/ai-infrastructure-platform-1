@@ -1,0 +1,1 @@
+Project 17-lakehouse-features verification: 2/2 passed

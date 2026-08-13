@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-13T17:39:13.093963+00:00",
+  "generated_at": "2026-08-13T20:41:40.949871+00:00",
   "project": "project-10-observability",
   "python": "Python 3.11.3",
-  "environment": "<repo>/projects/project-10-observability/.venv",
+  "environment": "projects/project-10-observability/.venv",
   "install_mode": "non-editable wheel snapshot",
-  "wheel_sha256": "bc7da2aec6c260a0222e9590030d8e70b78ab99a69e7a045285dbc0b4b0af945",
-  "git_commit": "3c1cecb7a013aa50eae338981d43385f820248dc"
+  "wheel_sha256": "e8db91dc16f22b394e5b63e2b3b2345d40a450cd5a2c401499897756596252c5",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
 }

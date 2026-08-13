@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-08-13T17:24:39.617890+00:00",
+  "generated_at": "2026-08-13T20:41:54.278460+00:00",
   "project": "project-12-ml-cv",
   "python": "Python 3.11.3",
-  "environment": "<repo>/projects/project-12-ml-cv/.venv",
+  "environment": "projects/project-12-ml-cv/.venv",
   "install_mode": "non-editable wheel snapshot",
-  "wheel_sha256": "78a879c8e871d43da8257c016144c377a8d5af75b6d70de8b31fea96fb1bf275",
-  "git_commit": "ad15a5618047e36714c685692061ec81fea35f23"
+  "wheel_sha256": "e57218ef901e96a5b7c45cceb41a18e54c5271845b93ac44226e6780ab60f7c7",
+  "git_commit": "1bbdd6cdc8ca7f48050fe2855e1cf7b06266094b"
 }
