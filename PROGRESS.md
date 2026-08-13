@@ -104,3 +104,7 @@ Implemented persistent partitions, offsets, consumer groups, deduplicated public
 ## 2026-08-13 - Project 7 recommendations
 
 Implemented behavioral feedback, popularity/content/collaborative signals, cold-start and consumed-item rules, ranking explanations, Precision/Recall/NDCG/Coverage/Diversity, sticky experiments, conversion outcomes, significance analysis, CLI, documentation, tests, commands, and isolated environment definition.
+
+## 2026-08-13 - Project 8 self-healing batch platform
+
+Implemented manifest-backed runs, size-aware adaptive batches, bounded parallel dispatch, per-item checkpoints, retries, partial resume, output checksums, TTL idempotency, three-pass actual-output reconciliation, injected failures, CLI, tests, docs, commands, and isolated environment definition.

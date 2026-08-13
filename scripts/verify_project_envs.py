@@ -17,6 +17,7 @@ PROJECTS = {
     "project-05-inference-serving": ("ailab.inference_server", "ailab.inference_cli"),
     "project-06-streaming-features": ("ailab.streaming_features", "ailab.streaming_cli"),
     "project-07-recommendations": ("ailab.recommendations", "ailab.recommendation_cli"),
+    "project-08-batch-platform": ("ailab.batch_platform", "ailab.batch_cli"),
 }
 
 

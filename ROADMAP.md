@@ -11,7 +11,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [x] 5. High-availability inference serving platform
 - [x] 6. Streaming feature and online-inference pipeline
 - [x] 7. Recommendation system with experimentation
-- [ ] 8. Self-healing distributed batch platform
+- [x] 8. Self-healing distributed batch platform
 - [ ] 9. Multi-tenant AI platform golden path
 - [ ] 10. AI observability, SLO, and incident lab
 - [ ] 11. AI security, privacy, and governance gateway
@@ -72,8 +72,8 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Kafka/Kinesis-style streaming | 6 | [x] | persistent partition/offset/group semantics and DLQ |
 | Online/offline feature consistency | 6, 7 | [x] | point-in-time snapshots and skew detection |
 | Recommendation algorithms | 7 | [x] | popularity/content/collaborative ranking, metrics, experiment service |
-| Adaptive master-worker dispatch | 8 | [ ] | workload scheduler |
-| Three-pass reconciliation and TTL dedup | 8 | [ ] | recovery exercises |
+| Adaptive master-worker dispatch | 8 | [x] | size-aware batches, bounded parallel workers, resumable manifest |
+| Three-pass reconciliation and TTL dedup | 8 | [x] | actual-output diff/retry plus cross-run TTL markers |
 | Docker, Kubernetes, and autoscaling | 5, 9 | [ ] | kind/k3d deployment |
 | IaC, CI/CD, GitOps, golden paths | 9 | [ ] | Terraform and workflow templates |
 | Logs, metrics, traces, SLI/SLO/SLA | 10 | [ ] | observability lab |

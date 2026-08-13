@@ -125,6 +125,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 8 - Self-healing batch platform
+```bash
+python3 -m ailab.batch_cli --items 30
+python3 -m pytest -q tests/test_batch_platform.py
+python3 scripts/verify_batch_platform.py
+python3 scripts/bootstrap_project_env.py projects/project-08-batch-platform --rebuild
+source projects/project-08-batch-platform/.venv/bin/activate
+python -m ailab.batch_cli --items 30
+deactivate
+```
+
 ## Project 7 - Recommendations and experimentation
 ```bash
 python3 -m ailab.recommendation_cli --user learner
