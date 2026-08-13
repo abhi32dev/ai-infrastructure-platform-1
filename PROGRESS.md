@@ -96,3 +96,7 @@ Implemented versioned evaluation suites, deterministic and replaceable judge sco
 ## 2026-08-13 - Project 5 inference serving
 
 Implemented a live dynamic-batching inference service with health/readiness, bounded queues, backpressure/load shedding, deadlines, graceful drain, model error validation, canary routing, fallback, rollback, metrics, load demo, tests, documentation, commands, and an isolated environment.
+
+## 2026-08-13 - Project 6 streaming features
+
+Implemented persistent partitions, offsets, consumer groups, deduplicated publication, schema DLQ, late-event rules, online aggregates, offline point-in-time snapshots, lag/freshness, skew detection, CLI, tests, documentation, commands, and isolated environment definition.

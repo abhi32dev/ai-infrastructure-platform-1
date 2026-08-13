@@ -125,6 +125,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 6 - Streaming features
+```bash
+python3 -m ailab.streaming_cli --events 30
+python3 -m pytest -q tests/test_streaming_features.py
+python3 scripts/verify_streaming_features.py
+python3 scripts/bootstrap_project_env.py projects/project-06-streaming-features --rebuild
+source projects/project-06-streaming-features/.venv/bin/activate
+python -m ailab.streaming_cli --events 30
+deactivate
+```
+
 ## Project 5 - Inference serving
 ```bash
 python3 -m ailab.inference_cli --requests 40 --batch-size 8

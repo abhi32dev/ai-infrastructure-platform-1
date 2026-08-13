@@ -15,6 +15,7 @@ PROJECTS = {
     "project-03-model-gateway": ("ailab.model_gateway", "ailab.gateway_cli"),
     "project-04-evaluation": ("ailab.eval_platform", "ailab.eval_cli"),
     "project-05-inference-serving": ("ailab.inference_server", "ailab.inference_cli"),
+    "project-06-streaming-features": ("ailab.streaming_features", "ailab.streaming_cli"),
 }
 
 

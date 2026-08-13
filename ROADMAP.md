@@ -9,7 +9,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [x] 3. LLM gateway, model router, and cost controller
 - [x] 4. LLM evaluation and release-gating platform
 - [x] 5. High-availability inference serving platform
-- [ ] 6. Streaming feature and online-inference pipeline
+- [x] 6. Streaming feature and online-inference pipeline
 - [ ] 7. Recommendation system with experimentation
 - [ ] 8. Self-healing distributed batch platform
 - [ ] 9. Multi-tenant AI platform golden path
@@ -68,9 +68,9 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | A/B tests, hypothesis tests, p-values | 4, 7 | [x] | two-proportion z-test with effects and p-value |
 | MLflow model/config tracking | 4, 12 | [ ] | LLMOps milestone |
 | Dynamic batching and inference serving | 5 | [x] | bounded live server, batching, deadlines, canary and rollback |
-| Backpressure and asynchronous workflows | 5, 6 | [~] | serving queue/load shedding done; streaming pipeline planned |
-| Kafka/Kinesis-style streaming | 6 | [ ] | Redpanda event pipeline |
-| Online/offline feature consistency | 6, 7 | [ ] | feature pipeline tests |
+| Backpressure and asynchronous workflows | 5, 6 | [x] | bounded serving queue plus lagged consumer groups |
+| Kafka/Kinesis-style streaming | 6 | [x] | persistent partition/offset/group semantics and DLQ |
+| Online/offline feature consistency | 6, 7 | [x] | point-in-time snapshots and skew detection |
 | Recommendation algorithms | 7 | [ ] | ranking and experiment service |
 | Adaptive master-worker dispatch | 8 | [ ] | workload scheduler |
 | Three-pass reconciliation and TTL dedup | 8 | [ ] | recovery exercises |
