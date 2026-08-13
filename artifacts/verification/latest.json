@@ -1,0 +1,106 @@
+{
+  "generated_at": "2026-08-13T16:51:13.009576+00:00",
+  "git_commit": "999c5952fd9c50e6c03d0e9d14b32a18bfcca41c",
+  "environment": {
+    "python": "3.11.3",
+    "platform": "macOS-26.6.1-arm64-arm-64bit"
+  },
+  "summary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "clean_ingest_and_grounded_query",
+      "category": "happy_path",
+      "status": "passed",
+      "duration_ms": 1.869,
+      "evidence": {
+        "documents": 3,
+        "chunks": 6,
+        "top_source": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/examples/knowledge/reliability.md",
+        "answer": "# Durable AI Workflows A durable agent workflow writes a checkpoint after every externally visible step. [1] If a worker crashes, the replacement reads the last completed checkpoint and resumes rather than repeating the entire workflow. [1] Idempotency keys prevent an operation such as sending a notification or updating a record from being applied twice during replay. [1]",
+        "usage": {
+          "prompt_tokens": 260,
+          "completion_tokens": 57
+        }
+      }
+    },
+    {
+      "name": "retrieval_quality_gate",
+      "category": "positive",
+      "status": "passed",
+      "duration_ms": 0.607,
+      "evidence": {
+        "retrieval_hit": 1.0,
+        "citation_validity": 1.0,
+        "grounded_token_ratio": 0.9387755102040817,
+        "passed": true
+      }
+    },
+    {
+      "name": "index_survives_process_reopen",
+      "category": "positive",
+      "status": "passed",
+      "duration_ms": 1.162,
+      "evidence": {
+        "expected_chunks": 6,
+        "observed_chunks": 6,
+        "top_source": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/examples/knowledge/reliability.md"
+      }
+    },
+    {
+      "name": "query_empty_index",
+      "category": "negative",
+      "status": "passed",
+      "duration_ms": 1.163,
+      "evidence": {
+        "expected_error": "ValueError: The index is empty; ingest documents before asking questions"
+      }
+    },
+    {
+      "name": "invalid_chunk_configuration",
+      "category": "negative",
+      "status": "passed",
+      "duration_ms": 0.004,
+      "evidence": {
+        "expected_error": "ValueError: Require size > 0 and 0 <= overlap < size"
+      }
+    },
+    {
+      "name": "unavailable_ollama_provider",
+      "category": "negative",
+      "status": "passed",
+      "duration_ms": 4.849,
+      "evidence": {
+        "expected_error": "RuntimeError: Ollama request failed at http://127.0.0.1:1: <urlopen error [Errno 1] Operation not permitted>"
+      }
+    },
+    {
+      "name": "retry_checkpoint_and_idempotent_resume",
+      "category": "failure_recovery",
+      "status": "passed",
+      "duration_ms": 1.505,
+      "evidence": {
+        "run_id": "d9da36d9c6ce4e468bad3590d827604f",
+        "state": {
+          "value": 21,
+          "result": 42
+        },
+        "calls_after_resume": {
+          "unstable": 2,
+          "downstream": 1
+        }
+      }
+    },
+    {
+      "name": "automated_test_suite",
+      "category": "tests",
+      "status": "passed",
+      "exit_code": 0,
+      "stdout": "......                                                                   [100%]",
+      "stderr": ""
+    }
+  ]
+}

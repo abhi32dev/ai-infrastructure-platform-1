@@ -1,0 +1,9 @@
+Verification: 8/8 passed
+[PASSED] happy_path: clean_ingest_and_grounded_query
+[PASSED] positive: retrieval_quality_gate
+[PASSED] positive: index_survives_process_reopen
+[PASSED] negative: query_empty_index
+[PASSED] negative: invalid_chunk_configuration
+[PASSED] negative: unavailable_ollama_provider
+[PASSED] failure_recovery: retry_checkpoint_and_idempotent_resume
+[PASSED] tests: automated_test_suite
