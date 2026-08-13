@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T17:39:36.340541+00:00",
+  "generated_at": "2026-08-13T18:54:41.238875+00:00",
   "summary": {
     "total": 7,
     "passed": 7,
@@ -54,8 +54,8 @@
     {
       "name": "docker_compose_config",
       "status": "passed",
-      "command": "docker compose -f /var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/tmpw79qobrc/staff-ai-service/compose.yaml config",
-      "stdout": "name: staff-ai-service\nservices:\n  app:\n    build:\n      context: /var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/tmpw79qobrc/staff-ai-service\n      dockerfile: Dockerfile\n    environment:\n      PORT: \"18080\"\n    healthcheck:\n      test:\n      - CMD\n      - python\n      - -c\n      - import urllib.request; urllib.request.urlopen('http://localhost:18080/health/ready')\n      timeout: 2s\n      interval: 10s\n      retries: 3\n    networks:\n      default: null\n    ports:\n    - mode: ingress\n      target: 18080\n      published: \"18080\"\n      protocol: tcp\n    read_only: true\n    user: app\nnetworks:\n  default:\n    name: staff-ai-service_default",
+      "command": "docker compose -f /var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/tmpz764ot_p/staff-ai-service/compose.yaml config",
+      "stdout": "name: staff-ai-service\nservices:\n  app:\n    build:\n      context: /var/folders/gg/lftqz6vn76l6fp5mx95y0wrw0000gn/T/tmpz764ot_p/staff-ai-service\n      dockerfile: Dockerfile\n    environment:\n      PORT: \"18080\"\n    healthcheck:\n      test:\n      - CMD\n      - python\n      - -c\n      - import urllib.request; urllib.request.urlopen('http://localhost:18080/health/ready')\n      timeout: 2s\n      interval: 10s\n      retries: 3\n    networks:\n      default: null\n    ports:\n    - mode: ingress\n      target: 18080\n      published: \"18080\"\n      protocol: tcp\n    read_only: true\n    user: app\nnetworks:\n  default:\n    name: staff-ai-service_default",
       "stderr": ""
     }
   ]
