@@ -1,0 +1,148 @@
+{
+  "summary": {
+    "total": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "protocol_test_suite",
+      "status": "passed",
+      "stdout": ".........                                                                [100%]",
+      "stderr": ""
+    },
+    {
+      "name": "integrated_mcp_a2a_demo",
+      "status": "passed",
+      "evidence": {
+        "mcp_initialize": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "protocolVersion": "2025-06-18",
+            "capabilities": {
+              "tools": {
+                "listChanged": false
+              },
+              "resources": {
+                "subscribe": false
+              },
+              "prompts": {
+                "listChanged": false
+              },
+              "logging": {}
+            },
+            "serverInfo": {
+              "name": "ai-infrastructure-lab",
+              "version": "1.0"
+            }
+          }
+        },
+        "mcp_tool": {
+          "jsonrpc": "2.0",
+          "id": 2,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\"id\": \"node-1\", \"status\": \"healthy\"}"
+              }
+            ],
+            "isError": false
+          }
+        },
+        "agent_card": {
+          "name": "ops-agent",
+          "description": "operations",
+          "version": "1.0",
+          "supportedInterfaces": [
+            {
+              "url": "https://localhost/a2a",
+              "protocolBinding": "HTTP+JSON",
+              "protocolVersion": "1.0"
+            }
+          ],
+          "capabilities": {
+            "streaming": false
+          },
+          "defaultInputModes": [
+            "text/plain"
+          ],
+          "defaultOutputModes": [
+            "application/json"
+          ],
+          "skills": [
+            {
+              "id": "health",
+              "name": "Health",
+              "description": "Check health",
+              "tags": [
+                "operations"
+              ],
+              "input_modes": [
+                "text/plain"
+              ],
+              "output_modes": [
+                "application/json"
+              ]
+            }
+          ]
+        },
+        "a2a_task": {
+          "id": "5baba53d88f54c41b45ef8d8713c68ee",
+          "contextId": "64e4de4e67284cf4a19d6db66809828a",
+          "status": {
+            "state": "completed"
+          },
+          "history": [
+            {
+              "role": "user",
+              "parts": [
+                {
+                  "type": "text",
+                  "text": "inspect platform"
+                }
+              ]
+            }
+          ],
+          "artifacts": [
+            {
+              "artifactId": "b15effb26030414d93b7c3072417c6ee",
+              "name": "result",
+              "parts": [
+                {
+                  "type": "data",
+                  "data": {
+                    "summary": "inspect platform"
+                  }
+                }
+              ],
+              "lastChunk": true
+            }
+          ],
+          "metadata": {}
+        },
+        "costs": {
+          "total": 0.00011,
+          "dimensions": [
+            {
+              "tenant": "tenant-a",
+              "model": "remote-agent",
+              "cost": 0.0001,
+              "tokens": 0,
+              "requests": 1
+            },
+            {
+              "tenant": "tenant-a",
+              "model": "tool",
+              "cost": 1e-05,
+              "tokens": 0,
+              "requests": 1
+            }
+          ]
+        }
+      },
+      "stderr": ""
+    }
+  ]
+}

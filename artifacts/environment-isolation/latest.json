@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T17:27:52.072277+00:00",
+  "generated_at": "2026-08-13T17:30:34.120135+00:00",
   "summary": {
-    "total": 12,
-    "passed": 12,
+    "total": 13,
+    "passed": 13,
     "failed": 0
   },
   "projects": [
@@ -109,6 +109,15 @@
       "project": "project-12-ml-cv",
       "status": "passed",
       "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-12-ml-cv/.venv/lib/python3.11/site-packages/ailab/ml_lifecycle.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-13-protocols",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-13-protocols/.venv/lib/python3.11/site-packages/ailab/protocols.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
