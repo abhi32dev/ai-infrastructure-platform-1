@@ -132,3 +132,7 @@ Added real Ollama embedding HTTP support, reciprocal-rank fusion, inspectable re
 ## 2026-08-13 - MCP and A2A protocol lab
 
 Implemented MCP initialization/capabilities/tools/resources/prompts/errors/cancellation and A2A 1.0-style Agent Card/messages/tasks/artifacts/get/list/cancel/failure/version flows. Integrated Project 11 guardrails and Project 10 trace/cost telemetry. Added isolated environment, commands, tests, demo, and official-spec learning guide.
+
+## 2026-08-13 - Staff-level controls and completion audit
+
+Added a real OpenAI-compatible FastAPI gateway, robust multi-judge consensus, local MLflow tracking, native OpenTelemetry/Prometheus instrumentation, Docker Compose generation/validation, Kubernetes policy validation, and a machine-readable control matrix across all 13 projects. Rebuilt the affected isolated wheel snapshots. The final portfolio audit passed all 17 stages, including every project verifier, resilience/security/rollback exercises, all environment-isolation checks, and the full test suite. Evidence is stored in `artifacts/completion-audit/latest.json` and `artifacts/staff-controls/latest.json`.

@@ -1,0 +1,112 @@
+{
+  "generated_at": "2026-08-13T17:39:40.523943+00:00",
+  "summary": {
+    "total": 17,
+    "passed": 17,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "verify",
+      "status": "passed",
+      "stdout": "Verification: 8/8 passed\n[PASSED] happy_path: clean_ingest_and_grounded_query\n[PASSED] positive: retrieval_quality_gate\n[PASSED] positive: index_survives_process_reopen\n[PASSED] negative: query_empty_index\n[PASSED] negative: invalid_chunk_configuration\n[PASSED] negative: unavailable_ollama_provider\n[PASSED] failure_recovery: retry_checkpoint_and_idempotent_resume\n[PASSED] tests: automated_test_suite\nArtifacts: artifacts/verification/latest.json, artifacts/verification/latest.txt",
+      "stderr": ""
+    },
+    {
+      "name": "verify_rag_complete",
+      "status": "passed",
+      "stdout": "Project 1 verification: 4/4 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_agent_runtime",
+      "status": "passed",
+      "stdout": "Project 2 verification: 5/5 passed\n[PASSED] happy_path: approval_checkpoint_and_idempotent_resume\n[PASSED] negative: human_denial_blocks_side_effect\n[PASSED] security: least_privilege_tool_allowlist\n[PASSED] failure_recovery: bounded_retry_and_dead_letter\n[PASSED] tests: project_2_test_suite",
+      "stderr": ""
+    },
+    {
+      "name": "verify_model_gateway",
+      "status": "passed",
+      "stdout": "Project 3 verification: 6/6 passed\n[PASSED] happy_path: policy_routing\n[PASSED] failure_recovery: provider_failure_fallback\n[PASSED] security: tenant_isolated_cache\n[PASSED] negative: request_cost_cap\n[PASSED] failure_recovery: circuit_breaker\n[PASSED] tests: project_3_test_suite",
+      "stderr": ""
+    },
+    {
+      "name": "verify_eval_platform",
+      "status": "passed",
+      "stdout": "Project 4 verification: 4/4 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_inference_server",
+      "status": "passed",
+      "stdout": "Project 5 verification: 3/3 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_streaming_features",
+      "status": "passed",
+      "stdout": "Project 6 verification: 4/4 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_recommendations",
+      "status": "passed",
+      "stdout": "Project 7 verification: 4/4 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_batch_platform",
+      "status": "passed",
+      "stdout": "Project 8 verification: 4/4 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_golden_path",
+      "status": "passed",
+      "stdout": "Project 9 verification: 3/3 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_observability",
+      "status": "passed",
+      "stdout": "Project 10 verification: 4/4 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_security_guardrails",
+      "status": "passed",
+      "stdout": "Project 11 verification: 5/5 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_ml_lifecycle",
+      "status": "passed",
+      "stdout": "Project 12 verification: 4/4 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_protocols",
+      "status": "passed",
+      "stdout": "Protocol lab verification: 2/2 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_staff_controls",
+      "status": "passed",
+      "stdout": "Staff controls verification: 7/7 passed",
+      "stderr": ""
+    },
+    {
+      "name": "verify_project_envs",
+      "status": "passed",
+      "stdout": "Environment isolation: 13/13 passed\n[PASSED] project-01-rag: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-01-rag/.venv/lib/python3.11/site-packages/ailab/rag.py\n[PASSED] project-02-agent-runtime: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-02-agent-runtime/.venv/lib/python3.11/site-packages/ailab/agent_runtime.py\n[PASSED] project-03-model-gateway: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-03-model-gateway/.venv/lib/python3.11/site-packages/ailab/model_gateway.py\n[PASSED] project-04-evaluation: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-04-evaluation/.venv/lib/python3.11/site-packages/ailab/eval_platform.py\n[PASSED] project-05-inference-serving: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-05-inference-serving/.venv/lib/python3.11/site-packages/ailab/inference_server.py\n[PASSED] project-06-streaming-features: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-06-streaming-features/.venv/lib/python3.11/site-packages/ailab/streaming_features.py\n[PASSED] project-07-recommendations: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-07-recommendations/.venv/lib/python3.11/site-packages/ailab/recommendations.py\n[PASSED] project-08-batch-platform: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-08-batch-platform/.venv/lib/python3.11/site-packages/ailab/batch_platform.py\n[PASSED] project-09-golden-path: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-09-golden-path/.venv/lib/python3.11/site-packages/ailab/golden_path.py\n[PASSED] project-10-observability: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-10-observability/.venv/lib/python3.11/site-packages/ailab/observability.py\n[PASSED] project-11-security: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-11-security/.venv/lib/python3.11/site-packages/ailab/security_guardrails.py\n[PASSED] project-12-ml-cv: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-12-ml-cv/.venv/lib/python3.11/site-packages/ailab/ml_lifecycle.py\n[PASSED] project-13-protocols: /Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-13-protocols/.venv/lib/python3.11/site-packages/ailab/protocols.py",
+      "stderr": ""
+    },
+    {
+      "name": "full_test_suite",
+      "status": "passed",
+      "stdout": "........................................................................ [ 66%]\n.....................................                                    [100%]",
+      "stderr": ""
+    }
+  ]
+}

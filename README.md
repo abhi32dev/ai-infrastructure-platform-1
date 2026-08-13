@@ -1,13 +1,13 @@
 # AI Infrastructure Lab
 
-A local-first, production-minded learning lab for Staff/Principal AI Infrastructure interviews. The repository builds one cohesive platform in vertical slices, with explicit mappings to the accompanying resumes in [ROADMAP.md](ROADMAP.md).
+A local-first, production-minded learning lab for Staff/Principal AI Infrastructure interviews. The repository builds one cohesive platform in vertical slices, with explicit mappings in [ROADMAP.md](ROADMAP.md) and cross-cutting controls in [docs/staff-level-controls.md](docs/staff-level-controls.md).
 
 ## Implemented projects
 
 - Project 1 foundation: compact RAG system with durable local storage, hybrid retrieval, routing, evaluation, and citations. See [docs/milestone-1.md](docs/milestone-1.md).
 - Project 2: durable agent runtime with typed tools, policy gates, human approval, bounded retry, idempotent resume, event history, and dead letters. See [docs/project-2-agent-runtime.md](docs/project-2-agent-runtime.md).
 
-The Project 1 portfolio checkbox remains open because production semantic embeddings, reranking, and framework adapters are later increments. Project 2 meets the repository completion definition and is checked.
+All 13 projects meet the repository completion definition. Optional live integrations that require model downloads or heavyweight ML frameworks remain explicitly identified in the roadmap.
 
 ## Design principles
 
@@ -17,7 +17,7 @@ The Project 1 portfolio checkbox remains open because production semantic embedd
 - Uses deterministic components in tests
 - Documents what changes at production scale
 
-## Planned quick start
+## Quick start
 
 ```bash
 python3 -m ailab.cli reset
@@ -30,4 +30,4 @@ python3 scripts/verify_agent_runtime.py
 
 The verification command runs happy-path, positive, negative, persistence, and failure-recovery scenarios. It writes reviewable evidence to `artifacts/verification/latest.json` and `latest.txt`.
 
-The commands above will become active as Milestone 1 is implemented.
+The commands above are active and verified; see [COMMANDS.md](COMMANDS.md) for every project environment and exercise.

@@ -4,6 +4,7 @@ import hashlib
 import json
 import sqlite3
 import time
+import threading
 import uuid
 from dataclasses import dataclass
 from pathlib import Path
@@ -73,7 +74,8 @@ class ProviderRegistry:
 class ModelGateway:
     def __init__(self, database: Path, models: list[ModelConfig], providers: ProviderRegistry, tenant_daily_budget: float = 1.0, failure_threshold: int = 2, cooldown_seconds: float = 30.0) -> None:
         database.parent.mkdir(parents=True, exist_ok=True)
-        self.connection = sqlite3.connect(database)
+        self.connection = sqlite3.connect(database, check_same_thread=False)
+        self._lock = threading.RLock()
         self.connection.row_factory = sqlite3.Row
         self.models = {model.name: model for model in models}
         self.providers = providers
@@ -92,6 +94,10 @@ class ModelGateway:
     def close(self) -> None: self.connection.close()
 
     def complete(self, request: GatewayRequest, shadow_model: str | None = None) -> GatewayResponse:
+        with self._lock:
+            return self._complete(request, shadow_model)
+
+    def _complete(self, request: GatewayRequest, shadow_model: str | None = None) -> GatewayResponse:
         request_id = request.request_id or uuid.uuid4().hex
         prior = self.connection.execute("SELECT u.*, d.reason FROM usage u JOIN decisions d USING(request_id) WHERE request_id=?", (request_id,)).fetchone()
         if prior:

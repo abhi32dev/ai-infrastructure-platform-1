@@ -12,7 +12,7 @@
         "valid": true,
         "missing": [],
         "violations": [],
-        "files": 17
+        "files": 18
       }
     },
     {
@@ -24,7 +24,7 @@
         "violations": [
           "container_runs_as_root"
         ],
-        "files": 17
+        "files": 18
       }
     },
     {

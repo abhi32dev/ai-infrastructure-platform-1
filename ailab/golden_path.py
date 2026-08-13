@@ -17,7 +17,7 @@ class GoldenPath:
   for relative,content in files.items():path=target/relative;path.parent.mkdir(parents=True,exist_ok=True);path.write_text(content)
   return target
  def validate(self,target:Path)->dict:
-  required=["app/main.py","tests/test_health.py","Dockerfile","k8s/deployment.yaml","k8s/service.yaml","k8s/network-policy.yaml","terraform/main.tf",".github/workflows/ci.yml","CODEOWNERS","observability/slo.json","security/iam-policy.json","environments/dev.env","environments/test.env","environments/stage.env","environments/prod.env"]
+  required=["app/main.py","tests/test_health.py","Dockerfile","compose.yaml","k8s/deployment.yaml","k8s/service.yaml","k8s/network-policy.yaml","terraform/main.tf",".github/workflows/ci.yml","CODEOWNERS","observability/slo.json","security/iam-policy.json","environments/dev.env","environments/test.env","environments/stage.env","environments/prod.env"]
   missing=[x for x in required if not (target/x).exists()];violations=[]
   if not missing:
    docker=(target/"Dockerfile").read_text();deployment=(target/"k8s/deployment.yaml").read_text();policy=json.loads((target/"security/iam-policy.json").read_text());workflow=(target/".github/workflows/ci.yml").read_text()
@@ -34,6 +34,7 @@ class GoldenPath:
 "tests/test_health.py":'''from app.main import Handler\ndef test_handler_exists(): assert Handler is not None\n''',
 "requirements.txt":"# dependency-free service\n",
 "Dockerfile":f'''FROM python:3.11-slim\nRUN useradd --create-home app\nWORKDIR /app\nCOPY app app\nUSER app\nEXPOSE {c.port}\nCMD ["python","-m","app.main"]\n''',
+"compose.yaml":f'''services:\n  app:\n    build: .\n    ports: ["{c.port}:{c.port}"]\n    environment: {{PORT: "{c.port}"}}\n    read_only: true\n    user: app\n    healthcheck:\n      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:{c.port}/health/ready')"]\n      interval: 10s\n      timeout: 2s\n      retries: 3\n''',
 "k8s/deployment.yaml":f'''apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: {c.name}\nspec:\n  replicas: 2\n  selector:\n    matchLabels:\n      app: {c.name}\n  template:\n    metadata:\n      labels:\n        app: {c.name}\n    spec:\n      serviceAccountName: {c.name}\n      containers:\n      - name: app\n        image: {c.name}:latest\n        ports:\n        - containerPort: {c.port}\n        readinessProbe:\n          httpGet:\n            path: /health/ready\n            port: {c.port}\n        livenessProbe:\n          httpGet:\n            path: /health/live\n            port: {c.port}\n        securityContext:\n          runAsNonRoot: true\n          readOnlyRootFilesystem: true\n          allowPrivilegeEscalation: false\n        resources:\n          requests:\n            cpu: 100m\n            memory: 128Mi\n          limits:\n            cpu: 500m\n            memory: 512Mi\n''',
 "k8s/service.yaml":f'''apiVersion: v1\nkind: Service\nmetadata:\n  name: {c.name}\nspec:\n  selector:\n    app: {c.name}\n  ports:\n  - port: 80\n    targetPort: {c.port}\n''',
 "k8s/network-policy.yaml":f'''apiVersion: networking.k8s.io/v1\nkind: NetworkPolicy\nmetadata:\n  name: {c.name}-default-deny\nspec:\n  podSelector:\n    matchLabels:\n      app: {c.name}\n  policyTypes:\n  - Ingress\n  - Egress\n  ingress: []\n  egress:\n  - to:\n    - namespaceSelector: {{}}\n''',

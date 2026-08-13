@@ -8,6 +8,22 @@ cd /Users/abhi/Documents/Codex/ai-infrastructure-lab
 
 Commands use Python 3.11+ and do not require paid APIs unless explicitly stated.
 
+## Complete staff-level control verification
+
+```bash
+python3 scripts/verify_staff_controls.py
+cat artifacts/staff-controls/latest.json
+```
+
+This verifies the OpenAI-compatible FastAPI API, multi-judge consensus, local MLflow tracking, OpenTelemetry/Prometheus export, Docker Compose configuration, Kubernetes policy manifests, chaos/fallback, security, and canary rollback.
+
+Run the entire portfolio, all environment checks, and all tests:
+
+```bash
+python3 scripts/verify_all.py
+cat artifacts/completion-audit/latest.json
+```
+
 ## Per-project environments
 
 Each project has its own environment. Build once, then activate only the project being exercised:

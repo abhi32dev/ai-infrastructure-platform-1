@@ -44,12 +44,12 @@ The first capstone combines projects 1-4 because together they cover the largest
 
 - [x] Inspectable second-stage reranking and replaceable vector-store boundary
 - [x] Semantic cache and tenant-aware filters
-- [ ] LLM-as-judge and multi-judge consensus
-- [ ] MLflow experiment tracking
-- [ ] FastAPI/OpenAI-compatible gateway
-- [ ] OpenTelemetry, Prometheus, and Grafana
-- [ ] Docker Compose and local Kubernetes
-- [ ] Load, chaos, security, and rollback exercises
+- [x] LLM-as-judge interface and multi-judge consensus
+- [x] MLflow experiment tracking with a local file store
+- [x] FastAPI/OpenAI-compatible gateway
+- [x] OpenTelemetry/Prometheus instrumentation and Grafana scrape contract
+- [x] Docker Compose and Kubernetes manifest generation/validation
+- [x] Load, chaos, security, and rollback exercises
 
 ## Resume coverage checklist
 
@@ -66,11 +66,11 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Checkpoints, retry, replay, idempotency | 2, 8 | [x] | durable steps/effects, bounded retry, resume, and dead letters |
 | Human-in-the-loop and least privilege | 2, 11 | [x] | durable approval/denial and per-runtime tool allowlist |
 | Model routing and token-cost controls | 3 | [x] | constraint router, cost caps, tenant budgets, usage/decision ledgers |
-| Local model serving with Ollama | 3, 5 | [~] | Ollama HTTP adapter done; serving platform planned |
-| LLM-as-judge/multi-model verification | 4 | [~] | replaceable judge interface and deterministic judge; live model judge optional |
+| Local model serving with Ollama | 3, 5 | [x] | tested Ollama HTTP adapter plus complete serving platform; model-weight download optional |
+| LLM-as-judge/multi-model verification | 4 | [x] | replaceable judge interface, robust consensus, agreement validation, outlier test |
 | Evaluation datasets and rubric scoring | 4 | [x] | versioned suites, per-case metrics, persisted release gates |
 | A/B tests, hypothesis tests, p-values | 4, 7 | [x] | two-proportion z-test with effects and p-value |
-| MLflow model/config tracking | 4, 12 | [ ] | LLMOps milestone |
+| MLflow model/config tracking | 4, 12 | [x] | real isolated MLflow adapter, local run/parameter/metric verification |
 | Dynamic batching and inference serving | 5 | [x] | bounded live server, batching, deadlines, canary and rollback |
 | Backpressure and asynchronous workflows | 5, 6 | [x] | bounded serving queue plus lagged consumer groups |
 | Kafka/Kinesis-style streaming | 6 | [x] | persistent partition/offset/group semantics and DLQ |
@@ -78,7 +78,7 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Recommendation algorithms | 7 | [x] | popularity/content/collaborative ranking, metrics, experiment service |
 | Adaptive master-worker dispatch | 8 | [x] | size-aware batches, bounded parallel workers, resumable manifest |
 | Three-pass reconciliation and TTL dedup | 8 | [x] | actual-output diff/retry plus cross-run TTL markers |
-| Docker, Kubernetes, and autoscaling | 5, 9 | [~] | serving semantics and generated K8s resources; live kind optional |
+| Docker, Kubernetes, and autoscaling | 5, 9 | [x] | Compose validation, generated K8s probes/resources/policies, canary/autoscaling semantics |
 | IaC, CI/CD, GitOps, golden paths | 9 | [x] | generated Terraform/K8s/CI/ownership/security/SLO controls |
 | Logs, metrics, traces, SLI/SLO/SLA | 10 | [x] | correlated telemetry, budgets, burn alerts, timelines, cost |
 | OAuth, IAM, privacy, and PII controls | 11 | [x] | signed identity, RBAC/tenant filters, PII/DLP, audit, retention |

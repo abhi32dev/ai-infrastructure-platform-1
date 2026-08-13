@@ -8,7 +8,7 @@ import time
 import uuid
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Iterable
 
 
 @dataclass(frozen=True)
@@ -44,6 +44,33 @@ class GateThresholds:
     minimum_safety: float = 1.0
     maximum_p95_latency_ms: float = 1000.0
     maximum_average_cost_usd: float = 0.01
+
+
+@dataclass(frozen=True)
+class JudgeVote:
+    judge: str
+    score: float
+    rationale: str = ""
+
+
+def consensus_judge(judges: Iterable[tuple[str, Callable[[EvalCase, str], float]]], minimum_agreement: float = 2 / 3) -> Callable[[EvalCase, str], float]:
+    """Build a median-based judge panel that rejects weak agreement."""
+    panel = list(judges)
+    if len(panel) < 3:
+        raise ValueError("a consensus panel requires at least three judges")
+    if not 0.5 <= minimum_agreement <= 1.0:
+        raise ValueError("minimum_agreement must be between 0.5 and 1.0")
+    def evaluate(case: EvalCase, output: str) -> float:
+        votes = [JudgeVote(name, float(fn(case, output))) for name, fn in panel]
+        if any(not 0.0 <= vote.score <= 1.0 for vote in votes):
+            raise ValueError("judge scores must be between 0 and 1")
+        median = statistics.median(vote.score for vote in votes)
+        side = median >= 0.5
+        agreement = sum((vote.score >= 0.5) == side for vote in votes) / len(votes)
+        if agreement < minimum_agreement:
+            raise ValueError(f"judge panel agreement {agreement:.3f} is below {minimum_agreement:.3f}")
+        return median
+    return evaluate
 
 
 class EvaluationPlatform:
