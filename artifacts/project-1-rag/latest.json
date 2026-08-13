@@ -1,0 +1,37 @@
+{
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "versioned_retrieval_eval",
+      "status": "passed",
+      "evidence": {
+        "cases": 3,
+        "recall_at_k": 1.0,
+        "mean_reciprocal_rank": 1.0,
+        "passed": true
+      }
+    },
+    {
+      "name": "semantic_cache",
+      "status": "passed",
+      "evidence": {
+        "response": "cached",
+        "similarity": 1.0000000000000002
+      }
+    },
+    {
+      "name": "tenant_filter",
+      "status": "passed"
+    },
+    {
+      "name": "project_1_tests",
+      "status": "passed",
+      "stdout": "............                                                             [100%]",
+      "stderr": ""
+    }
+  ]
+}
