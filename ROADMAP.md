@@ -17,6 +17,10 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [x] 11. AI security, privacy, and governance gateway
 - [x] 12. Classical ML and computer-vision lifecycle
 
+Additional cross-cutting lab:
+
+- [x] 13. MCP and Agent-to-Agent protocol integration
+
 ## Build sequence
 
 The first capstone combines projects 1-4 because together they cover the largest interview surface: retrieval, orchestration, routing, evaluation, reliability, and cost. Each milestone leaves a runnable system.

@@ -128,3 +128,7 @@ Implemented seeded data, validation/splits, gradient-trained logistic model, met
 ## 2026-08-13 - Project 1 completed RAG extensions
 
 Added real Ollama embedding HTTP support, reciprocal-rank fusion, inspectable reranking, tenant/metadata filters, semantic TTL cache, LangChain/LlamaIndex conversion adapters, and versioned retrieval evaluation with Recall@K/MRR. The design explicitly identifies deterministic test doubles versus live model components.
+
+## 2026-08-13 - MCP and A2A protocol lab
+
+Implemented MCP initialization/capabilities/tools/resources/prompts/errors/cancellation and A2A 1.0-style Agent Card/messages/tasks/artifacts/get/list/cancel/failure/version flows. Integrated Project 11 guardrails and Project 10 trace/cost telemetry. Added isolated environment, commands, tests, demo, and official-spec learning guide.

@@ -126,6 +126,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Protocol Lab - MCP and A2A
+```bash
+python3 -m ailab.protocol_cli --data /tmp/ailab-protocol-demo
+python3 -m pytest -q tests/test_protocols.py
+python3 scripts/verify_protocols.py
+python3 scripts/bootstrap_project_env.py projects/project-13-protocols --rebuild
+source projects/project-13-protocols/.venv/bin/activate
+python -m ailab.protocol_cli --data /tmp/ailab-protocol-isolated
+deactivate
+```
+
 ## Project 12 - ML and computer vision lifecycle
 ```bash
 python3 -m ailab.ml_cli

@@ -22,6 +22,7 @@ PROJECTS = {
     "project-10-observability": ("ailab.observability", "ailab.observability_cli"),
     "project-11-security": ("ailab.security_guardrails", "ailab.security_cli"),
     "project-12-ml-cv": ("ailab.ml_lifecycle", "ailab.ml_cli"),
+    "project-13-protocols": ("ailab.protocols", "ailab.protocol_cli"),
 }
 
 
