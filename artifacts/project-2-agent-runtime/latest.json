@@ -1,0 +1,79 @@
+{
+  "generated_at": "2026-08-13T16:56:33.180571+00:00",
+  "git_commit": "e61d4257009c88fdf362e11fd1882172982ea634",
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "approval_checkpoint_and_idempotent_resume",
+      "category": "happy_path",
+      "status": "passed",
+      "duration_ms": 6.265,
+      "evidence": {
+        "run_id": "b35feb1b0291490988cf62adf39ff5f9",
+        "status": "completed",
+        "side_effect_count_after_second_resume": 1,
+        "event_types": [
+          "run_started",
+          "tool_completed",
+          "tool_completed",
+          "approval_requested",
+          "approval_approved",
+          "tool_completed",
+          "run_completed",
+          "run_completed"
+        ]
+      }
+    },
+    {
+      "name": "human_denial_blocks_side_effect",
+      "category": "negative",
+      "status": "passed",
+      "duration_ms": 3.292,
+      "evidence": {
+        "run_id": "1af310b71d17469d8f378e25281e95db",
+        "status": "denied",
+        "side_effect_count": 0
+      }
+    },
+    {
+      "name": "least_privilege_tool_allowlist",
+      "category": "security",
+      "status": "passed",
+      "duration_ms": 2.948,
+      "evidence": {
+        "expected_error": "tool is outside this runtime's allowlist: draft_remediation"
+      }
+    },
+    {
+      "name": "bounded_retry_and_dead_letter",
+      "category": "failure_recovery",
+      "status": "passed",
+      "duration_ms": 2.695,
+      "evidence": {
+        "expected_error": "step broken-step exhausted retries: RuntimeError: injected permanent failure",
+        "attempts": 2,
+        "dead_letter": {
+          "run_id": "dead-letter-run",
+          "step_id": "broken-step",
+          "tool": "broken",
+          "arguments": "{}",
+          "error": "RuntimeError: injected permanent failure",
+          "attempts": 2,
+          "created_at": 1786640192.655313
+        }
+      }
+    },
+    {
+      "name": "project_2_test_suite",
+      "category": "tests",
+      "status": "passed",
+      "exit_code": 0,
+      "stdout": ".......                                                                  [100%]",
+      "stderr": ""
+    }
+  ]
+}
