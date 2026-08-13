@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T17:08:31.787720+00:00",
+  "project": "project-05-inference-serving",
+  "python": "Python 3.11.3",
+  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-05-inference-serving/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "fa9682ed5bd74379c805db8bb621497d84524d92f3d122dc3e0f930645bdb13c",
+  "git_commit": "987bbbb895e9b68e38263b3c337563b4d972f263"
+}

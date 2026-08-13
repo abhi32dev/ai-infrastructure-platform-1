@@ -1,0 +1,35 @@
+{
+  "generated_at": "2026-08-13T17:08:33.769629+00:00",
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "dynamic_batching",
+      "status": "passed",
+      "evidence": {
+        "responses": 8,
+        "metrics": {
+          "completed": 8,
+          "batches": 1,
+          "max_batch_size": 8
+        }
+      }
+    },
+    {
+      "name": "canary_rollback",
+      "status": "passed",
+      "evidence": {
+        "before": "v2",
+        "after": "v1"
+      }
+    },
+    {
+      "name": "project_5_tests",
+      "status": "passed",
+      "stdout": "........                                                                 [100%]"
+    }
+  ]
+}
