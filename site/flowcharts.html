@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive execution flowcharts for all twenty AI Infrastructure Platform projects.">
+  <title>System Flow Atlas · AI Infrastructure Platform</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="flowcharts.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav shell"><a class="brand" href="index.html"><span class="mark">AI</span><span>Infrastructure Platform</span></a><nav aria-label="Primary"><a href="index.html">Overview</a><a href="projects.html">Projects</a><a class="button small" href="https://github.com/abhi32dev/ai-infrastructure-platform-1">GitHub</a></nav></header>
+  <main id="main" class="shell atlas">
+    <header class="atlas-hero">
+      <p class="eyebrow"><span class="pulse"></span> Interactive code-guided tutorial</p>
+      <h1>System Flow <span>Atlas.</span></h1>
+      <p class="lede">Trace every project from input to outcome. Each numbered block identifies the real Python class or function responsible, while branch lanes explain validation failures, retries, fallbacks, recovery, and terminal states.</p>
+      <div class="legend" aria-label="Diagram legend"><span><i class="dot action"></i>execution</span><span><i class="dot decision"></i>decision</span><span><i class="dot state"></i>durable state</span><span><i class="dot failure"></i>failure/recovery</span></div>
+    </header>
+    <section class="atlas-layout">
+      <aside class="atlas-nav" aria-label="Flowchart projects">
+        <label for="project-filter">Find a project</label>
+        <input id="project-filter" type="search" placeholder="RAG, GPU, security…" autocomplete="off">
+        <nav id="flow-index"></nav>
+      </aside>
+      <section class="atlas-content">
+        <div class="tutorial-callout"><strong>How to read a flow</strong><ol><li>Follow the numbered execution spine.</li><li>At each decision, compare the green continuation with red rejection/recovery.</li><li>Use the source badge to find the exact implementation.</li><li>Open tests and <code>PROD.md</code> to reproduce every listed path.</li></ol></div>
+        <div id="flow-root"></div>
+      </section>
+    </section>
+  </main>
+  <footer class="shell"><a href="index.html">← Back to overview</a><span>20 code-linked execution maps · no external diagram dependency</span></footer>
+  <script src="flowcharts.js"></script>
+</body>
+</html>

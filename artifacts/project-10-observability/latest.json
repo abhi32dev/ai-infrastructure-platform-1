@@ -10,13 +10,13 @@
       "status": "passed",
       "evidence": [
         {
-          "timestamp": 1786653734.101365,
+          "timestamp": 1786654364.12881,
           "type": "span_start",
           "name": "a2a.send_message",
           "status": "ok"
         },
         {
-          "timestamp": 1786653734.101367,
+          "timestamp": 1786654364.1288111,
           "type": "log",
           "name": "guardrail allowed",
           "status": "INFO"

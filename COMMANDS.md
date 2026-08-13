@@ -10,6 +10,14 @@ Commands use Python 3.11+ and do not require paid APIs unless explicitly stated.
 
 ## Complete staff-level control verification
 
+Open the code-guided execution atlas:
+
+```text
+https://abhi32dev.github.io/ai-infrastructure-platform-1/flowcharts.html
+```
+
+Every flow block names the responsible Python file and class/function. Its source references are checked against the Python AST by `scripts/verify_pages.py`, so stale or invented symbols fail the audit.
+
 ```bash
 python3 scripts/verify_staff_controls.py
 cat artifacts/staff-controls/latest.json

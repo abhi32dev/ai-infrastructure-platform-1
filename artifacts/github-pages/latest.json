@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T20:42:25.765580+00:00",
+  "generated_at": "2026-08-13T20:52:55.309843+00:00",
   "summary": {
-    "total": 10,
-    "passed": 10,
+    "total": 15,
+    "passed": 15,
     "failed": 0
   },
   "checks": {
@@ -14,6 +14,11 @@
     "all_cards_are_links": true,
     "all_detail_targets_exist": true,
     "navigation_targets": true,
+    "flow_atlas_linked_first": true,
+    "flow_assets_exist": true,
+    "flow_has_20_projects": true,
+    "flow_has_120_stages": true,
+    "all_flow_sources_resolve": true,
     "github_links": true,
     "workflow_exists": true
   }
