@@ -125,6 +125,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 5 - Inference serving
+```bash
+python3 -m ailab.inference_cli --requests 40 --batch-size 8
+python3 -m pytest -q tests/test_inference_server.py
+python3 scripts/verify_inference_server.py
+python3 scripts/bootstrap_project_env.py projects/project-05-inference-serving --rebuild
+source projects/project-05-inference-serving/.venv/bin/activate
+python -m ailab.inference_cli --requests 40 --batch-size 8
+deactivate
+```
+
 ## Project 4 - Evaluation and release gating
 
 ```bash

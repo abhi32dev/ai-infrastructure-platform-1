@@ -14,6 +14,7 @@ PROJECTS = {
     "project-02-agent-runtime": ("ailab.agent_runtime", "ailab.agent_cli"),
     "project-03-model-gateway": ("ailab.model_gateway", "ailab.gateway_cli"),
     "project-04-evaluation": ("ailab.eval_platform", "ailab.eval_cli"),
+    "project-05-inference-serving": ("ailab.inference_server", "ailab.inference_cli"),
 }
 
 

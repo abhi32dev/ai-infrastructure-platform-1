@@ -8,7 +8,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [x] 2. Durable agent runtime and orchestrator
 - [x] 3. LLM gateway, model router, and cost controller
 - [x] 4. LLM evaluation and release-gating platform
-- [ ] 5. High-availability inference serving platform
+- [x] 5. High-availability inference serving platform
 - [ ] 6. Streaming feature and online-inference pipeline
 - [ ] 7. Recommendation system with experimentation
 - [ ] 8. Self-healing distributed batch platform
@@ -67,8 +67,8 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Evaluation datasets and rubric scoring | 4 | [x] | versioned suites, per-case metrics, persisted release gates |
 | A/B tests, hypothesis tests, p-values | 4, 7 | [x] | two-proportion z-test with effects and p-value |
 | MLflow model/config tracking | 4, 12 | [ ] | LLMOps milestone |
-| Dynamic batching and inference serving | 5 | [ ] | serving milestone |
-| Backpressure and asynchronous workflows | 5, 6 | [ ] | queue saturation exercises |
+| Dynamic batching and inference serving | 5 | [x] | bounded live server, batching, deadlines, canary and rollback |
+| Backpressure and asynchronous workflows | 5, 6 | [~] | serving queue/load shedding done; streaming pipeline planned |
 | Kafka/Kinesis-style streaming | 6 | [ ] | Redpanda event pipeline |
 | Online/offline feature consistency | 6, 7 | [ ] | feature pipeline tests |
 | Recommendation algorithms | 7 | [ ] | ranking and experiment service |

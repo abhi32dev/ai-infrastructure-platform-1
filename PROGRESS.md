@@ -92,3 +92,7 @@ Added a repository-wide environment standard. Projects 1-3 now have independent 
 ## 2026-08-13 - Project 4 evaluation and release gating
 
 Implemented versioned evaluation suites, deterministic and replaceable judge scoring, safety checks, latency/cost measurement, persisted per-case results, configurable quality/safety/latency/cost gates, and two-proportion hypothesis testing. Added Project 4 commands, documentation, isolated environment definition, tests, and acceptance evidence.
+
+## 2026-08-13 - Project 5 inference serving
+
+Implemented a live dynamic-batching inference service with health/readiness, bounded queues, backpressure/load shedding, deadlines, graceful drain, model error validation, canary routing, fallback, rollback, metrics, load demo, tests, documentation, commands, and an isolated environment.
