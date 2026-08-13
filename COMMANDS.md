@@ -125,6 +125,17 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 7 - Recommendations and experimentation
+```bash
+python3 -m ailab.recommendation_cli --user learner
+python3 -m pytest -q tests/test_recommendations.py
+python3 scripts/verify_recommendations.py
+python3 scripts/bootstrap_project_env.py projects/project-07-recommendations --rebuild
+source projects/project-07-recommendations/.venv/bin/activate
+python -m ailab.recommendation_cli --user learner
+deactivate
+```
+
 ## Project 6 - Streaming features
 ```bash
 python3 -m ailab.streaming_cli --events 30

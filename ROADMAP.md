@@ -10,7 +10,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [x] 4. LLM evaluation and release-gating platform
 - [x] 5. High-availability inference serving platform
 - [x] 6. Streaming feature and online-inference pipeline
-- [ ] 7. Recommendation system with experimentation
+- [x] 7. Recommendation system with experimentation
 - [ ] 8. Self-healing distributed batch platform
 - [ ] 9. Multi-tenant AI platform golden path
 - [ ] 10. AI observability, SLO, and incident lab
@@ -71,7 +71,7 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Backpressure and asynchronous workflows | 5, 6 | [x] | bounded serving queue plus lagged consumer groups |
 | Kafka/Kinesis-style streaming | 6 | [x] | persistent partition/offset/group semantics and DLQ |
 | Online/offline feature consistency | 6, 7 | [x] | point-in-time snapshots and skew detection |
-| Recommendation algorithms | 7 | [ ] | ranking and experiment service |
+| Recommendation algorithms | 7 | [x] | popularity/content/collaborative ranking, metrics, experiment service |
 | Adaptive master-worker dispatch | 8 | [ ] | workload scheduler |
 | Three-pass reconciliation and TTL dedup | 8 | [ ] | recovery exercises |
 | Docker, Kubernetes, and autoscaling | 5, 9 | [ ] | kind/k3d deployment |
