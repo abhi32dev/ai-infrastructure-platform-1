@@ -1,0 +1,67 @@
+{
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "adaptive_execution",
+      "status": "passed",
+      "evidence": {
+        "run_id": "36df9888cb4f4f80852d34147a21d323",
+        "status": "completed",
+        "batches": 3,
+        "failures": [],
+        "missing": [],
+        "reconciliation": [
+          {
+            "pass": 1,
+            "missing": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "transient_retry",
+      "status": "passed",
+      "evidence": {
+        "calls": {
+          "0": 1,
+          "1": 1,
+          "2": 1,
+          "3": 2,
+          "4": 1,
+          "5": 2,
+          "6": 1,
+          "7": 1
+        }
+      }
+    },
+    {
+      "name": "storage_reconciliation",
+      "status": "passed",
+      "evidence": {
+        "missing": [],
+        "reconciliation": [
+          {
+            "pass": 1,
+            "missing": [
+              "5"
+            ]
+          },
+          {
+            "pass": 2,
+            "missing": []
+          }
+        ]
+      }
+    },
+    {
+      "name": "project_8_tests",
+      "status": "passed",
+      "stdout": "........                                                                 [100%]",
+      "stderr": ""
+    }
+  ]
+}

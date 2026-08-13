@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T17:12:17.482931+00:00",
+  "generated_at": "2026-08-13T17:15:07.458071+00:00",
   "summary": {
-    "total": 7,
-    "passed": 7,
+    "total": 8,
+    "passed": 8,
     "failed": 0
   },
   "projects": [
@@ -64,6 +64,15 @@
       "project": "project-07-recommendations",
       "status": "passed",
       "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-07-recommendations/.venv/lib/python3.11/site-packages/ailab/recommendations.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-08-batch-platform",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-08-batch-platform/.venv/lib/python3.11/site-packages/ailab/batch_platform.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
