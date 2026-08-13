@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T17:15:07.458071+00:00",
+  "generated_at": "2026-08-13T17:17:41.548407+00:00",
   "summary": {
-    "total": 8,
-    "passed": 8,
+    "total": 9,
+    "passed": 9,
     "failed": 0
   },
   "projects": [
@@ -73,6 +73,15 @@
       "project": "project-08-batch-platform",
       "status": "passed",
       "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-08-batch-platform/.venv/lib/python3.11/site-packages/ailab/batch_platform.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-09-golden-path",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-09-golden-path/.venv/lib/python3.11/site-packages/ailab/golden_path.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,
