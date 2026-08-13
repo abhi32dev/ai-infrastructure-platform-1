@@ -171,12 +171,43 @@ function sourceLink(ref) {
   const label = `${file} · ${symbol}`;
   return `<a class="source-link" href="${repo}/blob/main/${file}" target="_blank" rel="noreferrer">${label}</a>`;
 }
+function branchMode(text) {
+  const value=text.toLowerCase();
+  if (/return without|return existing|stable version|popularity fallback|skip safely|explicit empty|return empty/.test(value)) return "return";
+  if (/retry|fallback|next route|await next|re-enter|reprocess|repair|recreate|resume|reconcile|reschedule|target decoding|retain|wait|prior checkpoint/.test(value)) return "loop";
+  return "stop";
+}
+function renderDiagram(project) {
+  const row=205, mainX=70, mainW=430, branchX=650, branchW=390, top=95;
+  const height=top+project.steps.length*row+90;
+  const marker=`arrow-${project.id}`;
+  const arrow=(path,klass,label,x,y) => `<path class="edge ${klass}" d="${path}" marker-end="url(#${marker})"></path>${label?`<text class="edge-label ${klass}" x="${x}" y="${y}">${label}</text>`:""}`;
+  let edges=arrow(`M ${mainX+mainW/2} 58 L ${mainX+mainW/2} ${top-10}`,"next","BEGIN",mainX+mainW/2+10,80);
+  const nodes=[`<div class="diagram-terminal start" style="left:${mainX+mainW/2-60}px;top:15px">START</div>`];
+  project.steps.forEach((step,index) => {
+    const y=top+index*row;
+    const nextY=y+row;
+    const mode=branchMode(step.no);
+    const symbol=step.ref.split("#")[1];
+    const nextSymbol=project.steps[index+1]?.ref.split("#")[1] || "successful return";
+    nodes.push(`<article class="diagram-node ${step.kind}" style="left:${mainX}px;top:${y}px;width:${mainW}px"><span class="node-seq">${index+1}</span><b>${step.title}</b><code>${step.ref.replace("#"," · ")}</code><p>${step.detail}</p></article>`);
+    nodes.push(`<article class="diagram-branch ${mode}" style="left:${branchX}px;top:${y+4}px;width:${branchW}px"><small>${mode==="loop"?"RECOVERY PATH":mode==="return"?"EARLY RETURN":"REJECTION / FAILURE"}</small><b>${step.no}</b><span>${mode==="loop"?`↩ resume at step ${index+1}`:mode==="return"?"✓ return controlled result":"✕ stop; surface typed error"}</span></article>`);
+    edges+=arrow(`M ${mainX+mainW} ${y+65} L ${branchX-12} ${y+65}`,"no","NO / ELSE",mainX+mainW+35,y+52);
+    if(mode==="loop") edges+=arrow(`M ${branchX+branchW/2} ${y+121} C ${branchX+branchW/2} ${y+170}, ${mainX-38} ${y+170}, ${mainX-38} ${y+65} L ${mainX-10} ${y+65}`,"loop","RETRY / RECOVER",mainX+150,y+184);
+    else nodes.push(`<div class="mini-terminal ${mode}" style="left:${branchX+branchW/2-55}px;top:${y+139}px">${mode==="return"?"RETURN":"STOP"}</div>`), edges+=arrow(`M ${branchX+branchW/2} ${y+121} L ${branchX+branchW/2} ${y+135}`,mode==="return"?"next":"no","",0,0);
+    if(index<project.steps.length-1) edges+=arrow(`M ${mainX+mainW/2} ${y+132} L ${mainX+mainW/2} ${nextY-10}`,"next",`YES → ${nextSymbol}`,mainX+mainW/2+12,y+170);
+    else edges+=arrow(`M ${mainX+mainW/2} ${y+132} L ${mainX+mainW/2} ${y+172}`,"next","SUCCESS",mainX+mainW/2+12,y+158);
+  });
+  const endY=top+(project.steps.length-1)*row+176;
+  nodes.push(`<div class="diagram-terminal end" style="left:${mainX+mainW/2-70}px;top:${endY}px">END · SUCCESS</div>`);
+  return `<div class="diagram-shell"><div class="diagram-toolbar"><strong>Directed execution flow</strong><span>Follow arrows · YES continues · NO branches · curved arrow retries</span></div><div class="diagram-scroll"><div class="diagram-canvas" style="height:${height}px"><svg class="diagram-edges" viewBox="0 0 1110 ${height}" preserveAspectRatio="none" aria-hidden="true"><defs><marker id="${marker}" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker></defs>${edges}</svg>${nodes.join("")}</div></div></div>`;
+}
 function renderProject(project) {
   const id = `flow-${String(project.id).padStart(2,"0")}`;
   const directory = dirs[project.id];
   const steps = project.steps.map((step,index) => `<article class="flow-node ${step.kind}" data-step="${index+1}"><h3>${step.title}</h3><p>${step.detail}</p><div class="source-row">${sourceLink(step.ref)}</div><div class="branches"><div class="branch yes"><strong>CONTINUE</strong><span>${step.yes}</span></div><div class="branch no"><strong>ELSE / RECOVER</strong><span>${step.no}</span></div></div></article>`).join("");
   const scenarios = project.scenarios.map((s,i) => `<div class="scenario"><b>${["PRIMARY PATH","REJECTION PATH","FAILURE PATH","RECOVERY / CONTROL"][i] || "SCENARIO"}</b><span>${s}</span></div>`).join("");
-  return `<section class="flow-project" id="${id}" data-search="${project.title.toLowerCase()} ${project.tag.toLowerCase()}"><header class="flow-head"><div class="flow-number">${String(project.id).padStart(2,"0")}</div><div><p class="kicker">${project.tag}</p><h2>${project.title}</h2><p>${project.summary}</p><div class="flow-actions"><a href="projects.html#project-${String(project.id).padStart(2,"0")}">Project overview</a><a href="${repo}/tree/main/projects/${directory}" target="_blank" rel="noreferrer">README + PROD guide</a><a href="${repo}/tree/main/tests" target="_blank" rel="noreferrer">Executable tests</a></div></div></header><p class="scope"><strong>Implementation boundary:</strong> ${project.scope}</p><div class="flow-spine">${steps}</div><div class="scenario-grid">${scenarios}</div></section>`;
+  return `<section class="flow-project" id="${id}" data-search="${project.title.toLowerCase()} ${project.tag.toLowerCase()}"><header class="flow-head"><div class="flow-number">${String(project.id).padStart(2,"0")}</div><div><p class="kicker">${project.tag}</p><h2>${project.title}</h2><p>${project.summary}</p><div class="flow-actions"><a href="projects.html#project-${String(project.id).padStart(2,"0")}">Project overview</a><a href="${repo}/tree/main/projects/${directory}" target="_blank" rel="noreferrer">README + PROD guide</a><a href="${repo}/tree/main/tests" target="_blank" rel="noreferrer">Executable tests</a></div></div></header><p class="scope"><strong>Implementation boundary:</strong> ${project.scope}</p>${renderDiagram(project)}<details class="flow-explanation"><summary>Open the step-by-step explanation and source links</summary><div class="flow-spine">${steps}</div></details><div class="scenario-grid">${scenarios}</div></section>`;
 }
 const root = document.querySelector("#flow-root");
 const index = document.querySelector("#flow-index");

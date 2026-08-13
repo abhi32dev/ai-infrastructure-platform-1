@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-13T20:52:39.992093+00:00",
-  "git_commit": "687ca4d1e826c122f0d904887224e274c7ef89a1",
+  "generated_at": "2026-08-13T21:14:15.586801+00:00",
+  "git_commit": "af6feb36e76643763e11564a03684a3bb3617078",
   "summary": {
     "total": 6,
     "passed": 6,
@@ -11,7 +11,7 @@
       "name": "policy_routing",
       "category": "happy_path",
       "status": "passed",
-      "duration_ms": 0.005,
+      "duration_ms": 0.0,
       "evidence": {
         "balanced": "small-local",
         "quality": "large-hosted",
@@ -24,7 +24,7 @@
       "status": "passed",
       "duration_ms": 0.0,
       "evidence": {
-        "request_id": "0212015bec0a40f5b6aa244f8191efe8",
+        "request_id": "e209a6e5e7654586833c6598b96e5ccb",
         "model": "medium-hosted",
         "provider": "hosted",
         "text": "medium-hosted answered: Analyze architecture",
@@ -64,17 +64,17 @@
           {
             "model": "large-hosted",
             "failures": 2,
-            "opened_at": 1786654359.505858
+            "opened_at": 1786655655.1367092
           },
           {
             "model": "medium-hosted",
             "failures": 2,
-            "opened_at": 1786654359.5061219
+            "opened_at": 1786655655.1369998
           },
           {
             "model": "small-local",
             "failures": 2,
-            "opened_at": 1786654359.506423
+            "opened_at": 1786655655.137276
           }
         ]
       }

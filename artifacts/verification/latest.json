@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-13T20:52:38.370138+00:00",
-  "git_commit": "687ca4d1e826c122f0d904887224e274c7ef89a1",
+  "generated_at": "2026-08-13T21:14:14.062027+00:00",
+  "git_commit": "af6feb36e76643763e11564a03684a3bb3617078",
   "environment": {
     "python": "3.11.3",
     "platform": "macOS-26.6.1-arm64-arm-64bit"
@@ -15,7 +15,7 @@
       "name": "clean_ingest_and_grounded_query",
       "category": "happy_path",
       "status": "passed",
-      "duration_ms": 2.344,
+      "duration_ms": 2.337,
       "evidence": {
         "documents": 3,
         "chunks": 6,
@@ -31,7 +31,7 @@
       "name": "retrieval_quality_gate",
       "category": "positive",
       "status": "passed",
-      "duration_ms": 0.809,
+      "duration_ms": 0.776,
       "evidence": {
         "retrieval_hit": 1.0,
         "citation_validity": 1.0,
@@ -43,7 +43,7 @@
       "name": "index_survives_process_reopen",
       "category": "positive",
       "status": "passed",
-      "duration_ms": 2.707,
+      "duration_ms": 2.056,
       "evidence": {
         "expected_chunks": 6,
         "observed_chunks": 6,
@@ -54,7 +54,7 @@
       "name": "query_empty_index",
       "category": "negative",
       "status": "passed",
-      "duration_ms": 2.387,
+      "duration_ms": 2.047,
       "evidence": {
         "expected_error": "ValueError: The index is empty; ingest documents before asking questions"
       }
@@ -63,7 +63,7 @@
       "name": "invalid_chunk_configuration",
       "category": "negative",
       "status": "passed",
-      "duration_ms": 0.01,
+      "duration_ms": 0.008,
       "evidence": {
         "expected_error": "ValueError: Require size > 0 and 0 <= overlap < size"
       }
@@ -72,7 +72,7 @@
       "name": "unavailable_ollama_provider",
       "category": "negative",
       "status": "passed",
-      "duration_ms": 7.687,
+      "duration_ms": 10.001,
       "evidence": {
         "expected_error": "RuntimeError: Ollama request failed at http://127.0.0.1:1: <urlopen error [Errno 1] Operation not permitted>"
       }
@@ -81,9 +81,9 @@
       "name": "retry_checkpoint_and_idempotent_resume",
       "category": "failure_recovery",
       "status": "passed",
-      "duration_ms": 1.744,
+      "duration_ms": 3.888,
       "evidence": {
-        "run_id": "ef5ec7eb5c7845b6b00c9e1b644cce73",
+        "run_id": "16d7674beb5b448d9c98ec1c6d436adf",
         "state": {
           "value": 21,
           "result": 42
