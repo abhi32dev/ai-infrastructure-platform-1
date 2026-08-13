@@ -2,6 +2,8 @@
 
 A local-first, production-minded learning lab for Staff/Principal AI Infrastructure interviews. The repository builds one cohesive platform in vertical slices, with explicit mappings in [ROADMAP.md](ROADMAP.md) and cross-cutting controls in [docs/staff-level-controls.md](docs/staff-level-controls.md).
 
+**Project site:** [abhi32dev.github.io/ai-infrastructure-platform-1](https://abhi32dev.github.io/ai-infrastructure-platform-1/)
+
 ## Implemented projects
 
 | # | Project | Main concepts |

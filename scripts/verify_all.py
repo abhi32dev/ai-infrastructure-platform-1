@@ -5,7 +5,7 @@ import json, subprocess, sys
 from datetime import datetime, timezone
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
-VERIFIERS=["verify.py","verify_rag_complete.py","verify_agent_runtime.py","verify_model_gateway.py","verify_eval_platform.py","verify_inference_server.py","verify_streaming_features.py","verify_recommendations.py","verify_batch_platform.py","verify_golden_path.py","verify_observability.py","verify_security_guardrails.py","verify_ml_lifecycle.py","verify_protocols.py","verify_staff_controls.py","verify_project_envs.py"]
+VERIFIERS=["verify.py","verify_rag_complete.py","verify_agent_runtime.py","verify_model_gateway.py","verify_eval_platform.py","verify_inference_server.py","verify_streaming_features.py","verify_recommendations.py","verify_batch_platform.py","verify_golden_path.py","verify_observability.py","verify_security_guardrails.py","verify_ml_lifecycle.py","verify_protocols.py","verify_staff_controls.py","verify_project_envs.py","verify_pages.py"]
 def main():
     scenarios=[]
     for script in VERIFIERS:

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Runnable staff-level AI infrastructure projects covering RAG, agents, serving, evaluation, security, MCP, and A2A.">
+  <title>AI Infrastructure Platform</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav shell">
+    <a class="brand" href="#top"><span class="mark">AI</span><span>Infrastructure Platform</span></a>
+    <nav aria-label="Primary"><a href="#projects">Projects</a><a href="#controls">Controls</a><a href="#run">Run</a><a class="button small" href="https://github.com/abhi32dev/ai-infrastructure-platform-1">GitHub</a></nav>
+  </header>
+  <main id="main">
+    <section class="hero shell" id="top">
+      <p class="eyebrow"><span class="pulse"></span> Staff-level · local-first · production-minded</p>
+      <h1>Build the systems behind <span>production AI.</span></h1>
+      <p class="lede">Thirteen runnable projects that make state, routing, failures, security, evaluation, protocols, observability, and cost visible—without paid cloud infrastructure.</p>
+      <div class="actions"><a class="button" href="#projects">Explore projects</a><a class="text-link" href="#run">Run all verifications →</a></div>
+      <div class="metrics"><div><strong>13</strong><span>isolated projects</span></div><div><strong>112</strong><span>automated tests</span></div><div><strong>18/18</strong><span>audit stages passed</span></div><div><strong>0</strong><span>paid APIs required</span></div></div>
+    </section>
+    <section class="section shell" id="projects">
+      <div class="heading"><div><p class="kicker">Platform curriculum</p><h2>From retrieval to protocols</h2></div><p>Every project includes an isolated environment, tests, failure exercises, documentation, commands, and evidence.</p></div>
+      <div class="grid">
+        <article class="card featured"><b>01</b><em>GenAI</em><h3>Production RAG</h3><p>Hybrid retrieval, RRF, reranking, citations, tenant filters, semantic cache, and retrieval evaluation.</p><small>BM25 · Embeddings · Ollama</small></article>
+        <article class="card"><b>02</b><em>Agents</em><h3>Durable Agent Runtime</h3><p>Typed tools, approval, checkpoints, retry, idempotent replay, durable history, and dead letters.</p><small>State · HITL · DLQ</small></article>
+        <article class="card"><b>03</b><em>Gateway</em><h3>Model Gateway</h3><p>OpenAI-compatible API, policy routing, tenant budgets, fallback, circuits, cache, and shadow traffic.</p><small>FastAPI · Routing · Cost</small></article>
+        <article class="card"><b>04</b><em>Quality</em><h3>Evaluation Platform</h3><p>Versioned suites, multi-judge consensus, release gates, statistics, and MLflow tracking.</p><small>Evals · MLflow · A/B</small></article>
+        <article class="card"><b>05</b><em>Serving</em><h3>Inference Serving</h3><p>Dynamic batching, bounded queues, deadlines, load shedding, canary routing, and rollback.</p><small>Batching · SLO · Canary</small></article>
+        <article class="card"><b>06</b><em>Streaming</em><h3>Streaming Features</h3><p>Partitions, offsets, consumer groups, schema DLQ, late events, and point-in-time features.</p><small>Events · Offsets · Features</small></article>
+        <article class="card"><b>07</b><em>Ranking</em><h3>Recommendations</h3><p>Popularity, content and collaborative ranking, cold start, offline metrics, and experiments.</p><small>NDCG · Recall · A/B</small></article>
+        <article class="card"><b>08</b><em>Compute</em><h3>Self-Healing Batch</h3><p>Adaptive dispatch, item checkpoints, retry, TTL deduplication, resume, and reconciliation.</p><small>Workers · Recovery · Dedup</small></article>
+        <article class="card"><b>09</b><em>Platform</em><h3>Golden Path</h3><p>Governed service scaffolding with Docker Compose, Kubernetes, Terraform, CI, and policy.</p><small>Kubernetes · IaC · CI/CD</small></article>
+        <article class="card"><b>10</b><em>Operations</em><h3>Observability & Cost</h3><p>OpenTelemetry, Prometheus, SLO burn rates, cost attribution, and rightsizing.</p><small>OTel · Prometheus · FinOps</small></article>
+        <article class="card"><b>11</b><em>Trust</em><h3>Security & Guardrails</h3><p>Identity, RBAC, tenant isolation, PII/DLP, prompt-injection defense, quotas, and audit.</p><small>RBAC · PII · Audit</small></article>
+        <article class="card"><b>12</b><em>ML</em><h3>ML/CV Lifecycle</h3><p>Training, registry, promotion, drift, retraining, rollback, detection, and tracking.</p><small>Registry · Drift · CV</small></article>
+        <article class="card featured"><b>13</b><em>Protocols</em><h3>MCP & A2A</h3><p>Discovery, tools, resources, prompts, agent cards, tasks, artifacts, errors, and cancellation.</p><small>MCP · A2A · JSON-RPC</small></article>
+      </div>
+    </section>
+    <section class="controls" id="controls"><div class="shell control-wrap"><div><p class="kicker">Cross-cutting by design</p><h2>Production controls belong in every path.</h2><p>Each project maps concrete safeguards and evidence across five platform responsibilities.</p></div><div class="control-list"><div><span>01</span><strong>Guardrails</strong><small>Identity, policy, validation, quotas</small></div><div><span>02</span><strong>Evaluation</strong><small>Offline suites, gates, online signals</small></div><div><span>03</span><strong>Observability</strong><small>Logs, metrics, traces, SLOs</small></div><div><span>04</span><strong>Cost</strong><small>Budgets, attribution, efficiency</small></div><div><span>05</span><strong>Protocols</strong><small>Typed, versioned interoperability</small></div></div></div></section>
+    <section class="section shell run" id="run"><div><p class="kicker">One-command verification</p><h2>Clone. Run. Inspect.</h2><p>The audit runs every project verifier, dependency adapter, test, and environment-isolation check.</p><a class="button" href="https://github.com/abhi32dev/ai-infrastructure-platform-1/blob/main/COMMANDS.md">Command runbook</a></div><pre><code><i>git clone</i> https://github.com/abhi32dev/ai-infrastructure-platform-1.git
+<i>cd</i> ai-infrastructure-platform-1
+<i>python3</i> scripts/verify_all.py</code></pre></section>
+  </main>
+  <footer class="shell"><span>AI Infrastructure Platform</span><span>Hands-on systems learning · Verified locally · Hosted on GitHub Pages</span></footer>
+</body>
+</html>

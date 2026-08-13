@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-08-13T19:55:23.367927+00:00",
+  "summary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0
+  },
+  "checks": {
+    "html_exists": true,
+    "css_exists": true,
+    "nojekyll_exists": true,
+    "title_present": true,
+    "all_13_projects": true,
+    "navigation_targets": true,
+    "github_links": true,
+    "workflow_exists": true
+  }
+}

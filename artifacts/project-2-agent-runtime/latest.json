@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-13T19:42:16.460449+00:00",
-  "git_commit": "1a6f09b990158279fb1c5322dc3d0e219d766344",
+  "generated_at": "2026-08-13T19:54:56.452160+00:00",
+  "git_commit": "455f3efb77b35f61b0a85a908ef3d4d9361cb09d",
   "summary": {
     "total": 5,
     "passed": 5,
@@ -11,9 +11,9 @@
       "name": "approval_checkpoint_and_idempotent_resume",
       "category": "happy_path",
       "status": "passed",
-      "duration_ms": 4.193,
+      "duration_ms": 4.937,
       "evidence": {
-        "run_id": "a213d0dd22bb41edaced2ddeec7f8ccc",
+        "run_id": "5e5a9041a7a848348a043ec8359c6f15",
         "status": "completed",
         "side_effect_count_after_second_resume": 1,
         "event_types": [
@@ -32,9 +32,9 @@
       "name": "human_denial_blocks_side_effect",
       "category": "negative",
       "status": "passed",
-      "duration_ms": 2.89,
+      "duration_ms": 3.202,
       "evidence": {
-        "run_id": "50e3892c23a54bca913dc0b3994e5168",
+        "run_id": "5cf977d1806f4c74a99cc22d1b9f686b",
         "status": "denied",
         "side_effect_count": 0
       }
@@ -43,7 +43,7 @@
       "name": "least_privilege_tool_allowlist",
       "category": "security",
       "status": "passed",
-      "duration_ms": 1.899,
+      "duration_ms": 2.221,
       "evidence": {
         "expected_error": "tool is outside this runtime's allowlist: draft_remediation"
       }
@@ -52,7 +52,7 @@
       "name": "bounded_retry_and_dead_letter",
       "category": "failure_recovery",
       "status": "passed",
-      "duration_ms": 2.095,
+      "duration_ms": 3.194,
       "evidence": {
         "expected_error": "step broken-step exhausted retries: RuntimeError: injected permanent failure",
         "attempts": 2,
@@ -63,7 +63,7 @@
           "arguments": "{}",
           "error": "RuntimeError: injected permanent failure",
           "attempts": 2,
-          "created_at": 1786650136.0636349
+          "created_at": 1786650895.897526
         }
       }
     },
