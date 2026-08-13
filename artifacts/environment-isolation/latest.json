@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T17:20:02.519652+00:00",
+  "generated_at": "2026-08-13T17:22:06.423267+00:00",
   "summary": {
-    "total": 10,
-    "passed": 10,
+    "total": 11,
+    "passed": 11,
     "failed": 0
   },
   "projects": [
@@ -91,6 +91,15 @@
       "project": "project-10-observability",
       "status": "passed",
       "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-10-observability/.venv/lib/python3.11/site-packages/ailab/observability.py",
+      "cli_exit_code": 0,
+      "manifest_exists": true,
+      "freeze_exists": true,
+      "stderr": ""
+    },
+    {
+      "project": "project-11-security",
+      "status": "passed",
+      "module_path": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-11-security/.venv/lib/python3.11/site-packages/ailab/security_guardrails.py",
       "cli_exit_code": 0,
       "manifest_exists": true,
       "freeze_exists": true,

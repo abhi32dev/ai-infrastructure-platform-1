@@ -1,0 +1,55 @@
+{
+  "summary": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "injection_block",
+      "status": "passed",
+      "evidence": {
+        "allowed": false,
+        "policy": "input.prompt_injection",
+        "reason": "matched adversarial phrase: ignore previous instructions",
+        "redacted": ""
+      }
+    },
+    {
+      "name": "tenant_isolation",
+      "status": "passed",
+      "evidence": [
+        {
+          "id": "a1",
+          "tenant": "a",
+          "classification": "internal",
+          "content": "safe content",
+          "created_at": 1786641726.620949
+        }
+      ]
+    },
+    {
+      "name": "output_secret_block",
+      "status": "passed",
+      "evidence": {
+        "allowed": false,
+        "policy": "output.secret",
+        "reason": "secret-like value detected",
+        "redacted": ""
+      }
+    },
+    {
+      "name": "audit_integrity",
+      "status": "passed",
+      "evidence": {
+        "events": 3
+      }
+    },
+    {
+      "name": "project_11_tests",
+      "status": "passed",
+      "stdout": "..........                                                               [100%]",
+      "stderr": ""
+    }
+  ]
+}
