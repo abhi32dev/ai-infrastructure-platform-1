@@ -1,0 +1,79 @@
+{
+  "summary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "scenarios": [
+    {
+      "name": "personalized_ranking",
+      "status": "passed",
+      "evidence": [
+        {
+          "item_id": "python-lab",
+          "score": 7.2,
+          "reasons": [
+            "content affinity"
+          ]
+        },
+        {
+          "item_id": "cloud-book",
+          "score": 3.6,
+          "reasons": [
+            "content affinity"
+          ]
+        },
+        {
+          "item_id": "gpu-course",
+          "score": 3.6,
+          "reasons": [
+            "content affinity"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cold_start",
+      "status": "passed",
+      "evidence": [
+        {
+          "item_id": "ml-book",
+          "score": 0.2,
+          "reasons": [
+            "popular"
+          ]
+        },
+        {
+          "item_id": "cloud-book",
+          "score": 0.0,
+          "reasons": [
+            "cold-start catalog fallback"
+          ]
+        },
+        {
+          "item_id": "gpu-course",
+          "score": 0.0,
+          "reasons": [
+            "cold-start catalog fallback"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "offline_metrics",
+      "status": "passed",
+      "evidence": {
+        "precision_at_k": 0.6666666666666666,
+        "recall_at_k": 1.0,
+        "ndcg_at_k": 0.9197207891481876,
+        "coverage": 0.5,
+        "diversity": 1.0
+      }
+    },
+    {
+      "name": "project_7_tests",
+      "status": "passed",
+      "stdout": "........                                                                 [100%]"
+    }
+  ]
+}

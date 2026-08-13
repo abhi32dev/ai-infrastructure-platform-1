@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-08-13T17:12:16.724256+00:00",
+  "project": "project-07-recommendations",
+  "python": "Python 3.11.3",
+  "environment": "/Users/abhi/Documents/Codex/ai-infrastructure-lab/projects/project-07-recommendations/.venv",
+  "install_mode": "non-editable wheel snapshot",
+  "wheel_sha256": "06c3643b83e16e811034ce0a3432b8da0b09f1a5ca69a32c68a2fa8b3f112c97",
+  "git_commit": "cb8689249c7a6fb0516a29b442b0a6b3dc5f06bd"
+}
