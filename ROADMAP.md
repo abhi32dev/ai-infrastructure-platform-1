@@ -7,7 +7,7 @@ This repository is a hands-on companion to the Staff/Principal AI Infrastructure
 - [ ] 1. Production RAG platform
 - [x] 2. Durable agent runtime and orchestrator
 - [x] 3. LLM gateway, model router, and cost controller
-- [ ] 4. LLM evaluation and release-gating platform
+- [x] 4. LLM evaluation and release-gating platform
 - [ ] 5. High-availability inference serving platform
 - [ ] 6. Streaming feature and online-inference pipeline
 - [ ] 7. Recommendation system with experimentation
@@ -63,9 +63,9 @@ Statuses: `[x]` implemented and verified, `[~]` partially demonstrated, `[ ]` pl
 | Human-in-the-loop and least privilege | 2, 11 | [x] | durable approval/denial and per-runtime tool allowlist |
 | Model routing and token-cost controls | 3 | [x] | constraint router, cost caps, tenant budgets, usage/decision ledgers |
 | Local model serving with Ollama | 3, 5 | [~] | Ollama HTTP adapter done; serving platform planned |
-| LLM-as-judge/multi-model verification | 4 | [ ] | evaluation-gate milestone |
-| Evaluation datasets and rubric scoring | 4 | [~] | deterministic regression gate done; versioned suite planned |
-| A/B tests, hypothesis tests, p-values | 4, 7 | [ ] | experimentation milestone |
+| LLM-as-judge/multi-model verification | 4 | [~] | replaceable judge interface and deterministic judge; live model judge optional |
+| Evaluation datasets and rubric scoring | 4 | [x] | versioned suites, per-case metrics, persisted release gates |
+| A/B tests, hypothesis tests, p-values | 4, 7 | [x] | two-proportion z-test with effects and p-value |
 | MLflow model/config tracking | 4, 12 | [ ] | LLMOps milestone |
 | Dynamic batching and inference serving | 5 | [ ] | serving milestone |
 | Backpressure and asynchronous workflows | 5, 6 | [ ] | queue saturation exercises |

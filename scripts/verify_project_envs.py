@@ -13,6 +13,7 @@ PROJECTS = {
     "project-01-rag": ("ailab.rag", "ailab.cli"),
     "project-02-agent-runtime": ("ailab.agent_runtime", "ailab.agent_cli"),
     "project-03-model-gateway": ("ailab.model_gateway", "ailab.gateway_cli"),
+    "project-04-evaluation": ("ailab.eval_platform", "ailab.eval_cli"),
 }
 
 
@@ -42,4 +43,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

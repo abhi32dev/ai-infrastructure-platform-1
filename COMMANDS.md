@@ -125,6 +125,24 @@ python3 -m ailab.gateway_cli complete "Analyze architecture" --quality high --ma
 
 ## Git status and history
 
+## Project 4 - Evaluation and release gating
+
+```bash
+python3 -m ailab.eval_cli demo
+python3 -m ailab.eval_cli ab-test --success-a 100 --total-a 1000 --success-b 140 --total-b 1000
+python3 -m pytest -q tests/test_eval_platform.py
+python3 scripts/verify_eval_platform.py
+```
+
+Isolated environment:
+
+```bash
+python3 scripts/bootstrap_project_env.py projects/project-04-evaluation --rebuild
+source projects/project-04-evaluation/.venv/bin/activate
+python -m ailab.eval_cli demo
+deactivate
+```
+
 ```bash
 git status --short --branch
 git log --oneline --decorate -10

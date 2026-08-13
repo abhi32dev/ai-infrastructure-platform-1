@@ -88,3 +88,7 @@ Verification:
 ```
 
 Added a repository-wide environment standard. Projects 1-3 now have independent `.venv` directories, exact direct dependency pins, full installed freezes, environment manifests, activation documentation, and non-editable wheel snapshots. Isolation verification runs from `/tmp` and confirms every module resolves from its own environment rather than repository source.
+
+## 2026-08-13 - Project 4 evaluation and release gating
+
+Implemented versioned evaluation suites, deterministic and replaceable judge scoring, safety checks, latency/cost measurement, persisted per-case results, configurable quality/safety/latency/cost gates, and two-proportion hypothesis testing. Added Project 4 commands, documentation, isolated environment definition, tests, and acceptance evidence.
