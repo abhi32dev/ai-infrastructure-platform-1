@@ -1,0 +1,231 @@
+{
+  "generated_at": "2026-08-14T20:54:55.969036+00:00",
+  "summary": {
+    "total": 20,
+    "passed": 20,
+    "failed": 0,
+    "answers": 140
+  },
+  "projects": [
+    {
+      "project": "project-01-rag",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-02-agent-runtime",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-03-model-gateway",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-04-evaluation",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-05-inference-serving",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-06-streaming-features",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-07-recommendations",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-08-batch-platform",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-09-golden-path",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-10-observability",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-11-security",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-12-ml-cv",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-13-protocols",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-14-distributed-training",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-15-optimized-inference",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-16-gpu-platform",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-17-lakehouse-features",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-18-distributed-orchestration",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-19-multi-framework",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    },
+    {
+      "project": "project-20-cloud-control-plane",
+      "status": "passed",
+      "checks": {
+        "seven_answers": true,
+        "seven_evidence_blocks": true,
+        "all_questions_present": true,
+        "all_symbols_resolve": true,
+        "all_source_links_present": true
+      }
+    }
+  ]
+}

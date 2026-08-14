@@ -60,13 +60,105 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Serving an untraceable or corrupted artifact is the costliest invariant because rollback, audit, and reproducibility all fail simultaneously. Data/version lineage, checksum integrity, promotion evidence, and serving identity must stay connected.
+
+**Implementation evidence.** [`ailab/ml_lifecycle.py · ModelRegistry.register`](../../ailab/ml_lifecycle.py) is the concrete control point used by this project:
+
+```python
+def register(self,model:LogisticModel,metrics:Metrics,mean,version:str)->ModelArtifact:
+  artifact=ModelArtifact(version,model.weights.tolist(),model.bias,asdict(metrics),np.asarray(mean).tolist(),time.time());(self.path/f"{version}.json").write_text(json.dumps(asdict(artifact),indent=2));self.data["versions"][version]=asdict(artifact);self._save();return artifact
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `ModelRegistry.register` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** Model registration linearizes when the versioned artifact and metadata are atomically persisted; promotion linearizes when the production pointer changes after gates pass. Training completion in worker memory is not durable release state.
+
+**Implementation evidence.** [`ailab/ml_lifecycle.py · ModelRegistry.promote`](../../ailab/ml_lifecycle.py) is the concrete control point used by this project:
+
+```python
+def promote(self,version,min_f1=.8):
+  if version not in self.data["versions"]:raise ValueError("unknown model version")
+  if self.data["versions"][version]["metrics"]["f1"]<min_f1:raise ValueError("model failed promotion quality gate")
+  prior=self.data["production"];self.data["production"]=version;self.data["history"].append({"from":prior,"to":version,"at":time.time()});self._save()
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `ModelRegistry.promote` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** The immutable registry artifact is authoritative for model contents and lineage; the production pointer is authoritative for serving intent. Reconciliation verifies checksum and pointer/version existence within the bounded registry.
+
+**Implementation evidence.** [`ailab/ml_lifecycle.py · ModelRegistry.load`](../../ailab/ml_lifecycle.py) is the concrete control point used by this project:
+
+```python
+def load(self,version=None)->LogisticModel:
+  version=version or self.data["production"]
+  if not version:raise ValueError("no production model")
+  a=self.data["versions"][version];m=LogisticModel(len(a["weights"]));m.weights=np.array(a["weights"]);m.bias=a["bias"];return m
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `ModelRegistry.load` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Degrade by rolling back to the last approved model or using a safe baseline. Artifact integrity, input schema, promotion thresholds, tenant policy, and invalid/non-finite predictions fail closed.
+
+**Implementation evidence.** [`ailab/ml_lifecycle.py · ModelRegistry.rollback`](../../ailab/ml_lifecycle.py) is the concrete control point used by this project:
+
+```python
+def rollback(self):
+  history=self.data["history"]
+  if not history or history[-1]["from"] is None:raise ValueError("no previous production version")
+  self.data["production"]=history[-1]["from"];self.data["history"].append({"from":history[-1]["to"],"to":history[-1]["from"],"at":time.time()});self._save()
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `ModelRegistry.rollback` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track data validation failures, training convergence, slice metrics, calibration, artifact checksum, promotion blocks, serving version, prediction drift, feature drift, retraining outcomes, and CV detector/tracker continuity.
+
+**Implementation evidence.** [`ailab/ml_lifecycle.py · ModelRegistry.drift`](../../ailab/ml_lifecycle.py) is the concrete control point used by this project:
+
+```python
+def drift(self,x,version=None,threshold=.5):
+  version=version or self.data["production"];baseline=np.array(self.data["versions"][version]["feature_mean"]);delta=np.abs(x.mean(axis=0)-baseline);return {"max_mean_shift":float(delta.max()),"per_feature":delta.tolist(),"drifted":bool((delta>threshold).any()),"retrain_recommended":bool((delta>threshold).any())}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `ModelRegistry.drift` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** Use distributed training/data validation, immutable object artifacts, a replicated registry, regional serving pointers, and staged rollout. At 100× data, incremental validation and lineage indexing are required; adversarial data needs poisoning checks.
+
+**Implementation evidence.** [`ailab/ml_lifecycle.py · LogisticModel.train`](../../ailab/ml_lifecycle.py) is the concrete control point used by this project:
+
+```python
+def train(self,x,y,epochs=300,learning_rate=.1):
+  validate(x,y)
+  for _ in range(epochs):
+   p=self.predict_proba(x);error=p-y;self.weights-=learning_rate*(x.T@error/len(x));self.bias-=learning_rate*error.mean()
+  return self
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `LogisticModel.train` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns artifact/schema contracts, registry, lineage, deployment gates, monitoring, and rollback. Model teams own features, labels, training logic, evaluation slices, acceptance thresholds, and accountable interpretation of drift.
+
+**Implementation evidence.** [`ailab/ml_lifecycle.py · ModelRegistry.register`](../../ailab/ml_lifecycle.py) is the concrete control point used by this project:
+
+```python
+def register(self,model:LogisticModel,metrics:Metrics,mean,version:str)->ModelArtifact:
+  artifact=ModelArtifact(version,model.weights.tolist(),model.bias,asdict(metrics),np.asarray(mean).tolist(),time.time());(self.path/f"{version}.json").write_text(json.dumps(asdict(artifact),indent=2));self.data["versions"][version]=asdict(artifact);self._save();return artifact
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `ModelRegistry.register` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

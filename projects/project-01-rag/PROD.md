@@ -60,13 +60,172 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Tenant isolation is the costliest invariant: one cross-tenant retrieval is a confidentiality incident, while a missed relevant chunk is normally a recoverable quality defect. Retrieval must therefore filter before ranking and generation, not redact after the answer exists.
+
+**Implementation evidence.** [`ailab/rag_advanced.py · AdvancedRetriever.search`](../../ailab/rag_advanced.py) is the concrete control point used by this project:
+
+```python
+def search(self,query:str,limit=5,filters:dict[str,Any]|None=None)->list[SearchResult]:
+  candidates=self.store.search(query,limit=max(self.store.count(),limit));filters=filters or {};candidates=[r for r in candidates if (r.dense_score>0 or r.lexical_score>0) and all(r.chunk.metadata.get(k)==v for k,v in filters.items())];return rerank(query,reciprocal_rank_fusion(candidates))[:limit]
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `AdvancedRetriever.search` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** The durable linearization point is SQLiteHybridStore.upsert committing the stable chunk identity and content. Re-ingestion may recompute embeddings, but after the transaction commits, the stable ID represents one logical chunk and subsequent reads must observe that version.
+
+**Implementation evidence.** [`ailab/store.py · SQLiteHybridStore.upsert`](../../ailab/store.py) is the concrete control point used by this project:
+
+```python
+def upsert(self, chunks: list[Chunk]) -> int:
+        rows = []
+        for chunk in chunks:
+            terms = content_tokens(chunk.text)
+            rows.append(
+                (
+                    chunk.id,
+                    chunk.document_id,
+                    chunk.text,
+                    chunk.source,
+                    chunk.position,
+                    json.dumps(chunk.metadata, sort_keys=True),
+                    json.dumps(self.embedder.embed(chunk.text)),
+                    json.dumps(terms),
+                )
+            )
+        self.connection.executemany(
+            """INSERT INTO chunks VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(id) DO UPDATE SET text=excluded.text, source=excluded.source,
+            metadata=excluded.metadata, embedding=excluded.embedding, terms=excluded.terms""",
+            rows,
+        )
+        self.connection.commit()
+        return len(rows)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `SQLiteHybridStore.upsert` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** The indexed chunk record is authoritative for retrieval; cached answers are derived and disposable. Reconciliation is bounded to re-embedding or re-indexing known document IDs, followed by retrieval evaluation, rather than accepting cache contents as source truth.
+
+**Implementation evidence.** [`ailab/store.py · SQLiteHybridStore.upsert`](../../ailab/store.py) is the concrete control point used by this project:
+
+```python
+def upsert(self, chunks: list[Chunk]) -> int:
+        rows = []
+        for chunk in chunks:
+            terms = content_tokens(chunk.text)
+            rows.append(
+                (
+                    chunk.id,
+                    chunk.document_id,
+                    chunk.text,
+                    chunk.source,
+                    chunk.position,
+                    json.dumps(chunk.metadata, sort_keys=True),
+                    json.dumps(self.embedder.embed(chunk.text)),
+                    json.dumps(terms),
+                )
+            )
+        self.connection.executemany(
+            """INSERT INTO chunks VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(id) DO UPDATE SET text=excluded.text, source=excluded.source,
+            metadata=excluded.metadata, embedding=excluded.embedding, terms=excluded.terms""",
+            rows,
+        )
+        self.connection.commit()
+        return len(rows)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `SQLiteHybridStore.upsert` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Degrade from dense-plus-lexical retrieval to the remaining healthy retriever or return an explicit no-evidence response. Tenant filtering, citation provenance, and grounding must fail closed; the system must never answer from unauthorized or uncited context.
+
+**Implementation evidence.** [`ailab/rag.py · RAGService.answer`](../../ailab/rag.py) is the concrete control point used by this project:
+
+```python
+def answer(self, query: str, limit: int = 4, provider: str = "offline") -> Answer:
+        results = self.store.search(query, limit=limit)
+        if not results:
+            raise ValueError("The index is empty; ingest documents before asking questions")
+        contexts = [result.chunk.text for result in results]
+        route = self.router.route(query, "\n".join(contexts), force_provider=provider)
+        generation = self.providers[route.provider].generate(route.model, query, contexts)
+        citations = [Citation(index, result.chunk.id, result.chunk.source) for index, result in enumerate(results, 1)]
+        return Answer(
+            query=query,
+            text=generation.text,
+            citations=citations,
+            route=route,
+            retrieved=results,
+            usage={"prompt_tokens": generation.prompt_tokens, "completion_tokens": generation.completion_tokens},
+        )
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `RAGService.answer` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track Recall@K, MRR, empty-result rate, citation validity, grounding score, cache hit rate, provider failures, and p95 latency by tenant and corpus version. Recall and citation regressions are leading correctness indicators even when HTTP success remains 100%.
+
+**Implementation evidence.** [`ailab/rag_advanced.py · run_retrieval_eval`](../../ailab/rag_advanced.py) is the concrete control point used by this project:
+
+```python
+def run_retrieval_eval(retriever:AdvancedRetriever,cases:list[RAGEvalCase],k=3)->dict:
+ if not cases:raise ValueError("evaluation cases cannot be empty")
+ reciprocal=[];hits=0
+ for case in cases:
+  results=retriever.search(case.query,k);rank=next((i for i,r in enumerate(results,1) if case.expected_source in r.chunk.source),None);hits+=rank is not None;reciprocal.append(0 if rank is None else 1/rank)
+ return {"cases":len(cases),"recall_at_k":hits/len(cases),"mean_reciprocal_rank":sum(reciprocal)/len(cases),"passed":hits==len(cases)}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `run_retrieval_eval` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** At scale, shard by tenant/corpus, replicate indexes, make ingestion asynchronous, version embeddings, and use admission control around model calls. Multi-region reads need version-aware replication; adversarial tenants require quotas and filter enforcement inside the storage query.
+
+**Implementation evidence.** [`ailab/rag_advanced.py · AdvancedRetriever.search`](../../ailab/rag_advanced.py) is the concrete control point used by this project:
+
+```python
+def search(self,query:str,limit=5,filters:dict[str,Any]|None=None)->list[SearchResult]:
+  candidates=self.store.search(query,limit=max(self.store.count(),limit));filters=filters or {};candidates=[r for r in candidates if (r.dense_score>0 or r.lexical_score>0) and all(r.chunk.metadata.get(k)==v for k,v in filters.items())];return rerank(query,reciprocal_rank_fusion(candidates))[:limit]
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `AdvancedRetriever.search` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns identity propagation, storage isolation, embedding/index versioning, budgets, telemetry, and evaluation gates. The application team owns corpus semantics, metadata policy, chunking experiments, relevance labels, and the product decision for when no answer is preferable.
+
+**Implementation evidence.** [`ailab/rag.py · RAGService.answer`](../../ailab/rag.py) is the concrete control point used by this project:
+
+```python
+def answer(self, query: str, limit: int = 4, provider: str = "offline") -> Answer:
+        results = self.store.search(query, limit=limit)
+        if not results:
+            raise ValueError("The index is empty; ingest documents before asking questions")
+        contexts = [result.chunk.text for result in results]
+        route = self.router.route(query, "\n".join(contexts), force_provider=provider)
+        generation = self.providers[route.provider].generate(route.model, query, contexts)
+        citations = [Citation(index, result.chunk.id, result.chunk.source) for index, result in enumerate(results, 1)]
+        return Answer(
+            query=query,
+            text=generation.text,
+            citations=citations,
+            route=route,
+            retrieved=results,
+            usage={"prompt_tokens": generation.prompt_tokens, "completion_tokens": generation.completion_tokens},
+        )
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `RAGService.answer` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

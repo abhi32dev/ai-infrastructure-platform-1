@@ -18,6 +18,14 @@ https://abhi32dev.github.io/ai-infrastructure-platform-1/flowcharts.html
 
 Every flow block names the responsible Python file and class/function. Its source references are checked against the Python AST by `scripts/verify_pages.py`, so stale or invented symbols fail the audit.
 
+Verify the 140 Staff/Principal answers and their exact source evidence:
+
+```bash
+python3 scripts/generate_prod_docs.py
+python3 scripts/verify_prod_guides.py
+cat artifacts/production-guides/latest.json
+```
+
 ```bash
 python3 scripts/verify_staff_controls.py
 cat artifacts/staff-controls/latest.json

@@ -60,13 +60,146 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Divergent rank updates or a corrupt checkpoint are most expensive because they can consume large GPU budgets while producing an invalid model. Partition completeness, synchronized reduction, finite parameters, and checkpoint integrity are hard invariants.
+
+**Implementation evidence.** [`ailab/distributed_training.py · DistributedTrainer.train`](../../ailab/distributed_training.py) is the concrete control point used by this project:
+
+```python
+def train(self,data:list[Sample],run_id:str="run",fail_at:tuple[int,int]|None=None,resume:bool=False)->dict:
+  if not run_id or "/" in run_id or ".." in run_id:raise ValueError("unsafe run_id")
+  shards=self.partition(data)
+  if any(not shard for shard in shards):raise ValueError("world_size cannot exceed sample count")
+  checkpoint=self.root/f"{run_id}.json";state={"epoch":0,"weight":0.0,"steps":0}
+  if resume:
+   if not checkpoint.exists():raise TrainingError("checkpoint not found")
+   state=json.loads(checkpoint.read_text())
+  for epoch in range(state["epoch"],self.config.epochs):
+   gradients=[]
+   for rank,shard in enumerate(shards):
+    if fail_at==(epoch,rank):self._save(checkpoint,{**state,"epoch":epoch});raise TrainingError(f"worker {rank} failed")
+    gradients.append(sum(2*s.x*(state["weight"]*s.x-s.y) for s in shard)/len(shard))
+   gradient=sum(gradients)/len(gradients)
+   state["weight"]-=self.config.learning_rate*gradient/self.config.gradient_accumulation;state["steps"]+=1;state["epoch"]=epoch+1
+   if state["epoch"]%self.config.checkpoint_every==0:self._save(checkpoint,state)
+  checksum=hashlib.sha256(json.dumps(state,sort_keys=True).encode()).hexdigest();return {**state,"checksum":checksum,"partitions":[len(x) for x in shards]}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `DistributedTrainer.train` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** An epoch linearizes at the atomic checksummed checkpoint replace after the synchronized update. Individual rank gradients or a temporary checkpoint do not constitute committed progress.
+
+**Implementation evidence.** [`ailab/distributed_training.py · DistributedTrainer._save`](../../ailab/distributed_training.py) is the concrete control point used by this project:
+
+```python
+def _save(self,path:Path,state:dict):
+  temporary=path.with_suffix(".tmp");temporary.write_text(json.dumps(state,sort_keys=True));temporary.replace(path)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `DistributedTrainer._save` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** The last valid checksummed checkpoint is authoritative; worker memory and partial files are disposable. Reconciliation loads only that checkpoint, validates configuration/run identity, and replays at most the uncommitted epoch.
+
+**Implementation evidence.** [`ailab/distributed_training.py · DistributedTrainer.train`](../../ailab/distributed_training.py) is the concrete control point used by this project:
+
+```python
+def train(self,data:list[Sample],run_id:str="run",fail_at:tuple[int,int]|None=None,resume:bool=False)->dict:
+  if not run_id or "/" in run_id or ".." in run_id:raise ValueError("unsafe run_id")
+  shards=self.partition(data)
+  if any(not shard for shard in shards):raise ValueError("world_size cannot exceed sample count")
+  checkpoint=self.root/f"{run_id}.json";state={"epoch":0,"weight":0.0,"steps":0}
+  if resume:
+   if not checkpoint.exists():raise TrainingError("checkpoint not found")
+   state=json.loads(checkpoint.read_text())
+  for epoch in range(state["epoch"],self.config.epochs):
+   gradients=[]
+   for rank,shard in enumerate(shards):
+    if fail_at==(epoch,rank):self._save(checkpoint,{**state,"epoch":epoch});raise TrainingError(f"worker {rank} failed")
+    gradients.append(sum(2*s.x*(state["weight"]*s.x-s.y) for s in shard)/len(shard))
+   gradient=sum(gradients)/len(gradients)
+   state["weight"]-=self.config.learning_rate*gradient/self.config.gradient_accumulation;state["steps"]+=1;state["epoch"]=epoch+1
+   if state["epoch"]%self.config.checkpoint_every==0:self._save(checkpoint,state)
+  checksum=hashlib.sha256(json.dumps(state,sort_keys=True).encode()).hexdigest();return {**state,"checksum":checksum,"partitions":[len(x) for x in shards]}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `DistributedTrainer.train` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Degrade by reducing world size, resuming from the last checkpoint, or delaying the job. Data partition uniqueness, finite updates, checkpoint checksum, and incompatible-resume checks fail closed.
+
+**Implementation evidence.** [`ailab/distributed_training.py · TrainingConfig.validate`](../../ailab/distributed_training.py) is the concrete control point used by this project:
+
+```python
+def validate(self):
+  if self.world_size<1:raise ValueError("world_size must be positive")
+  if self.epochs<1:raise ValueError("epochs must be positive")
+  if not math.isfinite(self.learning_rate) or self.learning_rate<=0:raise ValueError("learning_rate must be finite and positive")
+  if self.gradient_accumulation<1 or self.checkpoint_every<1:raise ValueError("accumulation and checkpoint cadence must be positive")
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `TrainingConfig.validate` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track samples/rank, step/epoch time, throughput, loss, gradient norm, rank skew/stragglers, collective failures, checkpoint duration/age, restart count, wasted accelerator time, and resumed-vs-clean determinism.
+
+**Implementation evidence.** [`ailab/distributed_training.py · DistributedTrainer.partition`](../../ailab/distributed_training.py) is the concrete control point used by this project:
+
+```python
+def partition(self,data:list[Sample])->list[list[Sample]]:
+  if not data:raise ValueError("training data cannot be empty")
+  return [data[rank::self.config.world_size] for rank in range(self.config.world_size)]
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `DistributedTrainer.partition` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** Adopt real DDP/FSDP, elastic rendezvous, sharded checkpoints, topology-aware placement, data locality, and hierarchical collectives. Multi-region synchronous training is usually avoided; adversarial jobs need GPU quotas and sandboxed inputs.
+
+**Implementation evidence.** [`ailab/distributed_training.py · framework_inventory`](../../ailab/distributed_training.py) is the concrete control point used by this project:
+
+```python
+def framework_inventory()->dict[str,bool]:
+ import importlib.util
+ return {name:importlib.util.find_spec(name) is not None for name in ("torch","tensorflow","jax")}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `framework_inventory` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns cluster/rendezvous, placement, distributed checkpoint storage, identity, quotas, telemetry, and failure recovery. Model teams own architecture, optimizer, data semantics, convergence policy, and checkpoint compatibility migration.
+
+**Implementation evidence.** [`ailab/distributed_training.py · DistributedTrainer.train`](../../ailab/distributed_training.py) is the concrete control point used by this project:
+
+```python
+def train(self,data:list[Sample],run_id:str="run",fail_at:tuple[int,int]|None=None,resume:bool=False)->dict:
+  if not run_id or "/" in run_id or ".." in run_id:raise ValueError("unsafe run_id")
+  shards=self.partition(data)
+  if any(not shard for shard in shards):raise ValueError("world_size cannot exceed sample count")
+  checkpoint=self.root/f"{run_id}.json";state={"epoch":0,"weight":0.0,"steps":0}
+  if resume:
+   if not checkpoint.exists():raise TrainingError("checkpoint not found")
+   state=json.loads(checkpoint.read_text())
+  for epoch in range(state["epoch"],self.config.epochs):
+   gradients=[]
+   for rank,shard in enumerate(shards):
+    if fail_at==(epoch,rank):self._save(checkpoint,{**state,"epoch":epoch});raise TrainingError(f"worker {rank} failed")
+    gradients.append(sum(2*s.x*(state["weight"]*s.x-s.y) for s in shard)/len(shard))
+   gradient=sum(gradients)/len(gradients)
+   state["weight"]-=self.config.learning_rate*gradient/self.config.gradient_accumulation;state["steps"]+=1;state["epoch"]=epoch+1
+   if state["epoch"]%self.config.checkpoint_every==0:self._save(checkpoint,state)
+  checksum=hashlib.sha256(json.dumps(state,sort_keys=True).encode()).hexdigest();return {**state,"checksum":checksum,"partitions":[len(x) for x in shards]}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `DistributedTrainer.train` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

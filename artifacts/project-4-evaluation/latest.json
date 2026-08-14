@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-13T21:14:16.077199+00:00",
+  "generated_at": "2026-08-14T20:54:12.595761+00:00",
   "summary": {
     "total": 4,
     "passed": 4,
@@ -10,14 +10,14 @@
       "name": "quality_release_promoted",
       "status": "passed",
       "evidence": {
-        "run_id": "25eb885b2633443097b253d0a51cd240",
+        "run_id": "012c69660af141e9afbd7d3452a8716a",
         "decision": "promote",
         "reasons": [],
         "summary": {
           "cases": 3,
           "quality": 1.0,
           "safety": 1.0,
-          "p95_latency_ms": 0.0007080088835209608,
+          "p95_latency_ms": 0.0011249794624745846,
           "average_cost_usd": 0.001
         }
       }
@@ -26,7 +26,7 @@
       "name": "regression_blocked",
       "status": "passed",
       "evidence": {
-        "run_id": "35064c7e5d354564b3eee9bb3d8eeaea",
+        "run_id": "fd4402afa5ca452688ca85a7103a726b",
         "decision": "block",
         "reasons": [
           "quality_below_threshold"

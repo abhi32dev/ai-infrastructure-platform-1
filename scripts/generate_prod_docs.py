@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Generate project-specific production reasoning documents from reviewed specs."""
+import ast
+import textwrap
 from pathlib import Path
+from discussion_answers import ANSWERS, QUESTIONS
 ROOT=Path(__file__).resolve().parents[1]
 SPECS={
 "project-01-rag":("Production RAG","Grounded retrieval must preserve tenant isolation and citation provenance.",["empty corpus and empty query","invalid chunk size/overlap","duplicate ingestion and deterministic IDs","tenant/metadata filter isolation","embedding provider outage","cache hit, miss and TTL expiry","retrieval recall/MRR regression","citation and grounding failure"],"SQLite keeps the lab inspectable; production substitutes a replicated vector/search tier behind the same contract."),
@@ -79,21 +82,46 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+{discussion}
 
 ## Commands and evidence
 
 Activate this project's `.venv`, run its CLI and project test file from `COMMANDS.md`, then inspect the matching `artifacts/project-*` report. The environment is a non-editable wheel snapshot so another project's installation cannot silently change this project.
 """
+
+def source_excerpt(filename: str, symbol: str) -> str:
+ source=(ROOT/filename).read_text(); tree=ast.parse(source); parts=symbol.split(".")
+ node=next((item for item in tree.body if isinstance(item,(ast.ClassDef,ast.FunctionDef,ast.AsyncFunctionDef)) and item.name==parts[0]),None)
+ if node is None: raise ValueError(f"missing source symbol: {filename}#{symbol}")
+ if len(parts)==2:
+  if not isinstance(node,ast.ClassDef): raise ValueError(f"not a class: {filename}#{parts[0]}")
+  node=next((item for item in node.body if isinstance(item,(ast.FunctionDef,ast.AsyncFunctionDef)) and item.name==parts[1]),None)
+  if node is None: raise ValueError(f"missing method: {filename}#{symbol}")
+ segment=textwrap.dedent(ast.get_source_segment(source,node) or "").strip().splitlines()
+ # Keep enough of the real function to show its validation/commit/return path. The link
+ # immediately above the fence opens the complete implementation when a function is larger.
+ excerpt=segment[:32]
+ if len(segment)>32: excerpt.append(f"# … {len(segment)-32} additional source lines in the linked implementation")
+ return "\n".join(excerpt)
+
+def render_discussion(directory: str) -> str:
+ entries=ANSWERS.get(directory)
+ if entries is None or len(entries)!=len(QUESTIONS): raise ValueError(f"{directory} must have seven reviewed answers")
+ rendered=[]
+ for number,(question,(answer,filename,symbol)) in enumerate(zip(QUESTIONS,entries),1):
+  excerpt=source_excerpt(filename,symbol)
+  rendered.append(
+   f"### {number}. {question}\n\n"
+   f"**Staff/Principal answer.** {answer}\n\n"
+   f"**Implementation evidence.** [`{filename} · {symbol}`](../../{filename}) is the concrete control point used by this project:\n\n"
+   f"```python\n{excerpt}\n```\n\n"
+   f"**How to defend this in an interview.** State the invariant and failure impact first, identify `{symbol}` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale."
+  )
+ return "\n\n".join(rendered)
+
 def main():
  for directory,(title,invariant,scenarios,tradeoff) in SPECS.items():
-  rendered=TEMPLATE.format(title=title,invariant=invariant,scenarios="\n".join(f"- {item}" for item in scenarios),tradeoff=tradeoff)
+  rendered=TEMPLATE.format(title=title,invariant=invariant,scenarios="\n".join(f"- {item}" for item in scenarios),tradeoff=tradeoff,discussion=render_discussion(directory))
   path=ROOT/"projects"/directory/"PROD.md";path.parent.mkdir(parents=True,exist_ok=True);path.write_text(rendered)
  print(f"Generated {len(SPECS)} production documents")
 if __name__=="__main__":main()

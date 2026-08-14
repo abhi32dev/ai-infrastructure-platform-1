@@ -60,13 +60,112 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Cross-tenant disclosure or execution without valid identity is the dominant risk because it creates irreversible legal and trust impact. Authentication, authorization, inspection, and tenant filtering must precede every expensive or data-bearing action.
+
+**Implementation evidence.** [`ailab/security_guardrails.py · GuardrailGateway.enforce`](../../ailab/security_guardrails.py) is the concrete control point used by this project:
+
+```python
+def enforce(self,p:Principal,action,tenant,resource,risk="low"):
+  self._quota(p);decision=self.authorize(p,action,tenant,risk);self._audit(p,action,resource,decision)
+  if not decision.allowed:raise GuardrailBlocked(decision.policy,decision.reason)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GuardrailGateway.enforce` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** A protected mutation linearizes only when authorization/quota checks and the hash-chained audit append are committed with the effect. Token verification alone is not a mutation acknowledgment.
+
+**Implementation evidence.** [`ailab/security_guardrails.py · GuardrailGateway._audit`](../../ailab/security_guardrails.py) is the concrete control point used by this project:
+
+```python
+def _audit(self,p,action,resource,d):
+  row=self.db.execute("SELECT event_hash FROM audit ORDER BY sequence DESC LIMIT 1").fetchone();previous=row[0] if row else "GENESIS";timestamp=time.time();values=(timestamp,p.subject,p.tenant,action,resource,"allow" if d.allowed else "deny",d.policy,d.reason,previous);event_hash=hashlib.sha256("|".join(map(str,values)).encode()).hexdigest();self.db.execute("INSERT INTO audit(timestamp,subject,tenant,action,resource,decision,policy,reason,previous_hash,event_hash) VALUES(?,?,?,?,?,?,?,?,?,?)",(*values,event_hash));self.db.commit()
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GuardrailGateway._audit` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** The protected data store plus verified audit chain is authoritative; caches and model responses are not. Reconciliation is bounded by tenant, resource identity, and retention window, and any broken chain becomes an incident rather than silently repaired evidence.
+
+**Implementation evidence.** [`ailab/security_guardrails.py · GuardrailGateway.verify_audit_chain`](../../ailab/security_guardrails.py) is the concrete control point used by this project:
+
+```python
+def verify_audit_chain(self)->bool:
+  previous="GENESIS"
+  for r in self.db.execute("SELECT * FROM audit ORDER BY sequence"):
+   payload="|".join(str(r[x]) for x in ("timestamp","subject","tenant","action","resource","decision","policy","reason","previous_hash"));expected=hashlib.sha256(payload.encode()).hexdigest()
+   if r["previous_hash"]!=previous or r["event_hash"]!=expected:return False
+   previous=expected
+  return True
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GuardrailGateway.verify_audit_chain` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Low-risk inference may degrade by redaction, safe templates, or reduced capability. Invalid identity, missing scope, cross-tenant access, injection, secrets, quota exhaustion, and audit-integrity failure must fail closed.
+
+**Implementation evidence.** [`ailab/security_guardrails.py · GuardrailGateway.authorize`](../../ailab/security_guardrails.py) is the concrete control point used by this project:
+
+```python
+def authorize(self,p:Principal,action:str,resource_tenant:str,risk="low")->Decision:
+  if p.tenant!=resource_tenant and "platform-admin" not in p.roles:return Decision(False,"authz.tenant","cross-tenant access denied")
+  role_actions={"reader":{"retrieve"},"agent":{"retrieve","infer","tool:read"},"operator":{"retrieve","infer","tool:read","tool:write"},"platform-admin":{"*"}}
+  allowed=any("*" in role_actions.get(role,set()) or action in role_actions.get(role,set()) for role in p.roles)
+  if not allowed:return Decision(False,"authz.rbac",f"roles do not permit {action}")
+  if risk=="high" and "operator" not in p.roles and "platform-admin" not in p.roles:return Decision(False,"authz.high_risk","operator approval required")
+  return Decision(True,"authz.allow","least-privilege policy allowed action")
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GuardrailGateway.authorize` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track authentication/authorization denials, tenant-escape attempts, injection and PII detections, redaction, quota rejection, unusual tool use, audit verification, deletion/retention completion, and false-positive/negative review outcomes.
+
+**Implementation evidence.** [`ailab/security_guardrails.py · GuardrailGateway._audit`](../../ailab/security_guardrails.py) is the concrete control point used by this project:
+
+```python
+def _audit(self,p,action,resource,d):
+  row=self.db.execute("SELECT event_hash FROM audit ORDER BY sequence DESC LIMIT 1").fetchone();previous=row[0] if row else "GENESIS";timestamp=time.time();values=(timestamp,p.subject,p.tenant,action,resource,"allow" if d.allowed else "deny",d.policy,d.reason,previous);event_hash=hashlib.sha256("|".join(map(str,values)).encode()).hexdigest();self.db.execute("INSERT INTO audit(timestamp,subject,tenant,action,resource,decision,policy,reason,previous_hash,event_hash) VALUES(?,?,?,?,?,?,?,?,?,?)",(*values,event_hash));self.db.commit()
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GuardrailGateway._audit` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** Centralize policy distribution, isolate tenant keys/data, use regional enforcement, hardware-backed secrets, streaming audit, and abuse detection. Adversarial tenants require adaptive quotas but policy evaluation must remain deterministic and explainable.
+
+**Implementation evidence.** [`ailab/security_guardrails.py · GuardrailGateway.input_guard`](../../ailab/security_guardrails.py) is the concrete control point used by this project:
+
+```python
+def input_guard(self,text:str,allow_pii=False)->Decision:
+  lowered=text.lower();injection=next((x for x in self.INJECTION if x in lowered),None)
+  if injection:return Decision(False,"input.prompt_injection",f"matched adversarial phrase: {injection}")
+  redacted=self.EMAIL.sub("[EMAIL]",self.SSN.sub("[SSN]",text))
+  if redacted!=text and not allow_pii:return Decision(True,"input.pii_redaction","PII redacted",redacted)
+  return Decision(True,"input.accept","input accepted",text)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GuardrailGateway.input_guard` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns identity verification, policy engine, tenant isolation primitives, secret/PII controls, audit, quotas, and key lifecycle. Application teams own data classification, resource ownership, domain permissions, approved tools, and human risk decisions.
+
+**Implementation evidence.** [`ailab/security_guardrails.py · GuardrailGateway.enforce`](../../ailab/security_guardrails.py) is the concrete control point used by this project:
+
+```python
+def enforce(self,p:Principal,action,tenant,resource,risk="low"):
+  self._quota(p);decision=self.authorize(p,action,tenant,risk);self._audit(p,action,resource,decision)
+  if not decision.allowed:raise GuardrailBlocked(decision.policy,decision.reason)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GuardrailGateway.enforce` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

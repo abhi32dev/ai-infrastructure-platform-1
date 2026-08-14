@@ -60,13 +60,160 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Unbounded retries or object-store growth is the costliest operational violation because one DAG can exhaust the whole cluster. DAG validity, resource feasibility, retry budget, and object capacity must be enforced centrally.
+
+**Implementation evidence.** [`ailab/distributed_orchestration.py · Orchestrator.run`](../../ailab/distributed_orchestration.py) is the concrete control point used by this project:
+
+```python
+def run(self,tasks:list[Task])->dict:
+  self.validate(tasks);context={}
+  for task in tasks:
+   if task.cpu>self.cpu or task.memory>self.memory:raise OrchestrationError(f"unschedulable task: {task.name}")
+   attempts=0
+   while True:
+    attempts+=1
+    try:result=task.handler(context);break
+    except Exception as exc:
+     self.events.append({"task":task.name,"attempt":attempts,"status":"failed","error":str(exc)})
+     if attempts>task.retries:raise OrchestrationError(f"task failed: {task.name}") from exc
+   size=len(repr(result).encode())
+   if sum(len(repr(x).encode()) for x in self.objects.values())+size>self.object_store:raise OrchestrationError("object store exhausted")
+   self.objects[task.name]=result;context[task.name]=result;self.events.append({"task":task.name,"attempt":attempts,"status":"completed"})
+  return context
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `Orchestrator.run` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** A task linearizes when its output is accepted into the object store and marked complete after execution. Scheduling or worker start is not completion; actor mutation linearizes at the named actor's state update.
+
+**Implementation evidence.** [`ailab/distributed_orchestration.py · Orchestrator.run`](../../ailab/distributed_orchestration.py) is the concrete control point used by this project:
+
+```python
+def run(self,tasks:list[Task])->dict:
+  self.validate(tasks);context={}
+  for task in tasks:
+   if task.cpu>self.cpu or task.memory>self.memory:raise OrchestrationError(f"unschedulable task: {task.name}")
+   attempts=0
+   while True:
+    attempts+=1
+    try:result=task.handler(context);break
+    except Exception as exc:
+     self.events.append({"task":task.name,"attempt":attempts,"status":"failed","error":str(exc)})
+     if attempts>task.retries:raise OrchestrationError(f"task failed: {task.name}") from exc
+   size=len(repr(result).encode())
+   if sum(len(repr(x).encode()) for x in self.objects.values())+size>self.object_store:raise OrchestrationError("object store exhausted")
+   self.objects[task.name]=result;context[task.name]=result;self.events.append({"task":task.name,"attempt":attempts,"status":"completed"})
+  return context
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `Orchestrator.run` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** The orchestrator's task-state/output map is authoritative for DAG progress; worker-local state is not. Reconciliation is bounded by the finite DAG, declared dependencies, attempts, and object references.
+
+**Implementation evidence.** [`ailab/distributed_orchestration.py · Orchestrator.validate`](../../ailab/distributed_orchestration.py) is the concrete control point used by this project:
+
+```python
+def validate(self,tasks:list[Task]):
+  names=[x.name for x in tasks]
+  if not tasks or any(not x for x in names):raise ValueError("tasks and names are required")
+  if len(names)!=len(set(names)):raise ValueError("duplicate task")
+  seen=set()
+  for task in tasks:
+   if task.cpu<1 or task.memory<1 or task.retries<0:raise ValueError("invalid task resources")
+   if any(dep not in seen for dep in task.dependencies):raise ValueError("dependency must precede task")
+   seen.add(task.name)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `Orchestrator.validate` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Degrade by retrying declared transient work, delaying resource-heavy tasks, spilling/recomputing objects, or recreating an actor. DAG cycles, over-allocation, retry exhaustion, and corrupted/missing required inputs fail closed.
+
+**Implementation evidence.** [`ailab/distributed_orchestration.py · Orchestrator.run`](../../ailab/distributed_orchestration.py) is the concrete control point used by this project:
+
+```python
+def run(self,tasks:list[Task])->dict:
+  self.validate(tasks);context={}
+  for task in tasks:
+   if task.cpu>self.cpu or task.memory>self.memory:raise OrchestrationError(f"unschedulable task: {task.name}")
+   attempts=0
+   while True:
+    attempts+=1
+    try:result=task.handler(context);break
+    except Exception as exc:
+     self.events.append({"task":task.name,"attempt":attempts,"status":"failed","error":str(exc)})
+     if attempts>task.retries:raise OrchestrationError(f"task failed: {task.name}") from exc
+   size=len(repr(result).encode())
+   if sum(len(repr(x).encode()) for x in self.objects.values())+size>self.object_store:raise OrchestrationError("object store exhausted")
+   self.objects[task.name]=result;context[task.name]=result;self.events.append({"task":task.name,"attempt":attempts,"status":"completed"})
+  return context
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `Orchestrator.run` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track runnable/queued/running tasks, dependency wait, placement failure, CPU/memory utilization, attempts, retry exhaustion, object bytes/pressure/eviction, critical-path latency, actor restarts, and recomputation cost.
+
+**Implementation evidence.** [`ailab/distributed_orchestration.py · Orchestrator.run`](../../ailab/distributed_orchestration.py) is the concrete control point used by this project:
+
+```python
+def run(self,tasks:list[Task])->dict:
+  self.validate(tasks);context={}
+  for task in tasks:
+   if task.cpu>self.cpu or task.memory>self.memory:raise OrchestrationError(f"unschedulable task: {task.name}")
+   attempts=0
+   while True:
+    attempts+=1
+    try:result=task.handler(context);break
+    except Exception as exc:
+     self.events.append({"task":task.name,"attempt":attempts,"status":"failed","error":str(exc)})
+     if attempts>task.retries:raise OrchestrationError(f"task failed: {task.name}") from exc
+   size=len(repr(result).encode())
+   if sum(len(repr(x).encode()) for x in self.objects.values())+size>self.object_store:raise OrchestrationError("object store exhausted")
+   self.objects[task.name]=result;context[task.name]=result;self.events.append({"task":task.name,"attempt":attempts,"status":"completed"})
+  return context
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `Orchestrator.run` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** Use distributed schedulers, leases, autoscaling, locality-aware placement, object spilling, lineage-based reconstruction, and durable workflow state. Multi-region DAGs need data locality; adversarial jobs require namespace and resource quotas.
+
+**Implementation evidence.** [`ailab/distributed_orchestration.py · Orchestrator.actor`](../../ailab/distributed_orchestration.py) is the concrete control point used by this project:
+
+```python
+def actor(self,name:str,initial:int=0):
+  if not name:raise ValueError("actor name required")
+  state={"value":initial,"restarts":0}
+  def call(delta:int=0,crash:bool=False):
+   if crash:state["restarts"]+=1;raise OrchestrationError("actor crashed")
+   state["value"]+=delta;return dict(state)
+  return call
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `Orchestrator.actor` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns DAG execution, resources, retries, object transport, actor lifecycle, quotas, and telemetry. Application teams own task functions, dependencies, retryability declarations, data semantics, checkpoints, and compensation logic.
+
+**Implementation evidence.** [`ailab/distributed_orchestration.py · Task`](../../ailab/distributed_orchestration.py) is the concrete control point used by this project:
+
+```python
+class Task:
+ name:str;handler:Callable[[dict],object];dependencies:tuple[str,...]=();cpu:int=1;memory:int=1;retries:int=0
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `Task` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

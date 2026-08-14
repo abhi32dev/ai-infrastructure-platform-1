@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-08-13T21:14:32.646180+00:00",
+  "generated_at": "2026-08-14T20:54:26.742108+00:00",
   "summary": {
-    "total": 19,
-    "passed": 19,
+    "total": 20,
+    "passed": 20,
     "failed": 0
   },
   "scenarios": [
@@ -106,6 +106,12 @@
       "name": "verify_project_envs",
       "status": "passed",
       "stdout": "Environment isolation: 20/20 passed\n[PASSED] project-01-rag: <repo>/projects/project-01-rag/.venv/lib/python3.11/site-packages/ailab/rag.py\n[PASSED] project-02-agent-runtime: <repo>/projects/project-02-agent-runtime/.venv/lib/python3.11/site-packages/ailab/agent_runtime.py\n[PASSED] project-03-model-gateway: <repo>/projects/project-03-model-gateway/.venv/lib/python3.11/site-packages/ailab/model_gateway.py\n[PASSED] project-04-evaluation: <repo>/projects/project-04-evaluation/.venv/lib/python3.11/site-packages/ailab/eval_platform.py\n[PASSED] project-05-inference-serving: <repo>/projects/project-05-inference-serving/.venv/lib/python3.11/site-packages/ailab/inference_server.py\n[PASSED] project-06-streaming-features: <repo>/projects/project-06-streaming-features/.venv/lib/python3.11/site-packages/ailab/streaming_features.py\n[PASSED] project-07-recommendations: <repo>/projects/project-07-recommendations/.venv/lib/python3.11/site-packages/ailab/recommendations.py\n[PASSED] project-08-batch-platform: <repo>/projects/project-08-batch-platform/.venv/lib/python3.11/site-packages/ailab/batch_platform.py\n[PASSED] project-09-golden-path: <repo>/projects/project-09-golden-path/.venv/lib/python3.11/site-packages/ailab/golden_path.py\n[PASSED] project-10-observability: <repo>/projects/project-10-observability/.venv/lib/python3.11/site-packages/ailab/observability.py\n[PASSED] project-11-security: <repo>/projects/project-11-security/.venv/lib/python3.11/site-packages/ailab/security_guardrails.py\n[PASSED] project-12-ml-cv: <repo>/projects/project-12-ml-cv/.venv/lib/python3.11/site-packages/ailab/ml_lifecycle.py\n[PASSED] project-13-protocols: <repo>/projects/project-13-protocols/.venv/lib/python3.11/site-packages/ailab/protocols.py\n[PASSED] project-14-distributed-training: <repo>/projects/project-14-distributed-training/.venv/lib/python3.11/site-packages/ailab/distributed_training.py\n[PASSED] project-15-optimized-inference: <repo>/projects/project-15-optimized-inference/.venv/lib/python3.11/site-packages/ailab/llm_inference_optimized.py\n[PASSED] project-16-gpu-platform: <repo>/projects/project-16-gpu-platform/.venv/lib/python3.11/site-packages/ailab/gpu_platform.py\n[PASSED] project-17-lakehouse-features: <repo>/projects/project-17-lakehouse-features/.venv/lib/python3.11/site-packages/ailab/lakehouse_features.py\n[PASSED] project-18-distributed-orchestration: <repo>/projects/project-18-distributed-orchestration/.venv/lib/python3.11/site-packages/ailab/distributed_orchestration.py\n[PASSED] project-19-multi-framework: <repo>/projects/project-19-multi-framework/.venv/lib/python3.11/site-packages/ailab/multi_framework.py\n[PASSED] project-20-cloud-control-plane: <repo>/projects/project-20-cloud-control-plane/.venv/lib/python3.11/site-packages/ailab/cloud_control_plane.py",
+      "stderr": ""
+    },
+    {
+      "name": "verify_prod_guides",
+      "status": "passed",
+      "stdout": "Production guide verification: 20/20 projects, 140 answers",
       "stderr": ""
     },
     {

@@ -60,13 +60,113 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Provisioning public or unencrypted ML resources is the costliest invariant because one bad plan creates data exposure across a provider boundary. Network, encryption, identity, budget, and plan integrity must be policy-gated before apply.
+
+**Implementation evidence.** [`ailab/cloud_control_plane.py · CloudMLControlPlane.plan`](../../ailab/cloud_control_plane.py) is the concrete control point used by this project:
+
+```python
+def plan(self,spec:DeploymentSpec)->dict:
+  spec.validate()
+  if not spec.private_network or not spec.encrypted:raise PolicyViolation("private networking and encryption are mandatory")
+  if spec.instance_type not in self.PRICES:raise ValueError("unknown instance type")
+  cost=self.PRICES[spec.instance_type]*spec.replicas
+  if cost>spec.monthly_budget:raise PolicyViolation("estimated cost exceeds budget")
+  digest=hashlib.sha256(json.dumps(asdict(spec),sort_keys=True).encode()).hexdigest();return {"spec":asdict(spec),"estimated_monthly_cost":cost,"plan_id":digest}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `CloudMLControlPlane.plan` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** Apply linearizes when the verified plan checksum and desired resource state are recorded for the deployment identity. Provider request submission alone is ambiguous; production adapters also use provider idempotency tokens.
+
+**Implementation evidence.** [`ailab/cloud_control_plane.py · CloudMLControlPlane.apply`](../../ailab/cloud_control_plane.py) is the concrete control point used by this project:
+
+```python
+def apply(self,plan:dict)->str:
+  spec=DeploymentSpec(**plan["spec"]);expected=self.plan(spec)
+  if expected["plan_id"]!=plan.get("plan_id"):raise PolicyViolation("plan integrity failure")
+  if spec.name in self.desired and self.desired[spec.name]==plan:return "unchanged"
+  self.desired[spec.name]=plan;self.actual[spec.name]=dict(plan["spec"]);self.audit.append({"action":"apply","name":spec.name,"plan_id":plan["plan_id"]});return "applied"
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `CloudMLControlPlane.apply` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** Versioned desired state is authoritative for intent; provider observations are authoritative for actual state. Reconciliation is bounded to managed fields/resources in the plan and must not overwrite unowned provider configuration.
+
+**Implementation evidence.** [`ailab/cloud_control_plane.py · CloudMLControlPlane.drift`](../../ailab/cloud_control_plane.py) is the concrete control point used by this project:
+
+```python
+def drift(self,name:str)->dict:
+  if name not in self.desired:raise KeyError(name)
+  desired=self.desired[name]["spec"];actual=self.actual.get(name,{});changes={key:{"desired":value,"actual":actual.get(key)} for key,value in desired.items() if actual.get(key)!=value};return {"drifted":bool(changes),"changes":changes}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `CloudMLControlPlane.drift` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Degrade by staying on the current region/provider, reducing replicas within SLO, or producing a reviewed failover plan. Encryption, private networking, identity, plan checksum, provider support, and budget ceiling fail closed.
+
+**Implementation evidence.** [`ailab/cloud_control_plane.py · CloudMLControlPlane.failover`](../../ailab/cloud_control_plane.py) is the concrete control point used by this project:
+
+```python
+def failover(self,name:str,target_region:str)->dict:
+  if not target_region:raise ValueError("target region required")
+  if name not in self.desired:raise KeyError(name)
+  current=DeploymentSpec(**self.desired[name]["spec"]);replacement=DeploymentSpec(**{**asdict(current),"region":target_region});plan=self.plan(replacement);self.apply(plan);return plan
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `CloudMLControlPlane.failover` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track plan/policy rejection, apply success/idempotency, provider API errors, desired/actual drift by field, reconciliation age, quota/capacity, projected/actual cost, regional health, failover readiness, and security posture.
+
+**Implementation evidence.** [`ailab/cloud_control_plane.py · CloudMLControlPlane.drift`](../../ailab/cloud_control_plane.py) is the concrete control point used by this project:
+
+```python
+def drift(self,name:str)->dict:
+  if name not in self.desired:raise KeyError(name)
+  desired=self.desired[name]["spec"];actual=self.actual.get(name,{});changes={key:{"desired":value,"actual":actual.get(key)} for key,value in desired.items() if actual.get(key)!=value};return {"drifted":bool(changes),"changes":changes}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `CloudMLControlPlane.drift` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** Use asynchronous provider adapters, durable operations, rate/quota management, regional controllers, policy-as-code, and eventual-consistency reconciliation. Adversarial tenants require scoped credentials, budgets, resource allowlists, and immutable audit.
+
+**Implementation evidence.** [`ailab/cloud_control_plane.py · CloudMLControlPlane.reconcile`](../../ailab/cloud_control_plane.py) is the concrete control point used by this project:
+
+```python
+def reconcile(self,name:str):
+  report=self.drift(name)
+  if report["drifted"]:self.actual[name]=dict(self.desired[name]["spec"]);self.audit.append({"action":"reconcile","name":name})
+  return report
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `CloudMLControlPlane.reconcile` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns provider abstraction, credentials, policy, networking/encryption defaults, budgets, drift, reconciliation, failover, and audit. Application teams own workload SLO, data residency, capacity shape, acceptable providers/regions, and failover business approval.
+
+**Implementation evidence.** [`ailab/cloud_control_plane.py · DeploymentSpec.validate`](../../ailab/cloud_control_plane.py) is the concrete control point used by this project:
+
+```python
+def validate(self):
+  if not self.name or not self.name.replace("-","").isalnum():raise ValueError("invalid deployment name")
+  if self.provider not in {"aws","gcp","azure"}:raise ValueError("unsupported provider")
+  if not self.region or not self.instance_type:raise ValueError("region and instance type required")
+  if self.replicas<1 or self.monthly_budget<=0:raise ValueError("replicas and budget must be positive")
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `DeploymentSpec.validate` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

@@ -60,13 +60,124 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Oversubscribing or cross-charging GPUs is the costliest invariant because it creates workload failure and direct financial leakage. Capacity, device type, health, allocation identity, and tenant quota must change atomically.
+
+**Implementation evidence.** [`ailab/gpu_platform.py · GPUPlatform.schedule`](../../ailab/gpu_platform.py) is the concrete control point used by this project:
+
+```python
+def schedule(self,workload:Workload)->str:
+  workload.validate()
+  if workload.name in self.workloads:return self.workloads[workload.name]
+  used=sum(w.gpus for w,n in getattr(self,"_requests",[]) if w.tenant==workload.tenant)
+  if workload.tenant in self.quotas and used+workload.gpus>self.quotas[workload.tenant]:raise SchedulingError("tenant quota exceeded")
+  candidates=[n for n in self.nodes.values() if n.healthy and n.available>=workload.gpus and (workload.gpu_type is None or n.gpu_type==workload.gpu_type)]
+  if not candidates:raise SchedulingError("no feasible GPU node")
+  node=sorted(candidates,key=lambda n:(n.spot,-n.available,n.name))[0];node.allocations[workload.name]=workload.gpus;self.workloads[workload.name]=node.name
+  if not hasattr(self,"_requests"):self._requests=[]
+  self._requests.append((workload,node.name));return node.name
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GPUPlatform.schedule` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** Scheduling linearizes when the placement and node allocation are recorded together for the workload ID. A repeated request returns that placement; completion linearizes when exactly that allocation is reclaimed.
+
+**Implementation evidence.** [`ailab/gpu_platform.py · GPUPlatform.schedule`](../../ailab/gpu_platform.py) is the concrete control point used by this project:
+
+```python
+def schedule(self,workload:Workload)->str:
+  workload.validate()
+  if workload.name in self.workloads:return self.workloads[workload.name]
+  used=sum(w.gpus for w,n in getattr(self,"_requests",[]) if w.tenant==workload.tenant)
+  if workload.tenant in self.quotas and used+workload.gpus>self.quotas[workload.tenant]:raise SchedulingError("tenant quota exceeded")
+  candidates=[n for n in self.nodes.values() if n.healthy and n.available>=workload.gpus and (workload.gpu_type is None or n.gpu_type==workload.gpu_type)]
+  if not candidates:raise SchedulingError("no feasible GPU node")
+  node=sorted(candidates,key=lambda n:(n.spot,-n.available,n.name))[0];node.allocations[workload.name]=workload.gpus;self.workloads[workload.name]=node.name
+  if not hasattr(self,"_requests"):self._requests=[]
+  self._requests.append((workload,node.name));return node.name
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GPUPlatform.schedule` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** The control-plane allocation ledger is authoritative for logical ownership; node-reported availability is observed actual state. Reconciliation is bounded by registered nodes/workloads and never frees capacity without matching allocation identity.
+
+**Implementation evidence.** [`ailab/gpu_platform.py · GPUPlatform.complete`](../../ailab/gpu_platform.py) is the concrete control point used by this project:
+
+```python
+def complete(self,name:str):
+  node_name=self.workloads.pop(name,None)
+  if node_name:self.nodes[node_name].allocations.pop(name,None)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GPUPlatform.complete` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Degrade by queueing, choosing a policy-approved alternate node, draining spot capacity, or scaling out. GPU compatibility, quota, idempotency, health, and non-overcommit fail closed.
+
+**Implementation evidence.** [`ailab/gpu_platform.py · GPUPlatform.schedule`](../../ailab/gpu_platform.py) is the concrete control point used by this project:
+
+```python
+def schedule(self,workload:Workload)->str:
+  workload.validate()
+  if workload.name in self.workloads:return self.workloads[workload.name]
+  used=sum(w.gpus for w,n in getattr(self,"_requests",[]) if w.tenant==workload.tenant)
+  if workload.tenant in self.quotas and used+workload.gpus>self.quotas[workload.tenant]:raise SchedulingError("tenant quota exceeded")
+  candidates=[n for n in self.nodes.values() if n.healthy and n.available>=workload.gpus and (workload.gpu_type is None or n.gpu_type==workload.gpu_type)]
+  if not candidates:raise SchedulingError("no feasible GPU node")
+  node=sorted(candidates,key=lambda n:(n.spot,-n.available,n.name))[0];node.allocations[workload.name]=workload.gpus;self.workloads[workload.name]=node.name
+  if not hasattr(self,"_requests"):self._requests=[]
+  self._requests.append((workload,node.name));return node.name
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GPUPlatform.schedule` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track allocatable/allocated GPUs by type/node/tenant, pending demand, fragmentation, placement failure reason, quota rejection, idle cost, job startup, drain/eviction, completion reclaim, spot interruption, and autoscale accuracy.
+
+**Implementation evidence.** [`ailab/gpu_platform.py · GPUPlatform.autoscale_plan`](../../ailab/gpu_platform.py) is the concrete control point used by this project:
+
+```python
+def autoscale_plan(self,pending:list[Workload])->dict:
+  demand=sum(w.gpus for w in pending);available=sum(n.available for n in self.nodes.values() if n.healthy);return {"pending_gpus":demand,"available_gpus":available,"nodes_to_add":max(0,demand-available)}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GPUPlatform.autoscale_plan` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** Use Kubernetes scheduler plugins, device plugins, topology labels, gang scheduling, quota hierarchies, and separate on-demand/spot pools. Multi-region needs independent capacity domains; adversarial tenants require workload isolation and hard GPU-hour budgets.
+
+**Implementation evidence.** [`ailab/gpu_platform.py · GPUPlatform.add_node`](../../ailab/gpu_platform.py) is the concrete control point used by this project:
+
+```python
+def add_node(self,node:GPUNode):
+  if not node.name.strip() or node.capacity<1:raise ValueError("invalid node")
+  if node.name in self.nodes:raise ValueError("duplicate node")
+  self.nodes[node.name]=node
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `GPUPlatform.add_node` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns node/device inventory, placement, quota, preemption, autoscaling, health, and cost attribution. Application teams own accelerator requirement, distributed topology, checkpointability, priority justification, and interruption tolerance.
+
+**Implementation evidence.** [`ailab/gpu_platform.py · Workload.validate`](../../ailab/gpu_platform.py) is the concrete control point used by this project:
+
+```python
+def validate(self):
+  if not self.name.strip():raise ValueError("workload name required")
+  if self.gpus<1:raise ValueError("GPU request must be positive")
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `Workload.validate` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

@@ -60,13 +60,108 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Future-data leakage in a point-in-time join is the most expensive correctness violation because it invalidates offline evaluation without obvious runtime failure. Event-time order, commit integrity, and observation-time boundaries are non-negotiable.
+
+**Implementation evidence.** [`ailab/lakehouse_features.py · LakehouseFeaturePlatform.point_in_time`](../../ailab/lakehouse_features.py) is the concrete control point used by this project:
+
+```python
+def point_in_time(self,entity_id:str,as_of:float)->float|None:
+  values=[e for e in self.silver if e.entity_id==entity_id and e.event_time<=as_of];return max(values,key=lambda e:e.event_time).value if values else None
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `LakehouseFeaturePlatform.point_in_time` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** Ingest linearizes at deduplicated bronze append by event ID; a compacted version linearizes when its checksummed commit becomes visible. Materialization consumes only committed versions.
+
+**Implementation evidence.** [`ailab/lakehouse_features.py · LakehouseFeaturePlatform.compact`](../../ailab/lakehouse_features.py) is the concrete control point used by this project:
+
+```python
+def compact(self,watermark:float|None=None)->dict:
+  watermark=time.time() if watermark is None else watermark
+  eligible=sorted((e for e in self.bronze.values() if e.event_time<=watermark),key=lambda e:(e.event_time,e.event_id));known={e.event_id for e in self.silver};new=[e for e in eligible if e.event_id not in known];self.silver.extend(new)
+  digest=hashlib.sha256("|".join(e.event_id for e in self.silver).encode()).hexdigest();self.commits.append({"version":len(self.commits)+1,"rows":len(self.silver),"checksum":digest});return self.commits[-1]
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `LakehouseFeaturePlatform.compact` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** Immutable bronze events and verified version commits are authoritative; online features are derived. Reconciliation rebuilds one bounded version/watermark range and compares checksums rather than patching unexplained online values.
+
+**Implementation evidence.** [`ailab/lakehouse_features.py · LakehouseFeaturePlatform.compact`](../../ailab/lakehouse_features.py) is the concrete control point used by this project:
+
+```python
+def compact(self,watermark:float|None=None)->dict:
+  watermark=time.time() if watermark is None else watermark
+  eligible=sorted((e for e in self.bronze.values() if e.event_time<=watermark),key=lambda e:(e.event_time,e.event_id));known={e.event_id for e in self.silver};new=[e for e in eligible if e.event_id not in known];self.silver.extend(new)
+  digest=hashlib.sha256("|".join(e.event_id for e in self.silver).encode()).hexdigest();self.commits.append({"version":len(self.commits)+1,"rows":len(self.silver),"checksum":digest});return self.commits[-1]
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `LakehouseFeaturePlatform.compact` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Degrade by serving the prior verified version or explicit missing feature with freshness metadata. Schema contract, checksum, dedup identity, watermark policy, and point-in-time no-future rule fail closed.
+
+**Implementation evidence.** [`ailab/lakehouse_features.py · LakehouseFeaturePlatform.materialize_online`](../../ailab/lakehouse_features.py) is the concrete control point used by this project:
+
+```python
+def materialize_online(self,as_of:float):
+  latest={}
+  for event in self.silver:
+   if event.event_time<=as_of and (event.entity_id not in latest or event.event_time>=latest[event.entity_id].event_time):latest[event.entity_id]=event
+  self.online={key:value.value for key,value in latest.items()};return dict(self.online)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `LakehouseFeaturePlatform.materialize_online` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track contract/DLQ failures, duplicate rate, event/processing-time lag, late rows, compaction input/output/checksum, version age, materialization lag, PIT misses, feature nulls, and online/offline skew.
+
+**Implementation evidence.** [`ailab/lakehouse_features.py · LakehouseFeaturePlatform.quality`](../../ailab/lakehouse_features.py) is the concrete control point used by this project:
+
+```python
+def quality(self)->dict:
+  ids=[e.event_id for e in self.silver];return {"rows":len(ids),"unique":len(ids)==len(set(ids)),"dlq":len(self.dlq),"commits":len(self.commits)}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `LakehouseFeaturePlatform.quality` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** Partition by event date/entity hash, use columnar object storage, metadata catalogs, incremental compaction, and distributed materialization. Multi-region requires commit ownership; adversarial producers need schema, rate, and hot-key controls.
+
+**Implementation evidence.** [`ailab/lakehouse_features.py · LakehouseFeaturePlatform.ingest`](../../ailab/lakehouse_features.py) is the concrete control point used by this project:
+
+```python
+def ingest(self,event:FeatureEvent)->str:
+  try:event.validate()
+  except DataContractError as exc:self.dlq.append({"event":event,"error":str(exc)});return "dead_lettered"
+  if event.event_id in self.bronze:return "duplicate"
+  self.bronze[event.event_id]=event;return "ingested"
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `LakehouseFeaturePlatform.ingest` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns contracts, lake formats, commits, lineage, PIT join primitives, materialization, freshness, and quality telemetry. Application teams own feature meaning, event producers, default/null semantics, acceptable lateness, and validation thresholds.
+
+**Implementation evidence.** [`ailab/lakehouse_features.py · FeatureEvent.validate`](../../ailab/lakehouse_features.py) is the concrete control point used by this project:
+
+```python
+def validate(self):
+  if not self.event_id or not self.entity_id:raise DataContractError("event and entity identifiers are required")
+  if not math.isfinite(self.event_time) or not math.isfinite(self.value):raise DataContractError("time and value must be finite")
+  if self.schema_version!=1:raise DataContractError("unsupported schema version")
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `FeatureEvent.validate` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

@@ -60,13 +60,110 @@ The trade-off is intentional: a local implementation cannot prove internet-scale
 
 ## Staff/Principal discussion prompts
 
-- Which invariant is financially or operationally most expensive to violate?
-- Where is the linearization point for an idempotent mutation?
-- Which state is authoritative during disagreement, and how is reconciliation bounded?
-- What does graceful degradation preserve, and what must fail closed?
-- Which metrics detect correctness loss before customers report it?
-- What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
-- Which decisions belong in the platform versus the application team, and why?
+### 1. Which invariant is financially or operationally most expensive to violate?
+
+**Staff/Principal answer.** Silent numerical divergence across frameworks is the most expensive invariant because a successfully loaded model can still produce wrong decisions. Artifact schema, checksum, tensor shape, finite values, and parity tolerance must be gated.
+
+**Implementation evidence.** [`ailab/multi_framework.py · parity`](../../ailab/multi_framework.py) is the concrete control point used by this project:
+
+```python
+def parity(models:list[PortableLinearModel],inputs:list[float],tolerance:float=1e-6)->dict:
+ if not models or not inputs:raise ValueError("models and inputs required")
+ if tolerance<0:raise ValueError("tolerance cannot be negative")
+ predictions=[[m.predict(x) for x in inputs] for m in models];maximum=max(abs(a-b) for row in predictions[1:] for a,b in zip(predictions[0],row)) if len(predictions)>1 else 0.0;return {"passed":maximum<=tolerance,"maximum_difference":maximum}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `parity` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 2. Where is the linearization point for an idempotent mutation?
+
+**Staff/Principal answer.** Artifact publication linearizes at atomic save of versioned parameters and checksum. Framework conversion is not complete until the saved artifact reloads and passes prediction parity.
+
+**Implementation evidence.** [`ailab/multi_framework.py · PortableLinearModel.save`](../../ailab/multi_framework.py) is the concrete control point used by this project:
+
+```python
+def save(self,path:Path):path.write_text(json.dumps(asdict(self),sort_keys=True))
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `PortableLinearModel.save` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 3. Which state is authoritative during disagreement, and how is reconciliation bounded?
+
+**Staff/Principal answer.** The portable checksummed artifact is authoritative; framework-native objects are derived runtime representations. Reconciliation reloads the bounded golden input set through each adapter and blocks any tolerance breach.
+
+**Implementation evidence.** [`ailab/multi_framework.py · PortableLinearModel.load`](../../ailab/multi_framework.py) is the concrete control point used by this project:
+
+```python
+def load(cls,path:Path):
+  if not path.exists():raise FileNotFoundError(path)
+  data=json.loads(path.read_text())
+  if data.get("schema_version")!=1:raise ValueError("unsupported artifact schema")
+  if not all(math.isfinite(float(data[x])) for x in ("weight","bias")):raise ValueError("non-finite artifact")
+  return cls(**data)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `PortableLinearModel.load` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 4. What does graceful degradation preserve, and what must fail closed?
+
+**Staff/Principal answer.** Degrade to a previously verified runtime/artifact or a supported CPU path. Artifact integrity, schema/version, tensor shape, non-finite input/output, and parity gates fail closed.
+
+**Implementation evidence.** [`ailab/multi_framework.py · PortableLinearModel.load`](../../ailab/multi_framework.py) is the concrete control point used by this project:
+
+```python
+def load(cls,path:Path):
+  if not path.exists():raise FileNotFoundError(path)
+  data=json.loads(path.read_text())
+  if data.get("schema_version")!=1:raise ValueError("unsupported artifact schema")
+  if not all(math.isfinite(float(data[x])) for x in ("weight","bias")):raise ValueError("non-finite artifact")
+  return cls(**data)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `PortableLinearModel.load` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 5. Which metrics detect correctness loss before customers report it?
+
+**Staff/Principal answer.** Track conversion/load failures, checksum/schema rejection, golden-set max/mean error, NaN/Inf, latency/throughput by runtime, framework/version inventory, unsupported operators, and parity drift by model version.
+
+**Implementation evidence.** [`ailab/multi_framework.py · installed_frameworks`](../../ailab/multi_framework.py) is the concrete control point used by this project:
+
+```python
+def installed_frameworks()->dict[str,bool]:return {name:importlib.util.find_spec(name) is not None for name in ("torch","tensorflow","keras","jax","onnxruntime")}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `installed_frameworks` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 6. What changes at 10× traffic, 100× data, multiple regions or adversarial tenants?
+
+**Staff/Principal answer.** Use standardized export, hardware-specific compilation caches, conformance suites, model registries, and compatibility matrices. Multi-region serving pins runtime versions; adversarial artifacts require signatures, sandboxing, and size/operator limits.
+
+**Implementation evidence.** [`ailab/multi_framework.py · parity`](../../ailab/multi_framework.py) is the concrete control point used by this project:
+
+```python
+def parity(models:list[PortableLinearModel],inputs:list[float],tolerance:float=1e-6)->dict:
+ if not models or not inputs:raise ValueError("models and inputs required")
+ if tolerance<0:raise ValueError("tolerance cannot be negative")
+ predictions=[[m.predict(x) for x in inputs] for m in models];maximum=max(abs(a-b) for row in predictions[1:] for a,b in zip(predictions[0],row)) if len(predictions)>1 else 0.0;return {"passed":maximum<=tolerance,"maximum_difference":maximum}
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `parity` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
+
+### 7. Which decisions belong in the platform versus the application team, and why?
+
+**Staff/Principal answer.** The platform owns portable artifact contracts, supported runtime matrix, conversion, signatures, parity tests, deployment, and telemetry. Model teams own architecture/operator choices, golden examples, tolerance justification, quality gates, and migration approval.
+
+**Implementation evidence.** [`ailab/multi_framework.py · train_linear`](../../ailab/multi_framework.py) is the concrete control point used by this project:
+
+```python
+def train_linear(xs:list[float],ys:list[float],framework:str="numpy")->PortableLinearModel:
+ if len(xs)!=len(ys) or len(xs)<2:raise ValueError("aligned training arrays require at least two samples")
+ if any(not math.isfinite(v) for v in [*xs,*ys]):raise ValueError("training data must be finite")
+ mean_x=sum(xs)/len(xs);mean_y=sum(ys)/len(ys);den=sum((x-mean_x)**2 for x in xs)
+ if den==0:raise ValueError("features have zero variance")
+ weight=sum((x-mean_x)*(y-mean_y) for x,y in zip(xs,ys))/den;return PortableLinearModel(weight,mean_y-weight*mean_x,framework)
+```
+
+**How to defend this in an interview.** State the invariant and failure impact first, identify `train_linear` as the enforcement or evidence boundary, then explain the local-to-production substitution without claiming the lab proves distributed scale.
 
 ## Commands and evidence
 

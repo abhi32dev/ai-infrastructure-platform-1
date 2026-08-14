@@ -6,6 +6,8 @@ A local-first, production-minded learning lab for Staff/Principal AI Infrastruct
 
 **Start with the interactive flow atlas:** [execution maps for all 20 projects](https://abhi32dev.github.io/ai-infrastructure-platform-1/flowcharts.html). It contains 120 source-linked stages with explicit continuation, rejection, retry, fallback, recovery, and durable-state paths.
 
+Every project also includes seven answered Staff/Principal discussion prompts—140 reviewed answers total—with project-specific architecture reasoning, trade-offs, exact function references, and excerpts from the real implementation. The production-guide audit AST-validates every cited symbol.
+
 ## Implemented projects
 
 | # | Project | Main concepts |
