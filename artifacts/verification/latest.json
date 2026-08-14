@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-14T20:54:10.733998+00:00",
-  "git_commit": "4e322860828e7d263836131e52f678bb42de9f30",
+  "generated_at": "2026-08-14T21:37:38.472130+00:00",
+  "git_commit": "afe039e0c30a4899e0403b15f02ba6349902f66c",
   "environment": {
     "python": "3.11.3",
     "platform": "macOS-26.6.1-arm64-arm-64bit"
@@ -15,7 +15,7 @@
       "name": "clean_ingest_and_grounded_query",
       "category": "happy_path",
       "status": "passed",
-      "duration_ms": 1.788,
+      "duration_ms": 1.791,
       "evidence": {
         "documents": 3,
         "chunks": 6,
@@ -31,7 +31,7 @@
       "name": "retrieval_quality_gate",
       "category": "positive",
       "status": "passed",
-      "duration_ms": 0.59,
+      "duration_ms": 0.599,
       "evidence": {
         "retrieval_hit": 1.0,
         "citation_validity": 1.0,
@@ -43,7 +43,7 @@
       "name": "index_survives_process_reopen",
       "category": "positive",
       "status": "passed",
-      "duration_ms": 1.058,
+      "duration_ms": 1.197,
       "evidence": {
         "expected_chunks": 6,
         "observed_chunks": 6,
@@ -54,7 +54,7 @@
       "name": "query_empty_index",
       "category": "negative",
       "status": "passed",
-      "duration_ms": 0.917,
+      "duration_ms": 1.022,
       "evidence": {
         "expected_error": "ValueError: The index is empty; ingest documents before asking questions"
       }
@@ -72,7 +72,7 @@
       "name": "unavailable_ollama_provider",
       "category": "negative",
       "status": "passed",
-      "duration_ms": 4.228,
+      "duration_ms": 4.593,
       "evidence": {
         "expected_error": "RuntimeError: Ollama request failed at http://127.0.0.1:1: <urlopen error [Errno 1] Operation not permitted>"
       }
@@ -81,9 +81,9 @@
       "name": "retry_checkpoint_and_idempotent_resume",
       "category": "failure_recovery",
       "status": "passed",
-      "duration_ms": 1.252,
+      "duration_ms": 1.565,
       "evidence": {
-        "run_id": "a67ea7de907d4783ace76bed79980823",
+        "run_id": "f1a99ebcab6b4afa993b751fd9e6cd09",
         "state": {
           "value": 21,
           "result": 42

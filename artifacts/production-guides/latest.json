@@ -1,10 +1,13 @@
 {
-  "generated_at": "2026-08-14T20:54:55.969036+00:00",
+  "generated_at": "2026-08-14T21:37:53.635508+00:00",
   "summary": {
     "total": 20,
     "passed": 20,
     "failed": 0,
-    "answers": 140
+    "answers": 140,
+    "legacy_tutorials": 13,
+    "legacy_tutorials_passed": 13,
+    "legacy_inline_answers": 33
   },
   "projects": [
     {
@@ -225,6 +228,125 @@
         "all_questions_present": true,
         "all_symbols_resolve": true,
         "all_source_links_present": true
+      }
+    }
+  ],
+  "legacy_tutorials": [
+    {
+      "document": "docs/milestone-1.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-2-agent-runtime.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-3-model-gateway.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-4-evaluation-gate.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-5-inference-serving.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-6-streaming-features.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-7-recommendations.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-8-self-healing-batch.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-9-golden-path.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-10-observability.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-11-security-guardrails.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/project-12-ml-cv-lifecycle.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
+      }
+    },
+    {
+      "document": "docs/protocols-mcp-a2a.md",
+      "status": "passed",
+      "checks": {
+        "prod_guide_exists": true,
+        "prod_guide_linked": true,
+        "inline_answers_complete": true
       }
     }
   ]

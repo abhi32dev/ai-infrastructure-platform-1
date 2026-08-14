@@ -30,3 +30,7 @@ Every protocol operation authenticates a principal supplied by the hosting bound
 Explain protocol versus transport; JSON-RPC correlation; capability/version negotiation; task state machines; artifact chunking and idempotency; synchronous, streaming, and push updates; authentication at the transport and authorization at operations; agent-card trust/signing; SSRF and confused-deputy risks; delegation depth and budgets; cancellation propagation; trace-context propagation; schema evolution; retry safety; data minimization; and MCP-versus-A2A selection.
 
 Primary references used for terminology: [MCP specification](https://modelcontextprotocol.io/specification/2025-06-18) and [A2A 1.0 specification](https://a2a-protocol.org/latest/specification).
+
+## Complete answered Staff/Principal Q&A
+
+The detailed answers, trade-offs, and exact implementation evidence are in [`projects/project-13-protocols/PROD.md`](../projects/project-13-protocols/PROD.md).

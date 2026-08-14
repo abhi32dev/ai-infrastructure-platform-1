@@ -1,1 +1,1 @@
-Production guide verification: 20/20 projects, 140 answers
+Production guide verification: 20/20 projects, 140 answers; legacy tutorials: 13/13, 33 inline answers

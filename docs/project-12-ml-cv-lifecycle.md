@@ -7,3 +7,7 @@ The CV track creates synthetic image arrays, connected-component object detectio
 Exercises: derive the gradient; alter learning rate; corrupt data; fail promotion; shift one feature; roll forward/back; add two crossing objects; calculate IoU manually. Discuss reproducibility, leakage, calibration, imbalance, lineage, shadow/canary, covariate/concept drift, label delay, retraining triggers, detector thresholds, NMS, mAP, tracker association, GPU batching, and framework packaging.
 
 NumPy is the only runtime dependency and is pinned inside this project's environment. TensorFlow/PyTorch integration remains a framework substitution over these lifecycle contracts; the lab does not falsely claim that this connected-component detector is a neural detector.
+
+## Complete answered Staff/Principal Q&A
+
+The detailed answers, trade-offs, and exact implementation evidence are in [`projects/project-12-ml-cv/PROD.md`](../projects/project-12-ml-cv/PROD.md).

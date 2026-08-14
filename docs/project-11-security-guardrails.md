@@ -14,3 +14,7 @@ Implements signed expiring identity tokens, tenant isolation, role/action author
 8. Audit: decision, policy version, principal, resource, trace—never secrets or chain-of-thought
 
 Exercises: tamper with tokens/audit records; attempt cross-tenant retrieval; exhaust quota; inject indirect instructions in a document; test secret-shaped output; delete a tenant. Discuss false positives, policy versioning, fail-open versus fail-closed, confused deputies, token audience, key rotation, ABAC versus RBAC, retrieval authorization before ranking, DLP, consent, data residency, and incident forensics.
+
+## Complete answered Staff/Principal Q&A
+
+The detailed answers, trade-offs, and exact implementation evidence are in [`projects/project-11-security/PROD.md`](../projects/project-11-security/PROD.md).

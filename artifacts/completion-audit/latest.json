@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-14T20:54:26.742108+00:00",
+  "generated_at": "2026-08-14T21:37:55.378568+00:00",
   "summary": {
     "total": 20,
     "passed": 20,
@@ -111,7 +111,7 @@
     {
       "name": "verify_prod_guides",
       "status": "passed",
-      "stdout": "Production guide verification: 20/20 projects, 140 answers",
+      "stdout": "Production guide verification: 20/20 projects, 140 answers; legacy tutorials: 13/13, 33 inline answers",
       "stderr": ""
     },
     {
